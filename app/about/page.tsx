@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Navbar from '../components/navbar/page';
 import Footer from '../components/footer/page';
 import Consultation from '../components/consultation/page';
-import Banner from '../components/CommonBanner/page';
+import Banner from '../components/CommonBanner/Banner';
 import AboutBanner from '../../public/AboutBanner.png';
 import AboutContainer2 from '../../public/AboutContainer2.png'
 import AboutContainer from '../../public/AboutContainer.png'
@@ -18,32 +18,7 @@ import AbtOurJouney2 from '../../public/AbtOurJouney2.png'
 import { useState } from 'react';
 import { Minus, Plus } from 'lucide-react';
 
-const services = [
-    {
-        title: "Tailored Therapy Plans",
-        description:
-            "Enhancing motor skills, coordination, and self-care abilities to help children achieve independence in daily activities.",
-    },
-    {
-        title: "Multidisciplinary Team",
-        description:
-            "Occupational therapists, speech therapists, special educators, and counselors work together for comprehensive care.",
-    },
-    {
-        title: "Child-Friendly, Safe Environment",
-        description: "Our clinic is designed for sensory exploration and engagement.",
-    },
-];
-const services2 = [{
-    title: "Family Involvement & Parental Guidance",
-    description:
-        "We believe therapy success comes from collaborating with families.",
-},
-{
-    title: "Advanced Therapy Techniques & Tools",
-    description:
-        "Cutting-edge technology combined with evidence-based intervention methods.",
-},]
+
 
 const faqs = [
   {
@@ -130,7 +105,6 @@ const faqs = [
 
 const About = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
-
     const toggleFAQ = (index: number) => {
         setOpenIndex(openIndex === index ? null : index);
     };

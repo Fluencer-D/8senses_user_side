@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from '../components/navbar/page'
-import Banner from '../components/CommonBanner/page'
+import Banner from '../components/CommonBanner/Banner'
 import MembersBanner from '@/public/MembersBanner.png'
 import DottedPattern from '../components/dottedPattern/page'
 import Image from 'next/image'
 import AbtIconContainer from '@/public/AbtIconContainer.png'
-import PricingCard from '../components/PricingCard/page'
+import PricingCard from '../components/PricingCard/PricingCard'
 import Footer from '../components/footer/page'
 
 const services = [

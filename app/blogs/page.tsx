@@ -1,11 +1,13 @@
 "use client"
 import React from 'react'
-import Banner from '../components/CommonBanner/page'
+import Banner from '../components/CommonBanner/Banner'
 import Navbar from '../components/navbar/page'
 import Consultation from '../components/consultation/page'
 import Footer from '../components/footer/page'
 import BlogBanner from '../../public/BlogBanner.png'
 import BlogSection from '../components/blogCard/page'
+
+
 
 const Blogs = () => {
   return (

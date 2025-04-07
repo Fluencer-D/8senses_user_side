@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Navbar from '../components/navbar/page'
 import Consultation from '../components/consultation/page'
 import Footer from '../components/footer/page'
-import Banner from '../components/CommonBanner/page'
+import Banner from '../components/CommonBanner/Banner'
 import ContactBanner from '@/public/ContactBanner.png'
 import { Minus, Plus } from 'lucide-react';
 import DottedPattern from '../components/dottedPattern/page'

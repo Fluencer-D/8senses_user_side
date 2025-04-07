@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Navbar from '../components/navbar/page';
 import Footer from '../components/footer/page';
 import Consultation from '../components/consultation/page';
-import Banner from '../components/CommonBanner/page';
+import Banner from '../components/CommonBanner/Banner';
 import ServiceBannerImg from '../../public/ServiceBannerImg.png'
 import services1img from '../../public/services1.png'
 import AboutContainer2 from '../../public/AboutContainer2.png'
@@ -12,6 +12,7 @@ import AboutContainer from '../../public/AboutContainer.png'
 import ServicesBaby1 from '../../public/ServicesBaby1.png'
 import ServicesBaby2 from '../../public/ServicesBaby2.png'
 import DottedPattern from '../components/dottedPattern/page';
+
 
 interface Service {
   _id: string;
@@ -29,90 +30,7 @@ const Services = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fallback services data in case API fails
-  const fallbackServices = [
-    {
-      _id: '1',
-      name: "Occupational Therapy",
-      description: "Enhancing motor skills, coordination, and self-care abilities to help children achieve independence in daily activities.",
-      category: "Occupational Therapy",
-      duration: 60,
-      price: 2000,
-      isActive: true
-    },
-    {
-      _id: '2',
-      name: "Speech & Language Therapy",
-      description: "Improving communication, articulation, and language comprehension to help children express thoughts and interact confidently.",
-      category: "Speech Therapy",
-      duration: 45,
-      price: 1800,
-      isActive: true
-    },
-    {
-      _id: '3',
-      name: "Neurodevelopmental Therapy",
-      description: "Supporting postural control, movement, and cognitive development in children with neurological conditions like autism and ADHD.",
-      category: "Physical Therapy",
-      duration: 60,
-      price: 2200,
-      isActive: true
-    },
-    {
-      _id: '4',
-      name: "Sensory Integration Therapy",
-      description: "Assisting children in processing sensory input effectively, improving focus, emotional regulation, and daily functioning.",
-      category: "Occupational Therapy",
-      duration: 50,
-      price: 1900,
-      isActive: true
-    },
-    {
-      _id: '5',
-      name: "Oral Placement Therapy",
-      description: "Developing oral muscle strength to enhance speech clarity, swallowing, and overall oral-motor coordination.",
-      category: "Speech Therapy",
-      duration: 40,
-      price: 1700,
-      isActive: true
-    },
-    {
-      _id: '6',
-      name: "Fluency & Stammering Treatment",
-      description: "Providing speech rhythm techniques and confidence-building exercises to improve fluency and reduce stammering.",
-      category: "Speech Therapy",
-      duration: 45,
-      price: 1800,
-      isActive: true
-    },
-    {
-      _id: '7',
-      name: "Neonatal Hearing Screening",
-      description: "Early detection of hearing impairments to ensure timely intervention for better speech and language development.",
-      category: "Assessment",
-      duration: 30,
-      price: 1500,
-      isActive: true
-    },
-    {
-      _id: '8',
-      name: "Pre-Natal & Parental Counseling",
-      description: "Guiding parents on early childhood development, feeding challenges, and strategies for supporting their child's growth.",
-      category: "Consultation",
-      duration: 60,
-      price: 1600,
-      isActive: true
-    },
-    {
-      _id: '9',
-      name: "Counseling Services for Patients & Families",
-      description: "Offering emotional and behavioral support for children and coaching for parents to create a nurturing environment.",
-      category: "Consultation",
-      duration: 75,
-      price: 2500,
-      isActive: true
-    }
-  ];
+
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -124,11 +42,11 @@ const Services = () => {
             'Content-Type': 'application/json',
           }
         });
-
+  
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+  
         const data = await response.json();
         const servicesData: Service[] = Array.isArray(data) ? data : 
                                     Array.isArray(data?.data) ? data.data : 
@@ -151,40 +69,21 @@ const Services = () => {
             setServices(activeServices);
           }
         } else {
-          // Use fallback data if no services are returned
-          const featured = fallbackServices.find(service => 
-            service.category === "Consultation" && 
-            service.name.includes("Counseling")
-          );
-          
-          if (featured) {
-            setFeaturedService(featured);
-            setServices(fallbackServices.filter(service => service._id !== featured._id));
-          } else {
-            setServices(fallbackServices);
-          }
+          // If no services are returned, set empty arrays
+          setServices([]);
+          setFeaturedService(null);
+          setError("No services available at the moment.");
         }
       } catch (err) {
         console.error("Failed to fetch services:", err);
-        setError("Failed to load services. Showing default content.");
-        
-        // Use fallback data on error
-        const featured = fallbackServices.find(service => 
-          service.category === "Consultation" && 
-          service.name.includes("Counseling")
-        );
-        
-        if (featured) {
-          setFeaturedService(featured);
-          setServices(fallbackServices.filter(service => service._id !== featured._id));
-        } else {
-          setServices(fallbackServices);
-        }
+        setError("Failed to load services. Please try again later.");
+        setServices([]);
+        setFeaturedService(null);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchServices();
   }, []);
 

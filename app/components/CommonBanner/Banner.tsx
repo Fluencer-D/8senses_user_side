@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import type { StaticImageData } from "next/image";
 
-interface BannerProps {
+export interface BannerProps {
   title?: string;
   description?: string;
   imageSrc?: string | StaticImageData;
-  imageAlt?: string;
 }
 
-const Banner: React.FC<BannerProps> = ({ title, description, imageSrc, imageAlt }) => {
+
+const Banner: React.FC<BannerProps> = ({ title, description, imageSrc }) => {
   return (
     <section className="2xl:relative flex flex-col lg:items-center 2xl:items-stretch lg:flex-row justify-between h-auto 2xl:h-[500px] w-full bg-[#FFEBF7] overflow-hidden md:mt-10 sm:mt-0 xl:mt-10 2xl:mt-0">
       {/* Content Section with mid-size device adjustments */}
@@ -31,7 +31,7 @@ const Banner: React.FC<BannerProps> = ({ title, description, imageSrc, imageAlt 
           {imageSrc && (
             <Image
               src={imageSrc}
-              alt={imageAlt || "Banner Image"}
+              alt={"Banner Image"}
               fill
               style={{ objectFit: 'contain' }}
               priority

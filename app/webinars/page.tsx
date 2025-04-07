@@ -1,17 +1,17 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar/page';
-import Banner from '../components/CommonBanner/page';
+import Banner from '../components/CommonBanner/Banner';
 import Footer from '../components/footer/page';
 import WebinarBanner from '@/public/WebinarBanner.png';
 import { Button } from "@/components/ui/Button";
 import DottedPattern from '../components/dottedPattern/page';
-import { FaQuoteLeft, FaStar, FaCalendarAlt, FaClock } from "react-icons/fa";
 import avatar from '@/public/testimonial.png';
 import Webinar1 from '@/public/Webinar1.png';
-import Webinar2 from '@/public/Webinar2.png';
 import Link from 'next/link';
 import Image from 'next/image';
+import { FaQuoteLeft } from 'react-icons/fa';
+
 
 interface Webinar {
   _id: string;

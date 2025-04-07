@@ -4,7 +4,6 @@ import AbtIconContainer from '@/public/AbtIconContainer.png'
 import DottedPattern from '../dottedPattern/page';
 import Image from 'next/image';
 import Gallery1 from '@/public/Gallery1.png';
-import Gallery2 from '@/public/Gallery2.png';
 
 interface GalleryItem {
   _id: string;
@@ -16,15 +15,6 @@ interface GalleryItem {
   order: number;
 }
 
-interface FallbackItem {
-  _id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  category: string;
-  featured: boolean;
-  order: number;
-}
 
 
 const WhyChoose8Senses = () => {
@@ -67,27 +57,6 @@ const WhyChoose8Senses = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fallbackEquipment: FallbackItem[] = [
-    {
-      _id: '1',
-      title: "Otoscope",
-      description: "Examines ear health",
-      imageUrl: Gallery1.src,
-      category: "Clinic",
-      featured: true,
-      order: 1
-    },
-    {
-      _id: '2',
-      title: "Stadiometer",
-      description: "Measures height accurately",
-      imageUrl: Gallery2.src,
-      category: "Clinic",
-      featured: false,
-      order: 2
-    },
-    // ... add other fallback items with the same structure
-  ];
 
   useEffect(() => {
     const fetchGalleryData = async () => {
@@ -115,14 +84,11 @@ const WhyChoose8Senses = () => {
           const featured = items.find((item: GalleryItem) => item.featured) || items[0];
           setFeaturedVideo(featured);
         } else {
-          setGalleryItems(fallbackEquipment);
-          setFeaturedVideo(fallbackEquipment[0]);
         }
       } catch (err: unknown) {
         console.error("Failed to fetch gallery:", err);
         setError(err instanceof Error ? err.message : "Failed to load gallery. Showing default content.");
-        setGalleryItems(fallbackEquipment);
-        setFeaturedVideo(fallbackEquipment[0]);
+
       } finally {
         setLoading(false);
       }

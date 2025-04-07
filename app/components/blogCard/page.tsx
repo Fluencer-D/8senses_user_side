@@ -2,10 +2,14 @@
 import { useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import BlogCard1 from '../../../public/BlogCard1.png';
-import BlogCard2 from '../../../public/BlogCard2.png';
-import BlogCard3 from '../../../public/BlogCard3.png';
-import BlogCard4 from '../../../public/BlogCard4.png';
-import BlogCard5 from '../../../public/BlogCard5.png';
+
+interface Blog {
+  featuredImage?: string;
+  title?: string;
+  description?: string;
+  slug?: string;
+  _id?: string;
+}
 
 interface BlogCardProps {
   imageSrc: string | StaticImageData;
@@ -23,11 +27,6 @@ const BlogCard: React.FC<BlogCardProps> = ({ imageSrc, title, description, link 
           alt={title} 
           fill
           style={{ objectFit: 'cover' }}
-          onError={(e) => {
-            const fallbackImages = [BlogCard1, BlogCard2, BlogCard3, BlogCard4, BlogCard5];
-            const randomFallback = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
-            (e.target as HTMLImageElement).src = randomFallback.src;
-          }}
         />
       </div>
       <div className="p-4 flex flex-col flex-grow">
@@ -63,50 +62,20 @@ const BlogSection = () => {
         
         const blogsArray = Array.isArray(data) ? data : data.blogs || data.data || [];
         
-        const formattedBlogs = blogsArray.map((blog: any) => ({
+        const formattedBlogs = blogsArray.map((blog: Blog) => ({
           imageSrc: blog.featuredImage || BlogCard1,
           title: blog.title || 'Untitled Blog',
           description: blog.description ? `${blog.description.substring(0, 150)}...` : 'No description available',
           link: `/blog/${blog.slug || blog._id || '#'}`,
         }));
+        
 
         setBlogs(formattedBlogs);
       } catch (err) {
         console.error("Failed to fetch blogs:", err);
         setError("Failed to load blogs. Please try again later.");
         
-        setBlogs([
-          {
-            imageSrc: BlogCard1,
-            title: "Common Childhood Illnesses",
-            description: "From fevers to sniffles, childhood illnesses are a part of growing up...",
-            link: "#",
-          },
-          {
-            imageSrc: BlogCard2,
-            title: "Nutrition for Kids",
-            description: "Learn about the essential nutrients your child needs for healthy growth...",
-            link: "#",
-          },
-          {
-            imageSrc: BlogCard3,
-            title: "Vaccination Schedule",
-            description: "Stay up-to-date with your child's vaccination requirements...",
-            link: "#",
-          },
-          {
-            imageSrc: BlogCard4,
-            title: "Child Development Milestones",
-            description: "Track your child's progress through key developmental stages...",
-            link: "#",
-          },
-          {
-            imageSrc: BlogCard5,
-            title: "Parenting Tips",
-            description: "Expert advice for navigating the challenges of parenthood...",
-            link: "#",
-          },
-        ]);
+        setBlogs([]);
       } finally {
         setLoading(false);
       }

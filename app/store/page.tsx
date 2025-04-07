@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/navbar/page'
 import Image from 'next/image'
-import Banner from '../components/CommonBanner/page'
+import Banner from '../components/CommonBanner/Banner'
 import Footer from '../components/footer/page'
 import ContactBanner from '@/public/ContactBanner.png'
 import DottedPattern from '../components/dottedPattern/page'
 import AbtIconContainer from '@/public/AbtIconContainer.png'
 
 import PlaceholderImage from '@/public/Gallery1.png'
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
@@ -80,7 +81,8 @@ const Store: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   
   const initialProductCount = 6;
-  
+
+
   useEffect(() => {
     const fetchProducts = async (): Promise<void> => {
       try {

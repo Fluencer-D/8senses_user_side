@@ -5,11 +5,7 @@ import Consultation from "../components/consultation/page";
 import Footer from "../components/footer/page";
 import Image, { StaticImageData } from "next/image";
 import BlogCard1 from "@/public/BlogCard1.png";
-import BlogCard2 from "@/public/BlogCard2.png";
-import BlogCard3 from "@/public/BlogCard3.png";
-import BlogCard4 from "@/public/BlogCard4.png";
-import BlogCard5 from "@/public/BlogCard5.png";
-import Banner from "../components/CommonBanner/page";
+import Banner from "../components/CommonBanner/Banner";
 import HealthBanner from '@/public/HealthBanner.png';
 
 interface Disease {
@@ -54,11 +50,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ imageSrc, title, description, link 
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-          onError={(e) => {
-            const fallbackImages = [BlogCard1, BlogCard2, BlogCard3, BlogCard4, BlogCard5];
-            const randomFallback = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
-            (e.target as HTMLImageElement).src = randomFallback.src;
-          }}
+          
         />
       </div>
       <div className="p-4 flex flex-col flex-grow">
@@ -79,17 +71,7 @@ const Health = () => {
   const [error, setError] = useState<string | null>(null);
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  // Fallback data
-  const fallbackDiseases: Disease[] = [
-    {
-      _id: '1',
-      name: "Common Childhood Illnesses",
-      description: "From fevers to sniffles, childhood illnesses are a part of growing up. Learn how to recognize symptoms and care for your little one with confidence.",
-      symptoms: ["Fever", "Cough", "Runny nose"],
-      category: "Other",
-      slug: "common-childhood-illnesses"
-    },
-  ];
+ 
 
   useEffect(() => {
     const fetchDiseases = async () => {
@@ -110,11 +92,10 @@ const Health = () => {
                                      Array.isArray(data?.data) ? data.data : 
                                      Array.isArray(data?.diseases) ? data.diseases : [];
         
-        setDiseases(diseasesData.length ? diseasesData : fallbackDiseases);
+        setDiseases( diseasesData );
       } catch (err) {
         console.error("Failed to fetch diseases:", err);
         setError("Failed to load diseases. Showing default content.");
-        setDiseases(fallbackDiseases);
       } finally {
         setLoading(false);
       }

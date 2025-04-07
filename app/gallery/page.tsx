@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar/page';
-import Banner from '../components/CommonBanner/page';
+import Banner from '../components/CommonBanner/Banner';
 import ContactBanner from '@/public/ContactBanner.png';
 import Consultation from '../components/consultation/page';
 import Footer from '../components/footer/page';
 import Image from 'next/image';
 import Gallery1 from '@/public/Gallery1.png';
-import Gallery2 from '@/public/Gallery2.png';
 import DottedPattern from '../components/dottedPattern/page';
 import { FaQuoteLeft } from "react-icons/fa";
 import avatar from '@/public/testimonial.png'
@@ -22,15 +21,6 @@ interface GalleryItem {
   order: number;
 }
 
-interface FallbackItem {
-  _id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  category: string;
-  featured: boolean;
-  order: number;
-}
 
 const Gallery = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
@@ -38,27 +28,7 @@ const Gallery = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fallbackEquipment: FallbackItem[] = [
-    {
-      _id: '1',
-      title: "Otoscope",
-      description: "Examines ear health",
-      imageUrl: Gallery1.src,
-      category: "Clinic",
-      featured: true,
-      order: 1
-    },
-    {
-      _id: '2',
-      title: "Stadiometer",
-      description: "Measures height accurately",
-      imageUrl: Gallery2.src,
-      category: "Clinic",
-      featured: false,
-      order: 2
-    },
-    // ... add other fallback items with the same structure
-  ];
+  
 
   useEffect(() => {
     const fetchGalleryData = async () => {
@@ -86,14 +56,11 @@ const Gallery = () => {
           const featured = items.find((item: GalleryItem) => item.featured) || items[0];
           setFeaturedVideo(featured);
         } else {
-          setGalleryItems(fallbackEquipment);
-          setFeaturedVideo(fallbackEquipment[0]);
         }
       } catch (err: unknown) {
         console.error("Failed to fetch gallery:", err);
         setError(err instanceof Error ? err.message : "Failed to load gallery. Showing default content.");
-        setGalleryItems(fallbackEquipment);
-        setFeaturedVideo(fallbackEquipment[0]);
+
       } finally {
         setLoading(false);
       }

@@ -2,6 +2,11 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/app/components/navbar/page";
 import Link from "next/link";
+interface APIError {
+  msg: string;
+  // optionally add more properties if available
+}
+
 
 export default function BookingForm() {
   const [isMounted, setIsMounted] = useState(false);
@@ -127,8 +132,10 @@ export default function BookingForm() {
         if (response.status === 500) {
           errorMessage = responseData.error || 'Server error occurred. Please try again later.';
         } else if (responseData.errors) {
-          errorMessage = responseData.errors.map((err: any) => err.msg).join('\n');
-        } else if (responseData.message) {
+          errorMessage = (responseData.errors as APIError[])
+          .map((err) => err.msg)
+          .join('\n');
+                } else if (responseData.message) {
           errorMessage = responseData.message;
         }
         throw new Error(errorMessage);
@@ -150,12 +157,15 @@ export default function BookingForm() {
         paymentMethod: "card"
       });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Booking error:', error);
-      setServerError(error.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    
+      if (error instanceof Error) {
+        setServerError(error.message);
+      } else {
+        setServerError('An unknown error occurred.');
+      }
+    }    
   };
 
   if (!isMounted) {
