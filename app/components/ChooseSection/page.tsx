@@ -150,7 +150,7 @@ const WhyChoose8Senses = () => {
             <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
             
             {/* Feature Description */}
-            <p className="text-[#E7E7E7] text-base text-left">{feature.description}</p>
+            <p className="text-[#E7E7E7] text-base text-center">{feature.description}</p>
           </div>
         ))}
       </div>
@@ -182,7 +182,7 @@ const WhyChoose8Senses = () => {
             <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
             
             {/* Feature Description */}
-            <p className="text-[#E7E7E7] text-base text-left">{feature.description}</p>
+            <p className="text-[#E7E7E7] text-base text-center">{feature.description}</p>
           </div>
         ))}
       </div>

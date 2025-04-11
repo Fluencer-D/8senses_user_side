@@ -2,29 +2,30 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/app/components/navbar/page";
 import Link from "next/link";
-interface APIError {
-  msg: string;
-  // optionally add more properties if available
-}
-
 
 export default function BookingForm() {
   const [isMounted, setIsMounted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  
+  // Predefined service types
+  const serviceOptions = [
+    { value: "therapy", label: "Therapy" },
+  ];
+  
   const [formData, setFormData] = useState({
     motherName: "",
     fatherName: "",
     childName: "",
     contactNumber: "",
-    emailAddress: "",
+    email: "",
     childAge: "",
     serviceType: "",
     preferredDate: "",
     preferredTime: "",
     specialNeeds: "",
-    consent: false,
-    paymentMethod: "card"
+    paymentMethod: "credit_card",
+    consent: false
   });
 
   useEffect(() => {
@@ -46,27 +47,11 @@ export default function BookingForm() {
     setServerError(null);
   };
 
-  const calculateEndTime = (startTime: string, serviceType: string) => {
-    const durations: { [key: string]: number } = {
-      'initial assessment': 90,
-      'follow-up': 60,
-      'therapy session': 60
-    };
-
-    const duration = durations[serviceType] || 60;
-    const [hours, minutes] = startTime.split(':').map(Number);
-    const endDate = new Date();
-    endDate.setHours(hours, minutes);
-    endDate.setMinutes(endDate.getMinutes() + duration);
-    return endDate.toTimeString().slice(0, 5);
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setServerError(null);
     
-    // Client-side validation
-    const requiredFields = ['motherName', 'fatherName', 'childName', 'contactNumber', 'emailAddress', 
+    // Validation
+    const requiredFields = ['motherName', 'childName', 'contactNumber', 'email', 
                           'childAge', 'serviceType', 'preferredDate', 'preferredTime'];
     const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
 
@@ -83,62 +68,32 @@ export default function BookingForm() {
     setIsSubmitting(true);
     
     try {
-      // Format date as YYYY-MM-DD (without time)
-      const formattedDate = new Date(formData.preferredDate).toISOString().split('T')[0];
-      const endTime = calculateEndTime(formData.preferredTime, formData.serviceType);
-
-      const appointmentData = {
-        patientId: "temp-patient-id",
-        therapistId: "temp-therapist-id",
-        date: formattedDate,
-        startTime: formData.preferredTime,
-        endTime: endTime,
-        status: "scheduled",
-        type: formData.serviceType,
-        notes: formData.specialNeeds || "No special needs noted",
-        payment: {
-          amount: 0,
-          status: "pending",
-          method: formData.paymentMethod
-        },
-        address: "Clinic Visit",
-        documents: [],
-        consent: formData.consent,
-        requestedByParent: true,
-        parentRequestedAt: new Date().toISOString(),
-        //added
+      const requestData = {
         motherName: formData.motherName,
         fatherName: formData.fatherName,
         childName: formData.childName,
         contactNumber: formData.contactNumber,
-        emailAddress: formData.emailAddress,
-        childAge: formData.childAge
+        email: formData.email,
+        childAge: formData.childAge,
+        serviceType: formData.serviceType, // Send service type directly
+        preferredDate: formData.preferredDate,
+        preferredTime: formData.preferredTime,
+        specialNeeds: formData.specialNeeds || "None specified",
+        paymentMethod: formData.paymentMethod
       };
 
-      const response = await fetch(`https://eight-senses-backend.onrender.com/api/appointments`, {
+      const response = await fetch(`https://eight-senses-backend.onrender.com/api/appointment-forms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(appointmentData)
+        body: JSON.stringify(requestData)
       });
 
-      const responseData = await response.json().catch(() => ({}));
-      console.log("Server response",response.status,responseData);
-      
+      const responseData = await response.json();
 
       if (!response.ok) {
-        let errorMessage = 'Failed to submit booking';
-        if (response.status === 500) {
-          errorMessage = responseData.error || 'Server error occurred. Please try again later.';
-        } else if (responseData.errors) {
-          errorMessage = (responseData.errors as APIError[])
-          .map((err) => err.msg)
-          .join('\n');
-                } else if (responseData.message) {
-          errorMessage = responseData.message;
-        }
-        throw new Error(errorMessage);
+        throw new Error(responseData.message || responseData.error || 'Failed to submit booking');
       }
 
       alert('Booking submitted successfully!');
@@ -147,25 +102,26 @@ export default function BookingForm() {
         fatherName: "",
         childName: "",
         contactNumber: "",
-        emailAddress: "",
+        email: "",
         childAge: "",
         serviceType: "",
         preferredDate: "",
         preferredTime: "",
         specialNeeds: "",
-        consent: false,
-        paymentMethod: "card"
+        paymentMethod: "credit_card",
+        consent: false
       });
 
     } catch (error: unknown) {
       console.error('Booking error:', error);
-    
       if (error instanceof Error) {
         setServerError(error.message);
       } else {
         setServerError('An unknown error occurred.');
       }
-    }    
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isMounted) {
@@ -263,8 +219,8 @@ export default function BookingForm() {
                   <label className="block text-[#1E437A] text-lg font-semibold mb-2">Email Address*</label>
                   <input
                     type="email"
-                    name="emailAddress"
-                    value={formData.emailAddress}
+                    name="email" 
+                    value={formData.email}
                     onChange={handleChange}
                     placeholder="Enter email address"
                     className="w-full p-3 rounded-lg border-2 border-[#1E437A]/30 focus:border-[#1E437A] focus:ring-2 focus:ring-[#1E437A]/20 transition"
@@ -275,21 +231,19 @@ export default function BookingForm() {
 
                 {/* Child Age */}
                 <div>
-                  <label className="block text-[#1E437A] text-lg font-semibold mb-2">Child&apos;s Age*</label>
-                  <select
+                  <label className="block text-[#1E437A] text-lg font-semibold mb-2">Child&apos;s Age (in years)*</label>
+                  <input
+                    type="number"
                     name="childAge"
                     value={formData.childAge}
                     onChange={handleChange}
+                    placeholder="Enter child's age"
+                    min="0"
+                    max="18"
                     className="w-full p-3 rounded-lg border-2 border-[#1E437A]/30 focus:border-[#1E437A] focus:ring-2 focus:ring-[#1E437A]/20 transition"
                     style={{ color: "#456696", backgroundColor: "white" }}
                     required
-                  >
-                    <option value="">Select child&apos;s age group</option>
-                    <option value="0-3">0-3 years</option>
-                    <option value="4-6">4-6 years</option>
-                    <option value="7-9">7-9 years</option>
-                    <option value="10-12">10-12 years</option>
-                  </select>
+                  />
                 </div>
 
                 {/* Service Type */}
@@ -304,9 +258,11 @@ export default function BookingForm() {
                     required
                   >
                     <option value="">Select service type</option>
-                    <option value="initial assessment">Initial Assessment</option>
-                    <option value="follow-up">Follow-up</option>
-                    <option value="therapy session">Therapy Session</option>
+                    {serviceOptions.map((service) => (
+                      <option key={service.value} value={service.value}>
+                        {service.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -350,7 +306,7 @@ export default function BookingForm() {
                     style={{ color: "#456696", backgroundColor: "white" }}
                     required
                   >
-                    <option value="card">Credit/Debit Card</option>
+                    <option value="credit_card">Credit/Debit Card</option>
                     <option value="cash">Cash</option>
                     <option value="insurance">Insurance</option>
                   </select>
@@ -379,7 +335,7 @@ export default function BookingForm() {
                   checked={formData.consent}
                   onChange={handleChange}
                   className="h-4 w-4 text-[#C83C92] focus:ring-[#C83C92] border-gray-300 rounded"
-                  required
+                  // required 
                 />
                 <label htmlFor="consent" className="ml-2 block text-[#1E437A] text-lg">
                   I consent to the treatment and privacy policy*

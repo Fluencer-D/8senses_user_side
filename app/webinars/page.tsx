@@ -157,10 +157,10 @@ const Webinars = () => {
 
       {/* Search and Categories */}
 <section className="relative bg-white text-white px-4 sm:px-6 py-8 sm:py-12">
-  <div className='hidden 2xl:block relative mb-6 sm:mr-290 sm:mb-10 sm:mt-2'>
+  <div className='hidden 2xl:block relative mb-6 sm:mr-290 sm:mb-10 sm:mt-2 2xl:mr-310  '>
     <DottedPattern />
   </div>
-  <div className="max-w-6xl mx-auto text-left sm:ml-40 md:ml-20 lg:ml-40">
+  <div className="max-w-6xl mx-auto text-left sm:ml-40 md:ml-20 lg:ml-40 2xl:ml-20">
     <h2 className="text-3xl sm:text-4xl md:text-5xl font-nav_link_font text-[#1E437A] text-center sm:text-left">Course Categories</h2>
     <div className="flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3 md:gap-4 mt-4 sm:mt-6">
       {categories.map((category) => (
@@ -178,17 +178,19 @@ const Webinars = () => {
   </div>
 
   {/* Courses Grid */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8 max-w-5xl mx-auto mt-6 sm:mt-10 px-4 sm:px-6 md:px-10 lg:px-0 sm:ml-0 md:ml-10 lg:ml-40">
-    {filteredCourses.map((course) => (
-      <div key={course._id} className="bg-white text-black p-4 sm:p-5 md:p-6 rounded-lg shadow-lg border border-[#1E437A] md:border-2">
-        <div className="relative w-full aspect-video">
+<div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full px-4 sm:px-6 md:px-10 lg:px-20 mt-6 sm:mt-10">
+  {filteredCourses.map((course) => (
+    <div
+      key={course._id}
+      className="bg-white text-black p-4 sm:p-5 md:p-6 rounded-lg shadow-lg border border-[#1E437A] md:border-2 flex flex-col justify-between"
+    >
+      <div>
+        <div className="relative w-full aspect-video mb-3">
           {isExternalImage(course.thumbnail) ? (
-            <div 
+            <div
               className="w-full h-full rounded-lg bg-cover bg-center"
-              style={{ 
+              style={{
                 backgroundImage: `url(${Webinar1.src})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
               }}
               aria-label={course.title}
             />
@@ -201,14 +203,20 @@ const Webinars = () => {
             />
           )}
         </div>
-        <h3 className="text-lg md:text-xl font-semibold mt-2 text-[#1E437A]">{course.title}</h3>
-        <p className="text-xs sm:text-sm text-[#456696] mt-1 line-clamp-2">{course.description}</p>
-        <Button className="w-full mt-4 bg-[#C83C92] text-white rounded-2xl text-sm md:text-base">
-          Enroll Now →
-        </Button>
+        <h3 className="text-lg md:text-xl font-semibold text-[#1E437A]">
+          {course.title}
+        </h3>
+        <p className="text-xs sm:text-sm text-[#456696] mt-1 line-clamp-2">
+          {course.description}
+        </p>
       </div>
-    ))}
-  </div>
+      <Button className="w-full mt-4 bg-[#C83C92] text-white rounded-2xl text-sm md:text-base">
+        Enroll Now →
+      </Button>
+    </div>
+  ))}
+</div>
+
 </section>
 
       {/* Upcoming Webinars */}

@@ -57,7 +57,7 @@ export default function AboutUs() {
         </div>
         
         {/* Desktop-only dotted pattern */}
-        <div className="absolute mt-25 ml-[710px] z-10 hidden lg:block">
+        <div className="absolute mt-15 ml-[710px] z-10 hidden lg:block">
           <DottedPattern />
         </div>
 
@@ -65,12 +65,37 @@ export default function AboutUs() {
           About Us
         </h2>
 
-        <p className="mt-2 md:mt-4 2xl:mt-25 w-full lg:w-[730px] h-auto lg:h-[308px] font-urbanist text-xl md:text-lg lg:text-[30px] leading-[34px] md:leading-[32px] lg:leading-[44px] tracking-[0.02em] text-[#456696] text-center md:text-left">
-        We specialize in Pediatric Occupational & Speech Therapy, working with children who experience developmental delays, sensory
-         processing issues, autism, ADHD, genetics disorders ,down syndrome ,voice disorders ,hearing disorders, Swallowing and feeding 
-         issues and many others neurological disorders. Our clinic focuses on early intervention, ensuring children build the skills they
-          need for daily life, school, and social interactions.
-        </p>
+        <div className="2xl:w-200 font-sans text-[#456696] px-4 md:px-6 lg:px-8 2xl:-ml-8 2xl:mt-8">
+      <ul className="text-lg md:text-xl lg:text-2xl space-y-6 md:space-y-8">
+        <li className="flex">
+          <span className="font-bold mr-2">•</span>
+          <div>
+            <span className="font-bold">Specialization:</span> Pediatric Occupational & Speech Therapy
+          </div>
+        </li>
+        
+        <li className="flex">
+          <span className="font-bold mr-2">•</span>
+          <div>
+            <span className="font-bold">Who We Help:</span> Children with developmental delays, sensory processing issues, autism, ADHD, genetics disorders, down syndrome, voice disorders, hearing disorders, swallowing and feeding issues, and many other neurological conditions
+          </div>
+        </li>
+        
+        <li className="flex">
+          <span className="font-bold mr-2">•</span>
+          <div>
+            <span className="font-bold">Focus:</span> Early intervention
+          </div>
+        </li>
+        
+        <li className="flex">
+          <span className="font-bold mr-2">•</span>
+          <div>
+            <span className="font-bold">Goal:</span> Help children build essential skills for daily life, school, and social interactions
+          </div>
+        </li>
+      </ul>
+    </div>
       </div>
     </section>
   );
