@@ -103,7 +103,10 @@ const OT = () => {
             : card.title.split(" ");
         
         return (
-            <div className={`w-80 h-80 ${card.bgColor} rounded-3xl relative overflow-hidden`}>
+            <div className={`w-80 h-80 ${card.bgColor} rounded-3xl relative overflow-hidden`} 
+            key={`benefit-card-${index}`} 
+
+            >
                 {/* Text Content */}
                 <div className="p-4 text-white">
                     {titleLines.map((line: string, i: number) => (
@@ -431,61 +434,64 @@ const OT = () => {
   </div>
 </div>
 
-<div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
-    <div className="text-left mb-12">
-        <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">Who Can Benefit?</h2>
-    </div>
+ {/* "Who Can Benefit?" section - modified to use isMobile */}
+ <div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
+        <div className="text-left mb-12">
+            <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">Who Can Benefit?</h2>
+        </div>
 
-    {/* Desktop View - All cards in a row */}
-    <div className="hidden md:flex justify-between items-center space-x-4">
-        {benefitCards.map((card, index) => (
-            <BenefitCard key={index} card={card} index={index} />
-        ))}
-    </div>
-
-    {/* Mobile Carousel View */}
-    <div className="md:hidden">
-        <div className="relative">
-            {/* Current Slide */}
-            <div className="flex justify-center">
-                <BenefitCard card={benefitCards[currentSlide]} index={currentSlide} />
-            </div>
-            
-            {/* Navigation Dots */}
-            <div className="flex justify-center mt-6 space-x-2">
-                {benefitCards.map((_, index) => (
-                    <button 
-                        key={index}
-                        onClick={() => setCurrentSlide(index)}
-                        className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#245BA7]' : 'bg-gray-300'}`}
-                        aria-label={`Go to slide ${index + 1}`}
-                    />
+        {/* Desktop View - All cards in a row - now using isMobile */}
+        {!isMobile && (
+            <div className="flex justify-between items-center space-x-4">
+                {benefitCards.map((card, index) => (
+                    <BenefitCard key={index} card={card} index={index} />
                 ))}
             </div>
-            
-            {/* Navigation Arrows */}
-            <button 
-                onClick={prevSlide}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow-md"
-                aria-label="Previous slide"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#245BA7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M15 18l-6-6 6-6"/>
-                </svg>
-            </button>
-            
-            <button 
-                onClick={nextSlide}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow-md"
-                aria-label="Next slide"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#245BA7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 18l6-6-6-6"/>
-                </svg>
-            </button>
-        </div>
+        )}
+
+        {/* Mobile Carousel View - now using isMobile */}
+        {isMobile && (
+            <div className="relative">
+                {/* Current Slide */}
+                <div className="flex justify-center">
+                    <BenefitCard card={benefitCards[currentSlide]} index={currentSlide} />
+                </div>
+                
+                {/* Navigation Dots */}
+                <div className="flex justify-center mt-6 space-x-2">
+                    {benefitCards.map((_, index) => (
+                        <button 
+                            key={index}
+                            onClick={() => setCurrentSlide(index)}
+                            className={`w-3 h-3 rounded-full ${currentSlide === index ? 'bg-[#245BA7]' : 'bg-gray-300'}`}
+                            aria-label={`Go to slide ${index + 1}`}
+                        />
+                    ))}
+                </div>
+                
+                {/* Navigation Arrows */}
+                <button 
+                    onClick={prevSlide}
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow-md"
+                    aria-label="Previous slide"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#245BA7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </button>
+                
+                <button 
+                    onClick={nextSlide}
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow-md"
+                    aria-label="Next slide"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#245BA7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M9 18l6-6-6-6"/>
+                    </svg>
+                </button>
+            </div>
+        )}
     </div>
-</div>
 
     <Consultation/>
     <Footer/>
