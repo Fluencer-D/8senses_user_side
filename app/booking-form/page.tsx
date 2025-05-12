@@ -306,8 +306,7 @@ export default function BookingForm() {
                     style={{ color: "#456696", backgroundColor: "white" }}
                     required
                   >
-                    <option value="credit_card">Credit/Debit Card</option>
-                    <option value="cash">Cash</option>
+                    <option value="credit_card">UPI</option>
                     <option value="insurance">Insurance</option>
                   </select>
                 </div>

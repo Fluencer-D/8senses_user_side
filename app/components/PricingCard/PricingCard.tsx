@@ -7,6 +7,7 @@ interface PricingCardProps {
   desc2?:string;
   features?: string[];
   isPremium?: boolean;
+  onClick?: () => void; // Add this line
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({
@@ -16,6 +17,8 @@ const PricingCard: React.FC<PricingCardProps> = ({
   desc2="",
   features=[],
   isPremium = false,
+  onClick, 
+
 }) => {
   return (
     <div
@@ -57,7 +60,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
       </ul>
 
       {/* Button */}
-      <button className="mt-4 sm:mt-6 w-full bg-[#C83790] text-white py-2 sm:py-3 rounded-3xl font-semibold text-sm sm:text-base">
+      <button onClick={onClick} className="mt-4 sm:mt-6 w-full bg-[#C83790] text-white py-2 sm:py-3 rounded-3xl font-semibold text-sm sm:text-base">
         Get Started
       </button>
     </div>

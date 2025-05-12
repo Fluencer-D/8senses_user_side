@@ -200,7 +200,8 @@ const Career = () => {
                   max-[1280px]:mt-8 max-[1280px]:w-[130px] max-[1280px]:h-[45px]
                   max-[768px]:mt-6 max-[768px]:w-[120px] max-[768px]:h-[40px]
                   max-[640px]:mt-4 max-[640px]:w-[110px] max-[640px]:h-[38px]"
-                onClick={() => window.location.href = `/careers/apply/${job._id}`}
+                // onClick={() => window.location.href = `/careers/apply/${job._id}`}
+                onClick={() => window.location.href = `/career/jobForm`}
               >
                 Apply Now
               </button>

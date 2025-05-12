@@ -1,24 +1,16 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/navbar/page'
-import Banner from '../components/CommonBanner/Banner'
-import OTBanner from '@/public/OTBanner.png'
 import Consultation from '../components/consultation/page'
 import Footer from '../components/footer/page'
-import AboutContainer from "@/public/AboutContainer.png";
-import AboutContainer2 from "@/public/AboutContainer2.png";
 import OT1 from '@/public/OT1.png'
-import OT2 from '@/public/OT2.png'
 import Image, { StaticImageData } from 'next/image'
-import DottedPattern from '../components/dottedPattern/page'
-import AbtIconContainer from '@/public/AbtIconContainer.png'
-import Ushape from '@/public/Ushape.svg'
 import OTimg1 from '@/public/OTimg1.png'
 import OTimg2 from '@/public/OTimg2.png'
 import OTimg3 from '@/public/OTimg3.png'
 import OTimg4 from '@/public/OTimg4.png'
 
-interface BenefitCard {
+interface BenefitCard { 
     title: string;
     bgColor: string;
     image: StaticImageData;
@@ -135,12 +127,6 @@ const OT = () => {
                         <circle cx="75" cy="75" r="60" stroke="#ffffff" strokeWidth="30" strokeOpacity="0.25"/>
                     </svg>
                 </div>
-                
-                <div className="absolute z-0 right-58 top-40">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="59" height="59" viewBox="0 0 59 59" fill="none">
-                        <path d="M15.4034 3.24298L28.4796 18.247L38.2451 0.905148L36.8819 20.7608L56.0497 15.4036L41.0457 28.4797L58.3875 38.2452L38.5319 36.882L43.8891 56.0498L30.813 41.0458L21.0475 58.3877L22.4107 38.532L3.24286 43.8893L18.2469 30.8131L0.905021 21.0476L20.7607 22.4108L15.4034 3.24298Z" fill="#F2F4F7"/>
-                    </svg>
-                </div>
             </div>
         );
     };
@@ -209,237 +195,251 @@ const OT = () => {
   return (
     <>
     <Navbar/>
-    <Banner
-    title="Helping Kids Thrive with Occupational Therapy"
-    description="Helping children develop essential life skills, build confidence, and reach their full potential"
-    imageSrc={OTBanner}
-    />
-    <section className="relative xl:ml-10 -mt-20 lg:mt-23 bg-white py-16 px-8 md:px-20 lg:px-32 flex flex-col md:flex-row lg:flex-row items-center gap-6 md:gap-8 lg:gap-12 lg:mb-40">
-      {/* Images section */}
-      <div className="relative flex flex-row items-center justify-center md:justify-start lg:items-start w-full md:w-[40%] lg:w-auto">
-        {/* First image group - Baby image */}
-        <div className="relative lg:absolute lg:left-[-120px] lg:top-[-100px] w-[150px] h-[200px] md:w-[150px] md:h-[200px] lg:w-[276px] lg:h-[507px] 2xl:w-[376px] 2xl:h-[507px] flex flex-col items-center">
-          <div className="absolute top-[110px] md:top-[100px] lg:top-[275px] w-[30px] h-[140px] md:w-[30px] md:h-[170px] lg:w-[80px] lg:h-[378px] z-10">
-            <Image src={AboutContainer2} alt="Background Shape" layout="fill" objectFit="contain" />
-          </div>
-          <div className="relative flex justify-center items-center w-full h-full z-20">
-            <Image
-              src={OT1}
-              alt="Smiling Baby"
-              width={120}
-              height={160}
-              className="md:w-[120px] md:h-[160px] lg:w-[310px] lg:h-[410px]"
-            />
-          </div>
-        </div>
-
-        {/* Second image group - Doctor image - hidden only on Nest Hub Max */}
-<div className="relative ml-4 md:ml-4 lg:ml-0 lg:left-[200px] xl:left-[250px] lg:top-[50px] xl:top-[70px] nesthub-max:hidden">
-  <div className="absolute left-[45px] md:left-[45px] lg:left-[85px] xl:left-[108px] -top-3 md:-top-3 lg:-top-6 xl:-top-8 -right-1 md:-right-1 lg:-right-3 xl:-right-4 z-0">
-    <Image 
-      src={AboutContainer} 
-      alt="Background Shape" 
-      width={32} 
-      height={22}
-      className="md:w-[32px] md:h-[22px] lg:w-[65px] xl:w-[82px] lg:h-[45px] xl:h-[58px]" 
-    />
-  </div>
-  <div className="relative z-10">
-    <Image
-      src={OT2}
-      alt="Doctor Smiling"
-      width={120}
-      height={160}
-      className="md:w-[120px] md:h-[160px] lg:w-[250px] xl:w-[310px] lg:h-[330px] xl:h-[410px]"
-    />
-  </div>
-</div>
+    <section className="mt-20 -mb-15 w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+    {/* Text Content */}
+    <div className="md:w-1/2">
+      <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">
+        Why is Pediatric Occupational Therapy Important for Children?
+      </h2>
+      <p className="text-[#456696] text-2xl font-medium leading-relaxed">
+        Every child has unique strengths and challenges. For some children, certain developmental milestones—such as walking, dressing, feeding, or focusing on tasks—can be difficult to achieve. Pediatric occupational therapy is essential because it offers the necessary support to children and their families in achieving these milestones.
+      </p>
+    </div>
+    
+    {/* Circular Image */}
+    <div className="md:w-1/2 flex justify-center">
+      <div className="w-[320px] h-[320px] lg:w-[420px] lg:h-[420px]">
+        <Image
+          src="/OTimg.png" 
+          alt="Children in therapy session"
+          width={420}
+          height={420}
+          className="w-full h-full object-cover"
+        />
       </div>
+    </div>
+  </div>
 
-      {/* Text content */}
-      <div className="relative left-0  lg:left-30 text-left text-[#245BA7] md:mt-0 lg:mt-0 md:w-[60%] lg:w-auto 2xl:left-59">
+  
+</section>
 
-        <h2 className="w-full 2xl:-mb-10 lg:w-[822px] h-auto lg:h-[65px] font-nav_link_font font-normal text-4xl lg:text-5xl leading-[65px] flex items-center tracking-wide text-[#1E437A] justify-center md:justify-start">
-        What is Pediatric Occupational Therapy?
-        </h2>
 
-        <p className="mt-2 sm:mt-0 md:mt-14 2xl:mt-25 w-full lg:w-[730px] h-auto lg:h-[308px] font-urbanist text-xl md:text-lg lg:text-[30px] leading-[34px] md:leading-[32px] lg:leading-[44px] tracking-[0.02em] text-[#456696] text-center md:text-left">
-        <span className='font-bold'>The goal:</span> Improve independence in daily activities like dressing, writing, feeding, and playing.
-        <br /> <br />
-<span className='font-bold'>Who benefits:</span> Children with ADHD, Autism, Sensory Processing Disorders, Developmental Delays, etc.
+<section className="relative bg-white py-16 px-8 md:px-20 lg:px-32 flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16 lg:mb-20">
+  {/* Therapist Image section */}
+  <div className="w-full md:w-[45%] lg:w-[50%] 2xl:-mr-30">
+    <div className="relative">
+      {/* Background container effect */}
+      <div className="absolute left-[45px] -top-3 lg:-top-6 -right-1 lg:-right-3 z-0">
+      </div>
+      {/* Main image */}
+      <div className="relative z-10">
+        <Image
+          src={OT1} // Replace with your therapist image
+          alt="Occupational Therapist Working with Child"
+          width={450}
+          height={600}
+          className="rounded-lg object-cover"
+        />
+      </div>
+    </div>
+  </div>
+
+  {/* Text content */}
+  <div className="w-full md:w-[55%] lg:w-[50%] text-left text-[#245BA7]">
+    <h2 className="font-nav_link_font font-normal text-4xl lg:text-5xl tracking-wide text-[#1E437A] mb-8">
+      Here's why occupational therapy is beneficial:
+    </h2>
+
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-2xl font-semibold text-[#245BA7] mb-2">Enhances Independence:</h3>
+        <p className="text-lg text-[#456696]">
+          Therapy helps children develop essential life skills such as dressing, eating, writing, and other activities that promote self-sufficiency.
         </p>
       </div>
-    </section>
 
-      <div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
-        {/* Heading Section */}
-        <div className="text-left mb-12 relative">
-          {/* Dotted Pattern */}
-          <div className="hidden 2xl:block absolute justify-center mb-4 ml-30">
-            <DottedPattern />
-          </div>
-          <div className="flex flex-col gap-2">
-            <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">What is Occupational Therapy?</h2>
-            <p className="text-[#456696] text-xl max-w-5xl font-medium">
-              At 8 Senses, we prioritize personalized therapy and early intervention to ensure children receive the support they need at the right time.
-            </p>
-          </div>
-        </div>
-
-        {/* Benefits Grid - First Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {therapyBenefits.slice(0, 3).map((benefit, index) => (
-            <div 
-              key={index}
-              className="bg-[#245CA7] rounded-2xl text-white p-8 flex flex-col items-center text-center h-full"
-            >
-              {/* Circle with Check Icon */}
-              <div className="relative mb-2 sm:mb-4 mt-2">
-                                  <Image 
-                                      src={AbtIconContainer} 
-                                      alt="Check Icon" 
-                                      width={80} 
-                                      height={80} 
-                                      className="sm:w-[110px] sm:h-[110px]"
-                                  />
-                                  <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 60 60" fill="none">
-                                          <path d="M50 17.5L25 42.5L12.5 30" stroke="white" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round" />
-                                      </svg>
-                                  </div>
-                              </div>
-              
-              {/* Benefit Title */}
-              <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-              
-              {/* Benefit Description */}
-              <p className="text-[#E7E7E7] text-base text-center">{benefit.description}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Benefits Grid - Second Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {therapyBenefits.slice(3, 5).map((benefit, index) => (
-            <div 
-              key={index}
-              className="bg-[#245CA7] rounded-2xl text-white p-8 flex flex-col items-center text-center h-full"
-            >
-              {/* Circle with Check Icon */}
-              <div className="relative mb-2 sm:mb-4 mt-2">
-                                  <Image 
-                                      src={AbtIconContainer} 
-                                      alt="Check Icon" 
-                                      width={80} 
-                                      height={80} 
-                                      className="sm:w-[110px] sm:h-[110px]"
-                                  />
-                                  <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 60 60" fill="none">
-                                          <path d="M50 17.5L25 42.5L12.5 30" stroke="white" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round" />
-                                      </svg>
-                                  </div>
-                              </div>
-              
-              {/* Benefit Title */}   
-              <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-              
-              {/* Benefit Description */}
-              <p className="text-[#E7E7E7] text-base text-center">{benefit.description}</p>
-            </div>
-          ))}
-        </div>
+      <div>
+        <h3 className="text-2xl font-semibold text-[#245BA7] mb-2">Supports Physical Development:</h3>
+        <p className="text-lg text-[#456696]">
+          It strengthens fine motor skills (e.g., using hands and fingers) and gross motor skills (e.g., balance and coordination).
+        </p>
       </div>
 
-    <div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
+      <div>
+        <h3 className="text-2xl font-semibold text-[#245BA7] mb-2">Improves Sensory Processing:</h3>
+        <p className="text-lg text-[#456696]">
+          For children with sensory processing issues, therapy helps them better manage their reactions to sensory inputs (such as sounds, textures, or lights).
+        </p>
+      </div>
+
+      <div>
+        <h3 className="text-2xl font-semibold text-[#245BA7] mb-2">Promotes Social and Emotional Well-being:</h3>
+        <p className="text-lg text-[#456696]">
+          Occupational therapy fosters confidence, emotional regulation, and social interaction, helping children better navigate social environments like school and peer groups.
+        </p>
+      </div>
+
+      <div>
+        <h3 className="text-2xl font-semibold text-[#245BA7] mb-2">Prepares for School Success:</h3>
+        <p className="text-lg text-[#456696]">
+          By improving attention, focus, and cognitive skills, therapy supports a child's ability to learn and succeed academically.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    {/* How Our OT Sessions Work Section */}
+<div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
   {/* Heading Section */}
   <div className="text-left mb-12">
-    <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">How Our OT Sessions Work?</h2>
-    <p className="text-[#456696] text-xl font-medium">Each session is 45 minutes and includes:</p>
+    <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">What Happens During an Occupational Therapy Session?</h2>
+    <p className="text-[#456696] text-lg font-medium mb-10">At 8 Senses, each occupational therapy session is designed to be engaging, fun, and therapeutic. Our sessions last for 45 minutes, during which we focus on specific goals tailored to each child’s needs.At 8 Senses, each occupational therapy session is designed to be engaging, fun, and therapeutic. Our sessions last for 45 minutes, during which we focus on specific goals tailored to each child’s needs.</p>
   </div>
 
-  {/* Workflow Container */}
-  <div className="relative max-w-6xl mx-auto">
-    {/* Path Background Image */}
-    <div className="hidden xl:block absolute inset-0 z-0">
-      <Image
-        src={Ushape}
-        alt="Workflow Path"
-        layout="fill"
-        objectFit="contain"
-        priority
-        className='-mt-10 ml-21'
-      />
+  {/* Steps Container */}
+  <div className="max-w-6xl mx-auto">
+    {/* Top Row Steps */}
+    <div className="flex flex-col md:flex-row justify-between mb-24">
+      {/* Step 1 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">1</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Assessment & Goal Setting</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-left max-w-xs">
+          <li className="mb-2">• In the initial sessions, we assess the child's strengths, challenges, and interests.</li>
+          <li>• We collaborate with parents to set realistic and meaningful goals.</li>
+        </ul>
+      </div>
+
+      {/* Step 2 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">2</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Warm-Up Activities</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-left max-w-xs">
+          <li className="mb-2">• Each session begins with warm-up activities to prepare the child's body and mind for therapy.</li>
+          <li>• These can include movement-based exercises, stretching, or balance tasks to engage their muscles and senses.</li>
+        </ul>
+      </div>
+
+      {/* Step 3 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">3</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Skill Development</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-left max-w-xs">
+          <li className="mb-2">• The therapist guides the child through targeted activities to develop fine motor skills, hand-eye coordination, and balance.</li>
+          <li>• These can include tasks like using playdough, drawing, cutting, or working with blocks.</li>
+        </ul>
+      </div>
     </div>
 
-    {/* Top Row */}
-    <div className="relative flex flex-col md:flex-row justify-between mb-24 md:mb-40">
-      {topRowSteps.map((step, index) => (
-        <div key={index} className="flex flex-col items-center text-center mb-16 md:mb-0 relative z-10 mt-3">
-          {/* Circle with Number */}
-          <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
-            <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
-              <span className="text-white text-4xl font-bold">{step.number}</span>
-            </div>
+    {/* Bottom Row Steps */}
+    <div className="flex flex-col md:flex-row justify-between">
+      {/* Step 4 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">4</span>
           </div>
-          
-          {/* Title */}
-          <h3 className="text-xl font-semibold text-[#1E437A] mb-2">{step.title}</h3>
-          
-          {/* Description */}
-          <p className="text-[#456696] text-center max-w-xs">{step.description}</p>
         </div>
-      ))}
-    </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Sensory Integration</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-left max-w-xs">
+          <li className="mb-2">• For children with sensory processing issues, we engage them in activities that help them better respond to sensory input.</li>
+          <li>• This could include using swings, trampolines, or textured toys to balance their sensory systems.</li>
+        </ul>
+      </div>
 
-    {/* Bottom Row - Desktop */}
-    <div className="relative hidden md:flex flex-row justify-between">
-      {bottomRowSteps.map((step, index) => (
-        <div key={index} className="flex flex-col items-center text-center mb-16 md:mb-0 relative z-10 xl:-ml-12 xl:mt-10">
-          {/* Circle with Number */}
-          <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
-            <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
-              <span className="text-white text-4xl font-bold">{step.number}</span>
-            </div>
+      {/* Step 5 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">5</span>
           </div>
-          
-          {/* Title */}
-          <h3 className="text-xl font-semibold text-[#1E437A] mb-2">{step.title}</h3>
-          
-          {/* Description */}
-          <p className="text-[#456696] text-center max-w-xs">{step.description}</p>
         </div>
-      ))}
-    </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Play-Based Learning</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-left max-w-xs">
+          <li className="mb-2">• Play is central to our sessions, as it motivates children while improving their problem-solving, communication, and social interaction skills.</li>
+        </ul>
+      </div>
 
-    {/* Bottom Row - Mobile (reversed) */}
-    <div className="relative flex flex-col md:hidden">
-      {reversedBottomRowSteps.map((step, index) => (
-        <div key={index} className="flex flex-col items-center text-center mb-16 relative z-10">
-          {/* Circle with Number */}
-          <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
-            <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
-              <span className="text-white text-4xl font-bold">{step.number}</span>
-            </div>
+      {/* Step 6 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">6</span>
           </div>
-          
-          {/* Title */}
-          <h3 className="text-xl font-semibold text-[#1E437A] mb-2">{step.title}</h3>
-          
-          {/* Description */}
-          <p className="text-[#456696] text-center max-w-xs">{step.description}</p>
         </div>
-      ))}
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Progress Review and Parental Involvement</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-left max-w-xs">
+          <li className="mb-2">• At the end of each session, we review the child's progress and provide parents with feedback and suggestions for reinforcing skills at home.</li>
+        </ul>
+      </div>
     </div>
+  </div>
+</div>
+
+
+{/* Blue Banner Section */}
+<div className="rounded-xl w-[100%] bg-[#B0C2D8] py-16 px-4 sm:px-8 md:px-20 lg:px-10 2xl:ml-35 2xl:w-[80%]">
+  <div className="max-w-6xl mx-auto text-center">
+    <p className="text-[#1D2939] text-xl md:text-2xl font-medium mb-8 leading-relaxed">
+      Through our personalized approach, we ensure that each session not only addresses therapy goals but also fosters a joyful, supportive environment where children feel empowered to grow.
+    </p>
+    
+    <p className="text-[#1D2939] text-xl md:text-2xl font-medium leading-relaxed">
+      Let us help your child thrive through pediatric occupational therapy at 8 Senses Pediatric Occupational Therapy Clinic, where every session is a step toward a brighter future!
+    </p>
   </div>
 </div>
 
  {/* "Who Can Benefit?" section - modified to use isMobile */}
  <div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
         <div className="text-left mb-12">
-            <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">Who Can Benefit?</h2>
+            <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">Who Can Benefit from Occupational Therapy?</h2>
         </div>
-
         {/* Desktop View - All cards in a row - now using isMobile */}
         {!isMobile && (
             <div className="flex justify-between items-center space-x-4">
@@ -482,7 +482,7 @@ const OT = () => {
                 
                 <button 
                     onClick={nextSlide}
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow-md"
+                    className="z-20 absolute right-0 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-70 rounded-full p-2 shadow-md"
                     aria-label="Next slide"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#245BA7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

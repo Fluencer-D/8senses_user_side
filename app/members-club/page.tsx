@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/navbar/page'
 import Banner from '../components/CommonBanner/Banner'
 import MembersBanner from '@/public/MembersBanner.png'
@@ -7,12 +8,108 @@ import Image from 'next/image'
 import AbtIconContainer from '@/public/AbtIconContainer.png'
 import PricingCard from '../components/PricingCard/PricingCard'
 import Footer from '../components/footer/page'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import member_club_img from '@/public/member_club_img.png'
 
-const services = [
+// Define TypeScript interfaces
+interface Service {
+    title: string;
+    description: string;
+}
+
+interface PlanFeatures {
+    accessToWebinars: boolean;
+    customerDiscounts: boolean;
+    autoRenewal: boolean;
+    displayOnPricingPage: boolean;
+    accessToPremiumCourses: boolean;
+    [key: string]: boolean; // Index signature for any additional boolean features
+}
+
+interface SubscriptionPlan {
+    _id?: string;
+    name: string;
+    description: string;
+    status: string;
+    price: number;
+    billingCycle: string;
+    features: PlanFeatures;
+    order: number;
+    trialPeriod: number;
+    gracePeriod: number;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface ApiResponse {
+    success: boolean;
+    count: number;
+    data: SubscriptionPlan[];
+    message?: string;
+}
+
+// Helper function to convert billing cycle to duration
+const getBillingCycleDuration = (billingCycle: string): { duration: number, unit: string } => {
+    switch(billingCycle) {
+        case 'quarterly':
+            return { duration: 3, unit: 'months' };
+        case 'biannual':
+            return { duration: 6, unit: 'months' };
+        case 'annual':
+            return { duration: 12, unit: 'months' };
+        case 'monthly':
+            return { duration: 1, unit: 'month' };
+        default:
+            return { duration: 1, unit: 'month' };
+    }
+};
+
+// Helper function to convert features object to feature strings array
+const convertFeaturesToArray = (plan: SubscriptionPlan): string[] => {
+    const featuresArray: string[] = [];
+    
+    // Basic plan features
+    if (plan.order === 1) {
+        featuresArray.push("Access to Online Learning Hub");
+        featuresArray.push("Weekly Motivational Emails");
+        featuresArray.push("1 Monthly Expert Discussion");
+        featuresArray.push("Access to Parent Community");
+    }
+    // Advanced plan features
+    else if (plan.order === 2) {
+        featuresArray.push("Everything in the Basic Plan PLUS");
+        if (plan.features.accessToWebinars) {
+            featuresArray.push("Gluten-free casein free recipes");
+        }
+        featuresArray.push("Personalized Progress Tracking Templates");
+        if (plan.features.customerDiscounts) {
+            featuresArray.push("10% Discount on Workshops");
+        }
+        featuresArray.push("Priority Access to New Content");
+    }
+    // Premium plan features
+    else if (plan.order === 3) {
+        featuresArray.push("Everything in the Advanced Plan PLUS");
+        featuresArray.push("Gluten-free casein free recipes and full day meal plan");
+        featuresArray.push("Detox diet recipes");
+        featuresArray.push("1 Private Consultation (30 mins) with Dr.Shrruti Patil, Pediatric occupational therapist");
+        if (plan.features.customerDiscounts) {
+            featuresArray.push("15% on Workshops");
+        }
+        if (plan.features.accessToPremiumCourses) {
+            featuresArray.push("Special Recognition as a Parent Advocate in our Community");
+        }
+    }
+    
+    return featuresArray;
+};
+
+const services: Service[] = [
     {
         title: "Exclusive Online Learning Hub",
         description:
-            "Access to expert-designed materials, videos, and practical exercises to support your child’s progress at home.",
+            "Access to expert-designed materials, videos, and practical exercises to support your child's progress at home.",
     },
     {
         title: "Weekly Motivational Emails",
@@ -33,11 +130,44 @@ const services = [
     },
     {
         title: "Personalized Progress Tracking Tools",
-        description: "Download goal-setting and progress monitoring templates to track your child’s development effectively.",
+        description: "Download goal-setting and progress monitoring templates to track your child's development effectively.",
     },
 ];
 
-const Members = () => {
+const Members: React.FC = () => {
+    const router = useRouter();
+
+  const [subscriptionPlans, setSubscriptionPlans] = useState<SubscriptionPlan[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSubscriptionPlans = async (): Promise<void> => {
+      try {
+        setLoading(true);
+        const response = await axios.get<ApiResponse>( // Change the type here
+          `${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/plans`
+        );
+        console.log("API Response:", response.data);
+        
+        // Access the data directly from response.data (not response.data.data)
+        const plans = response.data.data || []; // Remove one .data level
+        plans.sort((a, b) => a.order - b.order);
+        
+        setSubscriptionPlans(plans);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching subscription plans:', err);
+        setError('Failed to load subscription plans. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    fetchSubscriptionPlans();
+  }, []);
+  const handlePlanSelect = (planId: string) => {
+    router.push(`/members-club/${planId}`);
+  };
   return (
     <>
         <Navbar/>
@@ -47,8 +177,49 @@ const Members = () => {
         imageSrc={MembersBanner}
         />
 
+        {/* what join section */}
+        <div className="container mx-auto px-4 md:px-8 lg:px-12 max-w-7xl 2xl:ml-20">
+      <div className="flex flex-col md:flex-row items-start gap-6 md:gap-10">
+        {/* Left content section */}
+        <div className="w-full md:w-1/2 mt-15">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-nav_link_font text-[#1E437A] mb-6 md:mb-8">
+            What is 8 Senses Members Club?
+          </h1>
+          
+          <ul className="list-none pl-0">
+            <li className="flex mb-6">
+              <span className="mr-3 text-xl text-[#456696]">·</span>
+              <p className="text-base md:text-lg 2xl:text-xl text-[#456696]">
+                At 8 Senses Pediatric Occupational Therapy Clinic, we understand that parenting a child with neurological and developmental challenges comes with unique struggles.
+              </p>
+            </li>
+            
+            <li className="flex">
+              <span className="mr-3 text-xl text-[#456696]">·</span>
+              <p className="text-base md:text-lg 2xl:text-xl text-[#456696]">
+                The 8 Senses Members Club is designed to provide you with continuous guidance, expert knowledge, and a supportive community to help your child thrive.
+              </p>
+            </li>
+          </ul>
+        </div>
+        
+        {/* Right image section */}
+        <div className="w-full md:w-1/2 sm:mt-0 md:mt-20 2xl:mt-10" >
+          <div className="relative w-full aspect-[4/3]">
+            <Image
+              src={member_club_img} // Replace with your actual image path
+              alt="Occupational therapist working with child"
+              fill
+              className="object-cover rounded-lg"
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+        
         {/* Why join section */}
-        <section className='relative mt-[30px] sm:mt-[50px] md:mt-[100px] lg:mt-[150px] bg-white py-8 sm:py-12 md:py-16 px-4 sm:px-8 md:px-20 lg:px-32 flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12'>
+        <section className='relative mt-[30px] sm:mt-[50px] md:mt-[100px] lg:mt-[150px] bg-white py-8 sm:py-12 md:py-16 px-4 sm:px-8 md:px-20 lg:px-32 flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12 2xl:-mb-15'>
             <div className="hidden lg:block absolute -mt-80 ml-[125px] z-10">
                 <DottedPattern />
             </div>
@@ -59,10 +230,7 @@ const Members = () => {
                 </h2>
                 <p className="text-base sm:text-lg md:text-xl lg:text-[26px] font-normal 
                     leading-relaxed tracking-wide text-[#456696] font-urbanist mb-6">
-                    At 8 Senses Pediatric Occupational Therapy Clinic, we understand that parenting a child
-with neurological and developmental challenges comes with unique struggles. The 8 Senses
-Members Club is designed to provide you with continuous guidance, expert knowledge, and
-a supportive community to help your child thrive.
+                    Get access to expert resources, special discounts, and a community that helps your child thrive!
                 </p>
                 <div className='flex justify-center lg:justify-start'>
                     <button className="bg-[#C83C92] text-white text-sm sm:text-base md:text-lg font-medium 
@@ -131,48 +299,71 @@ a supportive community to help your child thrive.
                 <DottedPattern />
             </div>
             
-            {/* Basic Plan */}
-            <PricingCard
-                title="Basic Plan (3 Months)"
-                price="₹2,999"
-                description="per user for 3 months"
-                features={[
+            {loading ? (
+              <div className="flex justify-center w-full py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#245CA7]"></div>
+              </div>
+            ) : error ? (
+              <div className="text-center text-red-500 py-8">{error}</div>
+            ) : subscriptionPlans.length > 0 ? (
+              subscriptionPlans.map((plan, index) => {
+                const durationInfo = getBillingCycleDuration(plan.billingCycle);
+                const featuresList = convertFeaturesToArray(plan);
+                
+                return (
+                  <PricingCard
+                    key={plan._id || index}
+                    title={`${plan.name} (${durationInfo.duration} ${durationInfo.unit})`}
+                    price={`₹${plan.price}`}
+                    description={plan.description || `per user for ${durationInfo.duration} ${durationInfo.unit}`}
+                    features={featuresList}
+                    isPremium={plan.order === 3}
+                    onClick={() => handlePlanSelect(plan._id || '')} 
+
+                  />
+                );
+              })
+            ) : (
+              <>
+                <PricingCard
+                  title="Basic Plan (3 Months)"
+                  price="₹2,999"
+                  description="per user for 3 months"
+                  features={[
                     "Access to Online Learning Hub",
                     "Weekly Motivational Emails",
                     "1 Monthly Expert Discussion",
                     "Access to Parent Community"
-                ]}
-            />
-
-            {/* Advanced Plan */}
-            <PricingCard
-                title="Advanced Plan (6 Months)"
-                price="₹5,499"
-                description="per user for 6 months"
-                features={[
+                  ]}
+                />
+                <PricingCard
+                  title="Advanced Plan (6 Months)"
+                  price="₹5,499"
+                  description="per user for 6 months"
+                  features={[
                     "Everything in the Basic Plan PLUS",
                     "Gluten-free casein free recipes",
                     "Personalized Progress Tracking Templates",
                     "10% Discount on Workshops",
                     "Priority Access to New Content"
-                ]}
-            />
-
-            {/* Premium Plan */}
-            <PricingCard
-                title="Premium Plan (12 Months)"
-                price="₹9,999"
-                description="per user for 12 months"
-                features={[
+                  ]}
+                />
+                <PricingCard
+                  title="Premium Plan (12 Months)"
+                  price="₹9,999"
+                  description="per user for 12 months"
+                  features={[
                     "Everything in the Advanced Plan PLUS",
                     "Gluten-free casein free recipes and full day meal plan",
                     "Detox diet recipes",
                     "1 Private Consultation (30 mins) with Dr.Shrruti Patil, Pediatric occupational therapist",
                     "15% on Workshops",
-                    "Special Recognition as a Parent Advocate in our Community"
-                ]}
-                isPremium
-            />
+                    "Special Recognition as a Parent Avocate in our Community"
+                  ]}
+                  isPremium
+                />
+              </>
+            )}
         </div>
         <Footer/>
     </>

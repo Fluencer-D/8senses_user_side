@@ -147,8 +147,8 @@ const Services = () => {
 
                     <p className="w-full lg:w-[730px] font-nav_link_font text-lg md:text-xl lg:text-[28px] lg:leading-[44px] tracking-[0.02em] text-[#456696] mt-6 lg:mt-10 px-4 md:px-0">
                     At 8 Senses Pediatric Occupational & Speech Therapy Clinic, we offer a range of specialized therapies 
-                    designed to support children with developmental delays, sensory challenges, speech difficulties, and 
-                    neurological conditions. Our expert team tailors each treatment plan to help children build essential 
+                    designed to support children with developmental delays, Sensory Challenges, Speech Difficulties, and 
+                    Neurological Conditions. Our expert team tailors each treatment plan to help children build essential 
                     skills, improve communication, and gain independence in their daily lives.
                     </p>
 
@@ -249,13 +249,6 @@ const Services = () => {
                           {service.description}
                         </p>
                       </div>
-
-                      {/* Optional price display - Now at the bottom */}
-                      {service.price && (
-                        <p className="text-white text-sm mt-4 bg-[#1E437A] px-3 py-1 rounded-full">
-                          ₹{service.price} • {service.duration} mins
-                        </p>
-                      )}
                     </div>
                   ))}
                 </div>
@@ -285,13 +278,6 @@ const Services = () => {
                           {featuredService.description}
                         </p>
                       </div>
-
-                      {/* Optional price display */}
-                      {featuredService.price && (
-                        <p className="text-white text-sm mt-4 bg-[#1E437A] px-3 py-1 rounded-full">
-                          ₹{featuredService.price} • {featuredService.duration} mins
-                        </p>
-                      )}
                     </div>
                   </div>
                 )}

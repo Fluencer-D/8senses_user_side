@@ -1,7 +1,5 @@
 import React from 'react'
-import Banner from '../components/CommonBanner/Banner'
 import Navbar from '../components/navbar/page'
-import STBanner from '@/public/STBanner.png'
 import Consultation from '../components/consultation/page'
 import Footer from '../components/footer/page'
 import Image from 'next/image'
@@ -38,10 +36,7 @@ const page = () => {
           title: "Initial Assessment and Goal Setting",
           points: [
             {
-              text: "The session begins with an evaluation to identify the child's strengths and challenges."
-            },
-            {
-              text: "Speech therapists collaborate with parents to set personalized goals."
+              text: "Each therapy journey starts with a thorough assessment to identify the child’s strengths and areas of improvement. Our speech therapists work closely with parents to set personalized goals based on the child’s needs."
             }
           ]
         },
@@ -49,11 +44,9 @@ const page = () => {
           title: "Warm-Up and Engagement Activities",
           points: [
             {
-              text: "Fun activities like singing, storytelling, and verbal games help children feel comfortable."
+              text: "To make the child comfortable, we start with fun interactive exercises like singing, storytelling, or playful verbal games that prepare them for the session."
             },
-            {
-              text: "These interactive exercises set the stage for focused learning."
-            }
+            
           ]
         },
         {
@@ -61,23 +54,27 @@ const page = () => {
           points: [
             {
               bold: "Articulation Exercises –",
-              text: " Helping children learn to pronounce sounds and words correctly by improving their tongue, lip, and jaw movements for clearer speech."
+              text: " Teaching children how to pronounce sounds and words correctly."
             },
             {
               bold: "Language Development –",
-              text: " Enhancing a child's ability to understand and use words, form meaningful sentences, and express their thoughts effectively in conversations."
+              text: " Helping children understand words, sentences, and how to express their thoughts."
             },
             {
               bold: "Fluency Training –",
-              text: " Assisting children who struggle with stammering or hesitant speech by guiding them through techniques to develop smooth, natural, and confident speech patterns."
+              text: " Guiding children with stammering or hesitant speech to speak more smoothly."
             },
             {
               bold: "Voice Therapy –",
-              text: " Managing pitch, tone, and volume."
+              text: " Helping children with voice disorders modulate their pitch, tone, and volume."
             },
             {
               bold: "Social Communication Skills –",
-              text: " Teaching gestures, expressions, and conversation techniques."
+              text: " Teaching appropriate gestures, expressions, and conversational techniques."
+            },
+            {
+              bold: "Aids in Non-Verbal Communication-",
+              text: " Helps with assistive hearing devices in hearing loss"
             }
           ]
         },
@@ -96,10 +93,10 @@ const page = () => {
           title: "Parent Involvement and Home Practice Guidance",
           points: [
             {
-              text: "Parents receive feedback and home exercises to continue progress outside therapy."
+              text: "At the end of each session, we provide parents with feedback and simple exercises to reinforce progress at home."
             },
             {
-              text: "Their active participation is essential for long-term improvement."
+              text: "Parental involvement is crucial for continued development beyond therapy sessions."
             }
           ]
         }
@@ -135,69 +132,178 @@ const page = () => {
   return (
     <>
     <Navbar/>
-    <Banner
-    title="Helping Children Find Their Voice with Speech Therapy"
-    description="Helping children develop essential life skills, build confidence, and reach their full potential"
-    imageSrc={STBanner}
-    />
+    <section className="mt-30 w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
+  <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+    {/* Text Content */}
+    <div className="md:w-1/2">
+      <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">
+        What is Pediatric Speech Therapy?
+      </h2>
+      <p className="text-[#456696] text-[22px] leading-relaxed mb-6">
+        Pediatric speech therapy is a specialized intervention designed to help children develop and improve their communication skills. It focuses on enhancing speech clarity, language comprehension, expression, fluency, and social communication. Speech therapy also helps children who struggle with feeding and swallowing difficulties.
+      </p>
+      <p className="text-[#456696] text-[22px] leading-relaxed">
+        At 8 Senses Pediatric Occupational Therapy Clinic, our expert speech therapists work with children facing challenges such as delayed speech, stammering, articulation difficulties, language disorders, and social communication delays. We create personalized therapy plans to help each child find their voice and confidently express themselves.
+      </p>
+    </div>
     
-
-    <section className="relative xl:ml-10 -mt-20 lg:mt-23 bg-white py-16 px-8 md:px-20 lg:px-32 flex flex-col md:flex-row lg:flex-row items-center gap-6 md:gap-8 lg:gap-12 lg:mb-40">
-          {/* Images section */}
-          <div className="relative flex flex-row items-center justify-center md:justify-start lg:items-start w-full md:w-[40%] lg:w-auto">
-            {/* First image group - Baby image */}
-            <div className="relative lg:absolute lg:left-[-120px] lg:top-[-100px] w-[150px] h-[200px] md:w-[150px] md:h-[200px] lg:w-[276px] lg:h-[507px] 2xl:w-[376px] 2xl:h-[507px] flex flex-col items-center">
-              <div className="absolute top-[110px] md:top-[100px] lg:top-[275px] w-[30px] h-[140px] md:w-[30px] md:h-[170px] lg:w-[80px] lg:h-[378px] z-10">
-                <Image src={AboutContainer2} alt="Background Shape" layout="fill" objectFit="contain" />
-              </div>
-              <div className="relative flex justify-center items-center w-full h-full z-20">
-                <Image
-                  src={STimg1}
-                  alt="Smiling Baby"
-                  width={120}
-                  height={160}
-                  className="md:w-[120px] md:h-[160px] lg:w-[310px] lg:h-[410px]"
-                />
-              </div>
-            </div>
-    
-            {/* Second image group - Doctor image - hidden only on Nest Hub Max */}
-    <div className="relative ml-4 md:ml-4 lg:ml-0 lg:left-[200px] xl:left-[250px] lg:top-[50px] xl:top-[70px] nesthub-max:hidden">
-      <div className="absolute left-[45px] md:left-[45px] lg:left-[85px] xl:left-[108px] -top-3 md:-top-3 lg:-top-6 xl:-top-8 -right-1 md:-right-1 lg:-right-3 xl:-right-4 z-0">
-        <Image 
-          src={AboutContainer} 
-          alt="Background Shape" 
-          width={32} 
-          height={22}
-          className="md:w-[32px] md:h-[22px] lg:w-[65px] xl:w-[82px] lg:h-[45px] xl:h-[58px]" 
-        />
-      </div>
-      <div className="relative z-10">
-        <Image
-          src={STimg2}
-          alt="Doctor Smiling"
-          width={120}
-          height={160}
-          className="md:w-[120px] md:h-[160px] lg:w-[250px] xl:w-[310px] lg:h-[330px] xl:h-[410px]"
-        />
+    {/* Oval-shaped Image with Pink Border */}
+    <div className="md:w-1/2 flex justify-center">
+      <div className="relative w-[320px] h-[420px] lg:w-[420px] lg:h-[480px]">
+        <div>
+          <Image
+            src="/STbannerimg.png" 
+            alt="Children in speech therapy session"
+            width={420}
+            height={480}
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
     </div>
+  </div>
+</section>
+    
+
+     {/* How Our OT Sessions Work Section */}
+<div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
+  {/* Heading Section */}
+  <div className="text-left mb-12">
+    <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">Why is Pediatric Speech Therapy Important for Children?</h2>
+    <p className="text-[#456696] text-xl font-normal">Communication is a vital part of a child’s development. It allows them to express their needs, build relationships, and succeed in school and social settings. When a child has difficulty with speech or language, it can impact their confidence, academic progress, and social interactions.</p>
+  </div>
+
+  {/* Steps Container */}
+  <div className="max-w-6xl mx-auto">
+    {/* Top Row Steps */}
+    <div className="flex flex-col md:flex-row justify-between mb-24">
+      {/* Step 1 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">1</span>
           </div>
-    
-          {/* Text content */}
-          <div className="relative left-0  lg:left-30 text-left text-[#245BA7] md:mt-0 lg:mt-0 md:w-[60%] lg:w-auto 2xl:left-59">
-    
-            <h2 className="w-full 2xl:-mb-1 lg:w-[822px] h-auto lg:h-[65px] font-nav_link_font font-semibold text-3xl lg:text-4xl leading-[65px] flex items-center tracking-wide text-[#1E437A] justify-center md:justify-start">
-            Personalized therapy to improve speech, language, and communication skills for a brighter future
-            </h2>
-    
-            <p className="mt-2 sm:mt-0 md:mt-14 2xl:mt-25 w-full lg:w-[730px] h-auto lg:h-[308px] font-urbanist text-xl md:text-lg lg:text-[30px] leading-[34px] md:leading-[32px] lg:leading-[44px] tracking-[0.02em] text-[#456696] text-center md:text-left">
-            <span className='font-semibold'>The goal:</span> Pediatric speech therapy helps children develop communication skills by improving speech clarity, fluency, language comprehension, and social interaction.
-            <br /> <br />
-    <span className='font-semibold'>Who benefits:</span> It also supports children with feeding and swallowing difficulties.
-            </p>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Improves Speech Clarity</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-center max-w-xs">
+          <li className="mb-2">Helps children pronounce words correctly, making it easier for them to be understood by others.</li>
+        </ul>
+      </div>
+
+      {/* Step 2 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">2</span>
           </div>
-        </section>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Enhances Language Development</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-center max-w-xs">
+          <li className="mb-2">Supports children in understanding and using language effectively, whether verbally or through alternative communication methods.</li>
+        </ul>
+      </div>
+
+      {/* Step 3 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">3</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Boosts Social Skills</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-center max-w-xs">
+          <li className="mb-2">Encourages proper conversational skills, listening, turn-taking, and appropriate responses in different social settings.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {/* Bottom Row Steps */}
+    <div className="flex flex-col md:flex-row justify-between">
+      {/* Step 4 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">4</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Supports Fluency</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-center max-w-xs">
+          <li className="mb-2"> Assists children who stammer or experience difficulty in speaking smoothly.
+          </li>
+        </ul>
+      </div>
+
+      {/* Step 5 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">5</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Aids in Feeding and Swallowing Disorders</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-center max-w-xs">
+          <li className="mb-2"> Helps children who struggle with chewing, swallowing, or transitioning to solid foods.
+          </li>
+        </ul>
+      </div>
+
+      {/* Step 6 */}
+      <div className="flex flex-col items-center text-center mb-16 md:mb-0">
+        {/* Circle with Number */}
+        <div className="w-28 h-28 rounded-full bg-[#245CA7] flex items-center justify-center mb-4">
+          <div className="w-20 h-20 rounded-full bg-[#22B14C] flex items-center justify-center">
+            <span className="text-white text-4xl font-bold">6</span>
+          </div>
+        </div>
+        
+        {/* Title */}
+        <h3 className="text-xl font-semibold text-[#1E437A] mb-4">Prepares for Academic Success</h3>
+        
+        {/* Description */}
+        <ul className="text-[#456696] text-center max-w-xs">
+          <li className="mb-2">Strong language skills lay the foundation for reading, writing, and learning in school.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{/* Blue Banner Section */}
+<div className="rounded-xl mb-30 w-[100%] bg-[#B0C2D8] py-10 px-4 sm:px-8 md:px-20 lg:px-10 2xl:ml-35 2xl:w-[80%]">
+  <div className="max-w-6xl mx-auto text-center">
+    <p className="text-[#1D2939] text-xl md:text-2xl font-medium mb-8 leading-relaxed">
+    Early intervention is key! The earlier a child receives support, the better their chances of overcoming communication barriers and thriving in their daily life.
+    </p>
+  
+  </div>
+</div>
+
 
     <div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
       {/* Heading Section */}
@@ -207,58 +313,9 @@ const page = () => {
           <DottedPattern />
         </div>
         <div className="flex flex-col gap-2">
-          <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">What is Occupational Therapy?</h2>
-          <p className="text-[#456696] text-xl max-w-5xl font-medium">
-            At 8 Senses, we prioritize personalized therapy and early intervention to ensure children receive the support they need at the right time.
-          </p>
-        </div>
-      </div>
-
-      {/* Benefits Grid - First Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        {therapyBenefits.slice(0, 9).map((benefit, index) => (
-          <div 
-            key={index}
-            className="bg-[#245CA7] rounded-2xl text-white p-8 flex flex-col items-center text-center h-full"
-          >
-            {/* Circle with Check Icon */}
-            <div className="relative mb-2 sm:mb-4 mt-2">
-                                <Image 
-                                    src={AbtIconContainer} 
-                                    alt="Check Icon" 
-                                    width={80} 
-                                    height={80} 
-                                    className="sm:w-[110px] sm:h-[110px]"
-                                />
-                                <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 60 60" fill="none">
-                                        <path d="M50 17.5L25 42.5L12.5 30" stroke="white" strokeWidth="3.75" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </div>
-                            </div>
-            
-            {/* Benefit Title */}
-            <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-            
-            {/* Benefit Description */}
-            <p className="text-[#E7E7E7] text-base text-center">{benefit.description}</p>
-          </div>
-        ))}
-      </div>
-
-    </div>
-
-    <div className="w-full bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
-      {/* Heading Section */}
-      <div className="text-left mb-12 relative">
-        {/* Dotted Pattern */}
-        <div className="hidden 2xl:block absolute justify-center mb-4 ml-30">
-          <DottedPattern />
-        </div>
-        <div className="flex flex-col gap-2">
-          <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">How Our Sessions Work?</h2>
-          <p className="text-[#456696] text-2xl max-w-6xl font-medium">
-          At 8 Senses, each session lasts for 45 minutes and is designed to improve speech, language, and communication in an engaging way.
+          <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">What Happens During a Speech Therapy Session?</h2>
+          <p className="text-[#456696] text-2xl max-w-7xl font-medium">
+          At 8 Senses, each speech therapy session is carefully structured to make learning fun and effective. Our sessions last for 45 minutes, focusing on improving speech, language, and communication in an engaging way.
           </p>
         </div>
       </div>

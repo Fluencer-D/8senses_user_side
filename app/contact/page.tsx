@@ -101,7 +101,7 @@ const Contact = () => {
 
     return (
         <>
-            <Navbar/>
+                        <Navbar/>
             <Banner 
                 title="Contact"
                 description="Contact us today and let's support your child's journey to growth and development."
@@ -110,18 +110,18 @@ const Contact = () => {
 
             {/* Map and Contact Info Section */}
             <div className="flex flex-col lg:flex-row items-start justify-center gap-10 p-4 md:p-6 mt-10 md:mt-[80px] max-w-7xl mx-auto">
-            <div className="relative w-full max-w-lg lg:mr-40 mb-8 lg:mb-0">
-    <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7497.835541424234!2d73.7570925514019!3d20.01196559765945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb030c8a3821%3A0xdc4fa0f39f358212!2sDr%20Shruti%20Patil!5e0!3m2!1sen!2sus!4v1743593745276!5m2!1sen!2sus" 
-        width="100%" 
-        height="450" 
-        style={{border: 0}} 
-        allowFullScreen={true} 
-        loading="lazy" 
-        referrerPolicy="no-referrer-when-downgrade"
-        className="rounded-lg w-full h-auto md:h-[450px] 2xl:h-90 2xl:w-[130%]"
-    ></iframe>
-</div>
+                <div className="relative w-full max-w-lg lg:mr-40 mb-8 lg:mb-0">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7497.835541424234!2d73.7570925514019!3d20.01196559765945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb030c8a3821%3A0xdc4fa0f39f358212!2sDr%20Shruti%20Patil!5e0!3m2!1sen!2sus!4v1743593745276!5m2!1sen!2sus" 
+                        width="100%" 
+                        height="450" 
+                        style={{border: 0}} 
+                        allowFullScreen={true} 
+                        loading="lazy" 
+                        referrerPolicy="no-referrer-when-downgrade"
+                        className="rounded-lg w-full h-auto md:h-[450px] 2xl:h-90 2xl:w-[130%]"
+                    ></iframe>
+                </div>
 
                 <div className="text-[#1E437A] max-w-lg w-full px-4 lg:mr-24">
                     {/* Location Section */}
@@ -155,7 +155,7 @@ const Contact = () => {
                     </div>
 
                     {/* Working Hours Section */}
-                    <div>
+                    <div className="mb-8">
                         <div className="flex items-center mb-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 40 40" fill="none" className="mr-2">
                                 <path d="M6.66634 31.6667V13.3334H33.333V18.8167C34.533 19.1834 35.6663 19.7167 36.6663 20.4334V13.3334C36.6663 11.4834 35.183 10 33.333 10H26.6663V6.66671C26.6663 4.81671 25.183 3.33337 23.333 3.33337H16.6663C14.8163 3.33337 13.333 4.81671 13.333 6.66671V10H6.66634C4.81634 10 3.34967 11.4834 3.34967 13.3334L3.33301 31.6667C3.33301 33.5167 4.81634 35 6.66634 35H19.4663C18.9663 33.9667 18.633 32.85 18.4663 31.6667H6.66634ZM16.6663 6.66671H23.333V10H16.6663V6.66671Z" fill="#1E437A"/>
@@ -164,6 +164,98 @@ const Contact = () => {
                             <h3 className="text-xl md:text-[25px] font-nav_link_font font-medium">Working Hours</h3>
                         </div>
                         <p className="text-sm md:text-[15px] font-nav_link_font">9:00 am to 8:00 pm</p>
+                    </div>
+
+                    {/* Social Media Icons */}
+                    <div className="mt-8">
+                        <h3 className="text-xl md:text-[25px] font-nav_link_font font-medium mb-4">Connect With Us</h3>
+                        <div className="flex space-x-4">
+                            {/* Instagram */}
+                            <a 
+          href="https://www.instagram.com/8senses_nsk/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex flex-col items-center group"
+        >
+          <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-blue-50 group-hover:bg-blue-800 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+            <svg 
+              className="w-6 h-6 md:w-7 md:h-7 text-blue-800 group-hover:text-white transition-colors duration-300" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" 
+                fill="currentColor"
+              />
+              <path 
+                d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                fill="none"
+              />
+              <path 
+                d="M17.5 6.5C17.7761 6.5 18 6.27614 18 6C18 5.72386 17.7761 5.5 17.5 5.5C17.2239 5.5 17 5.72386 17 6C17 6.27614 17.2239 6.5 17.5 6.5Z" 
+                fill="currentColor" 
+                stroke="currentColor"
+              />
+            </svg>
+          </div>
+        </a>
+                            
+        <a 
+          href="http://facebook.com/8senses.clinic" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex flex-col items-center group"
+        >
+          <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-blue-50 group-hover:bg-blue-800 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+            <svg 
+              className="w-6 h-6 md:w-7 md:h-7 text-blue-800 group-hover:text-white transition-colors duration-300" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" 
+                fill="currentColor" 
+                stroke="currentColor" 
+                strokeWidth="1.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
+        </a>
+        
+        {/* YouTube */}
+        <a 
+          href="https://www.youtube.com/@8_senses" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex flex-col items-center group"
+        >
+          <div className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-blue-50 group-hover:bg-blue-800 transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-lg">
+            <svg 
+              className="w-6 h-6 md:w-7 md:h-7 text-blue-800 group-hover:text-blue transition-colors duration-300" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M22.54 6.42C22.4212 5.94541 22.1793 5.51057 21.8387 5.15941C21.498 4.80824 21.0708 4.55318 20.6 4.42C18.88 4 12 4 12 4C12 4 5.12 4 3.4 4.46C2.92925 4.59318 2.50198 4.84824 2.16135 5.19941C1.82072 5.55057 1.57879 5.98541 1.46 6.46C1.14521 8.20556 0.991235 9.97631 1 11.75C0.991235 13.537 1.14521 15.3075 1.46 17.06C1.59096 17.5258 1.8383 17.951 2.17814 18.2946C2.51799 18.6381 2.93842 18.8878 3.4 19.02C5.12 19.47 12 19.47 12 19.47C12 19.47 18.88 19.47 20.6 19.02C21.0708 18.8868 21.498 18.6318 21.8387 18.2806C22.1793 17.9294 22.4212 17.4946 22.54 17.02C22.8524 15.2675 23.0063 13.497 23 11.71C23.0063 9.923 22.8524 8.1525 22.54 6.42Z" 
+                fill="currentColor"
+              />
+              <path 
+                d="M9.75 15.02L15.5 11.75L9.75 8.48001V15.02Z" 
+                fill="white"
+              />
+            </svg>
+          </div>
+        </a>
+                        </div>
                     </div>
                 </div>
             </div>

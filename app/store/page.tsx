@@ -7,7 +7,7 @@ import Footer from '../components/footer/page'
 import ContactBanner from '@/public/ContactBanner.png'
 import DottedPattern from '../components/dottedPattern/page'
 import AbtIconContainer from '@/public/AbtIconContainer.png'
-
+import Link from 'next/link'; // Import Link component
 import PlaceholderImage from '@/public/Gallery1.png'
 
 
@@ -352,9 +352,11 @@ const Store: React.FC = () => {
                     {getDisplayPrice(product)}
                   </span>
                 </div>
-                <button className="w-[calc(100%-16px)] mx-2 mb-2 py-2 bg-[#C83C92] text-white font-medium rounded-full">
-                  Order Now →
-                </button>
+                <Link href={`/store/${product._id}`}>
+              <button className="w-[calc(100%-16px)] cursor-pointer mx-2 mb-2 py-2 bg-[#C83C92] text-white font-medium rounded-full">
+                Order Now →
+              </button>
+            </Link>
               </div>
             ))}
           </div>
@@ -416,9 +418,11 @@ const Store: React.FC = () => {
               {getDisplayPrice(product)}
             </span>
           </div>
-          <button className="w-[calc(100%-16px)] min-[900px]:w-[96%] mx-2 mb-2 py-2 bg-[#C83C92] text-white font-medium rounded-full text-sm min-[768px]:text-base">
+          <Link href={`/store/${product._id}`}>
+          <button className="w-[calc(100%-16px)] cursor-pointer min-[900px]:w-[96%] mx-2 mb-2 py-2 bg-[#C83C92] text-white font-medium rounded-full text-sm min-[768px]:text-base">
             Order Now →
           </button>
+          </Link>
         </div>
       ))}
     </div>

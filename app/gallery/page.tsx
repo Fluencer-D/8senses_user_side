@@ -45,6 +45,7 @@ const Gallery = () => {
         }
 
         const data = await response.json();
+        console.log(data)
         
         // Handle different response structures with proper typing
         const items: GalleryItem[] = Array.isArray(data) ? data : 
