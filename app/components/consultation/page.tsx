@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Consultation = () => {
   return (
-    <section className="relative h-[450px] w-full flex items-center justify-center text-white mt-[160px]">
+    <section className="relative h-[450px] w-full flex items-center justify-center text-white mt-[160px] -mb-24">
       {/* Mobile-specific styling */}
       <style jsx>{`
         @media (max-width: 767px) {

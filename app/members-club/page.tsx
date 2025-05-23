@@ -141,12 +141,13 @@ const Members: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  
   useEffect(() => {
     const fetchSubscriptionPlans = async (): Promise<void> => {
       try {
         setLoading(true);
         const response = await axios.get<ApiResponse>( // Change the type here
-          `${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/plans`
+          `${process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com'}/api/subscriptions/plans`
         );
         console.log("API Response:", response.data);
         
@@ -168,6 +169,8 @@ const Members: React.FC = () => {
   const handlePlanSelect = (planId: string) => {
     router.push(`/members-club/${planId}`);
   };
+
+ 
   return (
     <>
         <Navbar/>

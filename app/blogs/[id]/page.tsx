@@ -145,7 +145,7 @@ const BlogPost = () => {
       
       {/* Hero Image and Title */}
       <div className="relative w-full">
-        <div className="relative w-[90%] mx-auto mt-25 h-[300px] md:h-[400px] overflow-hidden rounded-b-3xl">
+        <div className="relative w-[90%] mx-auto mt-32 h-[300px] md:h-[400px] overflow-hidden rounded-b-3xl">
           <Image 
             src={blog.featuredImage || BlogCard1} 
             alt={blog.title || "Blog post"} 
@@ -153,7 +153,7 @@ const BlogPost = () => {
             style={{ objectFit: 'cover'}}
             priority
           />
-          <div className="absolute bottom-4 left-4 bg-white px-4 py-3 rounded-lg text-gray-800 max-w-md">
+          <div className="absolute bottom-4 m-2 bg-white px-4 py-3 rounded-lg text-gray-800 max-w-md">
             <h2 className="text-xl font-medium">{blog.title}</h2>
             <div className="flex mt-1 text-sm text-gray-600">
               <span>{shortDate || 'Oct 19'}</span>

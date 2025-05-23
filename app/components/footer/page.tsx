@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#2D63AF] py-[80px] px-[160px] h-[260px] mt-[85.73px]">
+    <footer className="bg-[#2D63AF] py-[80px] pt-14 px-[160px] h-[260px] mt-[85.73px]">
       {/* Tablet-specific styling (iPad, Surface Pro 7, Nest Hub) */}
       <style jsx>{`
         @media (min-width: 768px) and (max-width: 1280px) {
@@ -63,7 +63,7 @@ const Footer = () => {
               width={182} 
               height={72} 
               priority 
-              className="w-[150px] md:w-[182px]"
+              className="w-[150px] md:w-[182px] mt-10"
             />
           </Link>
           <nav className="mt-4 text-[18px] flex flex-wrap justify-center md:flex-row md:space-x-[54px] text-white">

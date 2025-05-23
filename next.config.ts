@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     typedRoutes: false,
+    turbo: false, // ❗ Add this line to disable Turbopack
   },
 };
 

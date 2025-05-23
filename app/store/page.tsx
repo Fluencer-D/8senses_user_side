@@ -11,7 +11,7 @@ import Link from 'next/link'; // Import Link component
 import PlaceholderImage from '@/public/Gallery1.png'
 
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || '';
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com';
 
 interface Service {
   title: string;

@@ -26,7 +26,7 @@ const OrderPage: React.FC = () => {
     if (productId) {
       const fetchProduct = async () => {
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com'}/api/products/${productId}`);
           const data = await response.json();
           if (response.ok) {
             setProduct(data.data);
@@ -50,7 +50,7 @@ const OrderPage: React.FC = () => {
   
     try {
       // Step 1: Create the order in your backend (submit the order)
-      const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/public`, {
+      const orderResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com'}/api/orders/public`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
