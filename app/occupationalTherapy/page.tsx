@@ -203,7 +203,7 @@ const OT = () => {
         Why is Pediatric Occupational Therapy Important for Children?
       </h2>
       <p className="text-[#456696] text-2xl font-medium leading-relaxed">
-        Every child has unique strengths and challenges. For some children, certain developmental milestones—such as walking, dressing, feeding, or focusing on tasks—can be difficult to achieve. Pediatric occupational therapy is essential because it offers the necessary support to children and their families in achieving these milestones.
+        Every child has unique strengths and challenges. For some children, certain developmental milestones—such as walking, dressing, feeding, or focusing on tasks—can be difficult to achieve. Pediatric Occupational Therapy is essential because it offers the necessary support to children and their families in achieving these milestones.
       </p>
     </div>
     
@@ -248,7 +248,7 @@ const OT = () => {
   {/* Text content */}
   <div className="w-full md:w-[55%] lg:w-[50%] text-left text-[#245BA7]">
     <h2 className="font-nav_link_font font-normal text-4xl lg:text-5xl tracking-wide text-[#1E437A] mb-8">
-      Here's why occupational therapy is beneficial:
+      Here's why Occupational Therapy is beneficial:
     </h2>
 
     <div className="space-y-6">
@@ -276,7 +276,7 @@ const OT = () => {
       <div>
         <h3 className="text-2xl font-semibold text-[#245BA7] mb-2">Promotes Social and Emotional Well-being:</h3>
         <p className="text-lg text-[#456696]">
-          Occupational therapy fosters confidence, emotional regulation, and social interaction, helping children better navigate social environments like school and peer groups.
+          Occupational Therapy fosters confidence, emotional regulation, and social interaction, helping children better navigate social environments like school and peer groups.
         </p>
       </div>
 
@@ -296,7 +296,7 @@ const OT = () => {
   {/* Heading Section */}
   <div className="text-left mb-12">
     <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">What Happens During an Occupational Therapy Session?</h2>
-    <p className="text-[#456696] text-lg font-medium mb-10">At 8 Senses, each occupational therapy session is designed to be engaging, fun, and therapeutic. Our sessions last for 45 minutes, during which we focus on specific goals tailored to each child’s needs.At 8 Senses, each occupational therapy session is designed to be engaging, fun, and therapeutic. Our sessions last for 45 minutes, during which we focus on specific goals tailored to each child’s needs.</p>
+    <p className="text-[#456696] text-lg font-medium mb-10">At 8 Senses, each Occupational Therapy session is designed to be engaging, fun, and therapeutic. Our sessions last for 45 minutes, during which we focus on specific goals tailored to each child’s needs.At 8 Senses, each Occupational Therapy session is designed to be engaging, fun, and therapeutic. Our sessions last for 45 minutes, during which we focus on specific goals tailored to each child’s needs.</p>
   </div>
 
   {/* Steps Container */}
@@ -430,7 +430,7 @@ const OT = () => {
     </p>
     
     <p className="text-[#1D2939] text-xl md:text-2xl font-medium leading-relaxed">
-      Let us help your child thrive through pediatric occupational therapy at 8 Senses Pediatric Occupational Therapy Clinic, where every session is a step toward a brighter future!
+      Let us help your child thrive through Pediatric Occupational Therapy at 8 Senses Pediatric Occupational Therapy Clinic, where every session is a step toward a brighter future!
     </p>
   </div>
 </div>

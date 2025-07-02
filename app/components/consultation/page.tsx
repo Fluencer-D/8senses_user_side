@@ -60,7 +60,7 @@ const Consultation = () => {
           Book a Consultation Today!
         </h2>
         <p className="mt-4 text-[23px] leading-[34px] tracking-[0.48px] font-normal text-[#E7E7E7] max-w-2xl mx-auto text-center">
-          Get expert pediatric occupational and speech therapy tailored to your child's needs. Early intervention makes a difference!
+          Get expert Pediatric Occupational Therapy and Speech Therapy tailored to your child's needs. Early intervention makes a difference!
         </p>
 
         <div className="button-group mt-6 flex justify-center gap-[24px]">

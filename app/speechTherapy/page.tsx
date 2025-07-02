@@ -140,7 +140,7 @@ const page = () => {
         What is Pediatric Speech Therapy?
       </h2>
       <p className="text-[#456696] text-[22px] leading-relaxed mb-6">
-        Pediatric speech therapy is a specialized intervention designed to help children develop and improve their communication skills. It focuses on enhancing speech clarity, language comprehension, expression, fluency, and social communication. Speech therapy also helps children who struggle with feeding and swallowing difficulties.
+        Pediatric Speech Therapy is a specialized intervention designed to help children develop and improve their communication skills. It focuses on enhancing speech clarity, language comprehension, expression, fluency, and social communication. Speech Therapy also helps children who struggle with feeding and swallowing difficulties.
       </p>
       <p className="text-[#456696] text-[22px] leading-relaxed">
         At 8 Senses Pediatric Occupational Therapy Clinic, our expert speech therapists work with children facing challenges such as delayed speech, stammering, articulation difficulties, language disorders, and social communication delays. We create personalized therapy plans to help each child find their voice and confidently express themselves.
@@ -153,7 +153,7 @@ const page = () => {
         <div>
           <Image
             src="/STbannerimg.png" 
-            alt="Children in speech therapy session"
+            alt="Children in Speech Therapy session"
             width={420}
             height={480}
             className="w-full h-full object-cover"
@@ -315,7 +315,7 @@ const page = () => {
         <div className="flex flex-col gap-2">
           <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">What Happens During a Speech Therapy Session?</h2>
           <p className="text-[#456696] text-2xl max-w-7xl font-medium">
-          At 8 Senses, each speech therapy session is carefully structured to make learning fun and effective. Our sessions last for 45 minutes, focusing on improving speech, language, and communication in an engaging way.
+          At 8 Senses, each Speech Therapy session is carefully structured to make learning fun and effective. Our sessions last for 45 minutes, focusing on improving speech, language, and communication in an engaging way.
           </p>
         </div>
       </div>

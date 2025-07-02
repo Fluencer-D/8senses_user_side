@@ -24,7 +24,7 @@ export default function Hero() {
         />
       </div>
 
-      <p className="max-w-2xl font-medium text-xl text-[#456696] px-4 -mt-10 z-20">
+      <p className="max-w-4xl font-medium text-3xl text-[#456696] px-4 -mt-10 z-20">
         Pediatric Occupational Therapy and Speech Therapy Clinic
       </p>
       <p className="max-w-2xl text-2xl text-[#456696] mt-10 px-4">

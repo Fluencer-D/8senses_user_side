@@ -117,7 +117,7 @@ const WhyChoose8Senses = () => {
           <DottedPattern/>
         </div>
         <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">Why Choose 8 Senses?</h2>
-        <p className="text-[#456696] text-xl max-w-5xl font-medium">
+        <p className="text-[#456696] text-3xl max-w-5xl font-medium">
           At 8Senses Pediatric Occupational Therapy and Speech Therapy Clinic, Nashik, we're more than just a 
           therapy clinic, we're your partner in helping your child grow,learn and thrive! Here's why parents trust us:
         </p>

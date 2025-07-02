@@ -19,7 +19,7 @@ const faqs = [
         answer: "We specialize in treating a wide range of developmental disorders and conditions, including but not limited to: Autism Spectrum Disorder (ASD), Attention Deficit Hyperactivity Disorder (ADHD), Sensory Processing Disorder (SPD), Developmental Delays, Cerebral Palsy, Down Syndrome, Speech and Language Delays, Feeding and Swallowing Disorders, and Motor Coordination Disorders."
     },
     {
-        question: "How do I know if my child needs occupational or speech therapy?",
+        question: "How do I know if my child needs occupational or Speech Therapy?",
         answer: "Signs that your child may need therapy include: Delayed speech, language, or communication skills; Difficulty with motor tasks like holding a pencil, using utensils, or coordinating movements; Challenges in sensory processing, such as being overly sensitive to lights, sounds, or touch; Struggles with self-care tasks such as dressing, feeding, or using the toilet; Behavioral issues related to frustration, anxiety, or social interaction difficulties; Feeding difficulties like choking, gagging, or not wanting to eat certain textures."
     },
     {
@@ -27,12 +27,12 @@ const faqs = [
         answer: "Sensory integration therapy helps children who have trouble processing and responding to information from their senses. Our clinic uses specialized equipment and activities to help children better regulate their sensory input, which in turn can improve their behavior, coordination, and ability to focus."
     },
     {
-        question: "What does a typical occupational therapy session look like?",
-        answer: "A typical session lasts between 45 minutes and is customized based on your child's needs. It involves a combination of: Play-based activities to improve fine and gross motor skills; Sensory integration exercises to help children respond better to sensory inputs; Strengthening exercises for coordination and balance; Self-care skill development for tasks like dressing, feeding, and grooming; Parental guidance and training for follow-up activities at home."
+        question: "What does a typical Occupational Therapy session look like?",
+        answer: "A typical session lasts for 45 minutes and is customized based on your child's needs. It involves a combination of: Play-based activities to improve fine and gross motor skills; Sensory integration exercises to help children respond better to sensory inputs; Strengthening exercises for coordination and balance; Self-care skill development for tasks like dressing, feeding, and grooming; Parental guidance and training for follow-up activities at home."
     },
     {
-        question: "How is speech therapy conducted?",
-        answer: "Speech therapy sessions are designed to improve your child's communication, speech, and language skills. It may include: Exercises to strengthen the muscles used for speech; Techniques to improve understanding and use of language; Articulation therapy for clearer speech sounds; Play-based learning to enhance social communication skills; Assistive communication tools for children with limited verbal communication."
+        question: "How is Speech Therapy conducted?",
+        answer: "Speech Therapy sessions are designed to improve your child's communication, speech, and language skills. It may include: Exercises to strengthen the muscles used for speech; Techniques to improve understanding and use of language; Articulation therapy for clearer speech sounds; Play-based learning to enhance social communication skills; Assistive communication tools for children with limited verbal communication."
     },
     {
         question: "How do I schedule an appointment at 8 Senses?",
@@ -60,7 +60,7 @@ const faqs = [
     },
     {
         question: "Do you conduct workshops or community outreach programs?",
-        answer: "Yes, we host regular workshops to raise awareness about pediatric occupational therapy, speech therapy, and developmental disorders. We also conduct free assessments for underprivileged children and offer community outreach programs to ensure access to therapy for all."
+        answer: "Yes, we host regular workshops to raise awareness about pediatric Occupational Therapy, Speech Therapy, and developmental disorders. We also conduct free assessments for underprivileged children and offer community outreach programs to ensure access to therapy for all."
     },
     {
         question: "What is your approach to early intervention?",
@@ -83,8 +83,8 @@ const faqs = [
         answer: "Progress in therapy can be seen in small but meaningful changes over time. Signs of progress may include improvements in speech clarity, motor coordination, social interactions, or behavior. Our therapists will track your child's progress at every session and provide regular updates to keep you informed. We also set clear, measurable goals and adjust the therapy plan as your child grows and develops. Parent feedback is vital, so we encourage you to share any changes you notice at home or in school."
     },
     {
-        question: "Does my child need both occupational and speech therapy?",
-        answer: "This depends on your child's specific challenges. If your child has difficulties with motor skills, daily living tasks, and sensory regulation, occupational therapy may be recommended. If your child struggles with speech, language, or communication, they may benefit from speech therapy. In some cases, children require both services to address a range of developmental issues. After the initial assessment, we will recommend the most suitable therapy or combination of therapies for your child."
+        question: "Does my child need both occupational and Speech Therapy?",
+        answer: "This depends on your child's specific challenges. If your child has difficulties with motor skills, daily living tasks, and sensory regulation, Occupational Therapy may be recommended. If your child struggles with speech, language, or communication, they may benefit from Speech Therapy. In some cases, children require both services to address a range of developmental issues. After the initial assessment, we will recommend the most suitable therapy or combination of therapies for your child."
     },
     {
         question: "How do I prepare my child for their first therapy session?",
