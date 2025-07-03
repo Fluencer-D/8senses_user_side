@@ -12,17 +12,20 @@ import BlogSection from '../components/blogCard/page'
 const Blogs = () => {
   return (
     <>
-    <Navbar/>
-    <Banner
+      <Navbar />
+      <Banner
         title="Blogs"
         description="Expert tips and trusted advice on child health, parenting, and nutrition—for the best start in life."
         imageSrc={BlogBanner}
-    />
-    <div className='mt-[120px]'>
-    <BlogSection/>
-    </div>
-    <Consultation/>
-    <Footer/>
+      />
+      <div className='mt-[120px]'>
+        <BlogSection />
+      </div>
+      <Consultation />
+
+
+
+      <Footer />
     </>
   )
 }

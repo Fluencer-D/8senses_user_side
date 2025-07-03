@@ -44,6 +44,7 @@ const BlogPost = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         // Check if the response has a data property (from your sample JSON structure)
         const blogData = data.data || data;
         console.log("Blog data:", blogData);
