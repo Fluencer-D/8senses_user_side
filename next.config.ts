@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
-  assetPrefix: '/',
   trailingSlash: true,
   experimental: {
     serverActions: true,
