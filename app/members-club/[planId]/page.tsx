@@ -1,7 +1,5 @@
 "use client"
-
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
 import { ChevronLeft } from "lucide-react"
@@ -52,6 +50,7 @@ const MembershipConfirmation: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [debugInfo, setDebugInfo] = useState<string>("")
 
   // Authentication states
   const [user, setUser] = useState<User | null>(null)
@@ -66,78 +65,161 @@ const MembershipConfirmation: React.FC = () => {
     planId: planId,
   })
 
-  // Check authentication status on component mount
+  // API Base URL - Make sure this matches your backend
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"
+
+  // Enhanced API request function with better debugging
+  const makeApiRequest = async (endpoint: string, options: RequestInit = {}) => {
+    const url = `${API_BASE_URL}${endpoint}`
+    console.log(`🔄 Making request to: ${url}`)
+    console.log(`📤 Request options:`, {
+      method: options.method || "GET",
+      headers: options.headers,
+      body: options.body ? JSON.parse(options.body as string) : null,
+    })
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          ...options.headers,
+        },
+      })
+
+      console.log(`📥 Response status: ${response.status} ${response.statusText}`)
+      console.log(`📥 Response headers:`, Object.fromEntries(response.headers.entries()))
+
+      // Get response text first
+      const responseText = await response.text()
+      console.log(`📥 Raw response (first 500 chars):`, responseText.substring(0, 500))
+
+      // Check if response is HTML (error page)
+      if (responseText.includes("<!DOCTYPE") || responseText.includes("<html")) {
+        console.error("❌ Server returned HTML instead of JSON")
+        throw new Error(
+          `Server returned HTML error page. Status: ${response.status}. This usually means the API endpoint doesn't exist or there's a server configuration issue.`,
+        )
+      }
+
+      // Try to parse JSON
+      let data
+      try {
+        data = JSON.parse(responseText)
+      } catch (parseError) {
+        console.error("❌ JSON parse error:", parseError)
+        throw new Error(`Invalid JSON response: ${responseText.substring(0, 100)}...`)
+      }
+
+      if (!response.ok) {
+        console.error("❌ API Error:", data)
+        throw new Error(data.error || data.message || `HTTP ${response.status}: ${response.statusText}`)
+      }
+
+      console.log("✅ API Success:", data)
+      return data
+    } catch (error) {
+      console.error(`❌ Request failed for ${url}:`, error)
+      throw error
+    }
+  }
+
+  // Test API connectivity
+  const testApiConnection = async () => {
+    try {
+      setDebugInfo("Testing API connection...")
+
+      // Test basic connectivity
+      const response = await fetch(API_BASE_URL)
+      console.log(`API Base URL test: ${response.status}`)
+
+      // Test auth endpoint
+      const token = localStorage.getItem("token")
+      if (token) {
+        await makeApiRequest("/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        setDebugInfo("API connection successful")
+      }
+    } catch (error: any) {
+      console.error("API connection test failed:", error)
+      setDebugInfo(`API connection failed: ${error.message}`)
+    }
+  }
+
+  // Check authentication status
   useEffect(() => {
     const checkAuthStatus = async () => {
-      const token = localStorage.getItem("token")
-      const savedUser = localStorage.getItem("user")
+      try {
+        const token = localStorage.getItem("token")
 
-      if (token && savedUser) {
-        try {
-          // Verify token is still valid
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/auth/me`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            },
-          )
-
-          if (response.ok) {
-            const data = await response.json()
-            setUser(data.data)
-            setIsAuthenticated(true)
-
-            // Pre-fill form with user data
-            setFormData((prev) => ({
-              ...prev,
-              name: `${data.data.firstName} ${data.data.lastName}`,
-              email: data.data.email,
-              phone: data.data.phone || "",
-            }))
-          } else {
-            // Token is invalid, redirect to login
-            setShowAuthModal(true)
-            setAuthMode("login")
-          }
-        } catch (error) {
-          console.error("Auth verification failed:", error)
+        if (!token) {
+          console.log("No token found")
           setShowAuthModal(true)
           setAuthMode("login")
+          setLoading(false)
+          return
         }
-      } else {
-        // No token, show auth modal
+
+        setDebugInfo("Verifying authentication...")
+
+        const data = await makeApiRequest("/api/auth/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        setUser(data.data)
+        setIsAuthenticated(true)
+        setDebugInfo("Authentication verified")
+
+        // Pre-fill form
+        setFormData((prev) => ({
+          ...prev,
+          name: `${data.data.firstName} ${data.data.lastName}`,
+          email: data.data.email,
+          phone: data.data.phone || "",
+        }))
+      } catch (error: any) {
+        console.error("Auth verification failed:", error)
+        setDebugInfo(`Auth failed: ${error.message}`)
+
+        // Clear invalid token
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
         setShowAuthModal(true)
         setAuthMode("login")
+      } finally {
+        setLoading(false)
       }
     }
 
     checkAuthStatus()
   }, [])
 
+  // Fetch plan details
   useEffect(() => {
     const fetchPlanDetails = async () => {
+      if (!planId) return
+
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/subscriptions/plans/${planId}`,
-        )
-        const data = await response.json()
-        if (response.ok) {
-          setPlan(data.data)
-        } else {
-          setError(data.message || "Failed to load plan details")
-        }
-      } catch (err) {
-        setError("An error occurred while fetching plan details")
-      } finally {
-        setLoading(false)
+        setDebugInfo(`Fetching plan details for ID: ${planId}`)
+
+        const data = await makeApiRequest(`/api/subscriptions/plans/${planId}`)
+
+        setPlan(data.data)
+        setDebugInfo("Plan details loaded")
+      } catch (err: any) {
+        console.error("Plan fetch error:", err)
+        setError(`Failed to load plan: ${err.message}`)
+        setDebugInfo(`Plan fetch failed: ${err.message}`)
       }
     }
 
-    if (planId) {
-      fetchPlanDetails()
-    }
+    fetchPlanDetails()
   }, [planId])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,22 +231,40 @@ const MembershipConfirmation: React.FC = () => {
     setUser(userData)
     setIsAuthenticated(true)
     setShowAuthModal(false)
+    setDebugInfo("Authentication successful")
 
-    // Pre-fill form with authenticated user data
     setFormData((prev) => ({
       ...prev,
       name: `${userData.firstName} ${userData.lastName}`,
       email: userData.email,
-      phone: prev.phone, // Keep existing phone if any
+      phone: prev.phone,
     }))
   }
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve, reject) => {
+  const loadRazorpayScript = (): Promise<boolean> => {
+    return new Promise((resolve) => {
+      // Check if Razorpay is already loaded
+      if (typeof (window as any).Razorpay !== "undefined") {
+        console.log("✅ Razorpay already loaded")
+        resolve(true)
+        return
+      }
+
+      console.log("📦 Loading Razorpay script...")
       const script = document.createElement("script")
       script.src = "https://checkout.razorpay.com/v1/checkout.js"
-      script.onload = () => resolve(true)
-      script.onerror = (error) => reject(new Error("Failed to load Razorpay script"))
+      script.async = true
+
+      script.onload = () => {
+        console.log("✅ Razorpay script loaded successfully")
+        resolve(true)
+      }
+
+      script.onerror = (error) => {
+        console.error("❌ Failed to load Razorpay script:", error)
+        resolve(false)
+      }
+
       document.body.appendChild(script)
     })
   }
@@ -176,123 +276,158 @@ const MembershipConfirmation: React.FC = () => {
     }
 
     setIsSubmitting(true)
+    setError("")
+    setDebugInfo("Starting payment process...")
+
     try {
       const token = localStorage.getItem("token")
-
-      // Step 1: Create the subscription record with authenticated user
-      const subscriptionResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/subscriptions`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            plan: formData.planId,
-            paymentMethod: "card",
-          }),
-        },
-      )
-
-      const subscriptionData = await subscriptionResponse.json();
-      console.log(subscriptionData)
-      if (!subscriptionResponse.ok) {
-        throw new Error(subscriptionData.error || "Subscription creation failed")
+      if (!token) {
+        throw new Error("No authentication token found")
       }
 
-      // Step 2: Initiate Razorpay payment
-      const paymentResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/payments/subscription`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            planId: formData.planId,
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            subscriptionId: subscriptionData.data._id,
-          }),
-        },
-      )
-
-      const paymentData = await paymentResponse.json()
-      console.log("Payment data:", paymentData)
-
-      if (!paymentResponse.ok) {
-        throw new Error(paymentData.message || "Payment initiation failed")
-      }
-
-      // Step 3: Load Razorpay script if not already loaded
+      // Step 1: Load Razorpay script first
+      setDebugInfo("Loading Razorpay SDK...")
       const isScriptLoaded = await loadRazorpayScript()
       if (!isScriptLoaded) {
-        throw new Error("Razorpay SDK failed to load")
+        throw new Error("Failed to load Razorpay SDK. Please check your internet connection.")
       }
 
-      // Step 4: Initialize Razorpay checkout
+      // Step 2: Create payment order (NOT subscription yet)
+      setDebugInfo("Creating payment order...")
+      const paymentData = await makeApiRequest("/api/payments/subscription", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          planId: formData.planId,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+        }),
+      })
+
+      setDebugInfo("Payment order created successfully")
+
+      // Step 3: Configure Razorpay options with UPI and other payment methods
       const options = {
         key: paymentData.data.key,
         amount: paymentData.data.amount,
-        currency: paymentData.data.currency,
-        name: paymentData.data.name,
-        description: paymentData.data.description,
+        currency: paymentData.data.currency || "INR",
+        name: paymentData.data.name || "8 Senses",
+        description: paymentData.data.description || `${plan?.name} Subscription`,
         order_id: paymentData.data.order.id,
-        handler: async (response: any) => {
-          try {
-            // Step 5: Verify payment with the backend
-            const verifyResponse = await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/payments/subscription/verify`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  razorpay_order_id: response.razorpay_order_id,
-                  razorpay_payment_id: response.razorpay_payment_id,
-                  razorpay_signature: response.razorpay_signature,
-                  subscriptionId: subscriptionData.data._id,
-                }),
+
+        // Enable all payment methods including UPI
+        method: paymentData.data.method || {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+          emi: false,
+          paylater: false,
+        },
+
+        // UPI configuration
+        config: paymentData.data.config || {
+          display: {
+            blocks: {
+              utib: {
+                name: "Pay using UPI",
+                instruments: [
+                  {
+                    method: "upi",
+                  },
+                ],
               },
-            )
+              other: {
+                name: "Other Payment Methods",
+                instruments: [
+                  {
+                    method: "card",
+                  },
+                  {
+                    method: "netbanking",
+                  },
+                  {
+                    method: "wallet",
+                  },
+                ],
+              },
+            },
+            hide: [
+              {
+                method: "emi",
+              },
+            ],
+            sequence: ["block.utib", "block.other"],
+            preferences: {
+              show_default_blocks: false,
+            },
+          },
+        },
 
-            const verifyData = await verifyResponse.json()
-            if (!verifyResponse.ok) {
-              throw new Error(verifyData.message || "Payment verification failed")
-            }
+        handler: async (response: any) => {
+          setDebugInfo("Payment successful, creating subscription...")
 
-            // Step 6: Redirect to success page
+          try {
+            // Step 4: Create subscription after successful payment
+            const subscriptionData = await makeApiRequest("/api/subscriptions", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                plan: formData.planId,
+                paymentMethod: "razorpay",
+                transactionId: response.razorpay_payment_id,
+                razorpayOrderId: response.razorpay_order_id,
+                razorpaySignature: response.razorpay_signature,
+              }),
+            })
+
+            setDebugInfo("Subscription created successfully")
             router.push(`/payment-success?plan=${planId}&subscription=${subscriptionData.data._id}`)
-          } catch (err) {
-            setError("Payment verification failed. Please contact support.")
-            console.error("Payment verification error:", err)
+          } catch (err: any) {
+            console.error("Post-payment error:", err)
+            setError(`Subscription creation failed: ${err.message}`)
+            setDebugInfo(`Subscription creation failed: ${err.message}`)
           }
         },
+
         prefill: {
           name: formData.name,
           email: formData.email,
           contact: formData.phone,
         },
-        notes: {
-          planId: formData.planId,
-          subscriptionId: subscriptionData.data._id,
-        },
+
         theme: {
           color: "#3399cc",
         },
+
+        modal: {
+          ondismiss: () => {
+            setIsSubmitting(false)
+            setDebugInfo("Payment cancelled by user")
+          },
+        },
       }
 
+      // Step 4: Open Razorpay
+      setDebugInfo("Opening Razorpay checkout with UPI support...")
       const rzp = new (window as any).Razorpay(options)
+
+      rzp.on("payment.failed", (response: any) => {
+        setError(`Payment failed: ${response.error.description}`)
+        setDebugInfo(`Payment failed: ${response.error.code} - ${response.error.description}`)
+        setIsSubmitting(false)
+      })
+
       rzp.open()
     } catch (err: any) {
-      setError(err.message || "An error occurred during payment. Please try again.")
-      console.error("Payment error:", err)
-    } finally {
+      console.error("Payment initiation error:", err)
+      setError(err.message)
+      setDebugInfo(`Payment initiation failed: ${err.message}`)
       setIsSubmitting(false)
     }
   }
@@ -312,7 +447,22 @@ const MembershipConfirmation: React.FC = () => {
     }
   }
 
-  // Show auth modal if not authenticated
+  if (loading) {
+    return (
+      <div className="max-w-3xl mx-auto p-4">
+        <div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <p className="ml-4 text-gray-600">Loading...</p>
+        </div>
+        {debugInfo && (
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm">
+            <strong>Status:</strong> {debugInfo}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="max-w-3xl mx-auto p-4">
@@ -327,7 +477,20 @@ const MembershipConfirmation: React.FC = () => {
           >
             Sign In / Sign Up
           </button>
+
+          <button
+            onClick={testApiConnection}
+            className="ml-4 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded text-sm"
+          >
+            Test API
+          </button>
         </div>
+
+        {debugInfo && (
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm">
+            <strong>Debug:</strong> {debugInfo}
+          </div>
+        )}
 
         <AuthModal
           isOpen={showAuthModal}
@@ -339,23 +502,46 @@ const MembershipConfirmation: React.FC = () => {
     )
   }
 
-  if (loading) {
+  if (error && !plan) {
     return (
       <div className="max-w-3xl mx-auto p-4">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <strong>Error:</strong> {error}
         </div>
-      </div>
-    )
-  }
 
-  if (error) {
-    return (
-      <div className="max-w-3xl mx-auto p-4">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">{error}</div>
-        <button onClick={() => router.push("/members-club")} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
-          Back to Plans
-        </button>
+        {debugInfo && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm">
+            <strong>Debug:</strong> {debugInfo}
+          </div>
+        )}
+
+        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-sm">
+          <strong>Troubleshooting Steps:</strong>
+          <ol className="list-decimal list-inside mt-2 space-y-1">
+            <li>
+              Verify API URL: <code className="bg-gray-100 px-1 rounded">{API_BASE_URL}</code>
+            </li>
+            <li>Check if server is running and accessible</li>
+            <li>
+              Verify the subscription route exists:{" "}
+              <code className="bg-gray-100 px-1 rounded">POST /api/subscriptions</code>
+            </li>
+            <li>Check authentication middleware</li>
+            <li>Review server logs for errors</li>
+          </ol>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => router.push("/members-club")}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Back to Plans
+          </button>
+          <button onClick={testApiConnection} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+            Test API Connection
+          </button>
+        </div>
       </div>
     )
   }
@@ -363,8 +549,13 @@ const MembershipConfirmation: React.FC = () => {
   if (!plan) {
     return (
       <div className="max-w-3xl mx-auto p-4">
-        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">Plan not found</div>
-        <button onClick={() => router.push("/members-club")} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+          Plan not found for ID: {planId}
+        </div>
+        <button
+          onClick={() => router.push("/members-club")}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
           Back to Plans
         </button>
       </div>
@@ -375,7 +566,7 @@ const MembershipConfirmation: React.FC = () => {
     <div className="max-w-3xl mx-auto p-4">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="beforeInteractive" />
 
-      <Link href="/members-club" className="flex items-center text-blue-800 mb-4">
+      <Link href="/members-club" className="flex items-center text-blue-800 mb-4 hover:text-blue-600">
         <ChevronLeft className="w-5 h-5" />
         <span>Back to Plans</span>
       </Link>
@@ -385,6 +576,43 @@ const MembershipConfirmation: React.FC = () => {
         Secure your spot — confirm your membership and start enjoying exclusive perks!
       </p>
 
+      {/* Status Messages */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+          <strong>Error:</strong> {error}
+        </div>
+      )}
+
+      {debugInfo && (
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm">
+          <strong>Status:</strong> {debugInfo}
+        </div>
+      )}
+
+      {/* Payment Methods Info */}
+      <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <h3 className="font-medium text-green-800 mb-2">💳 Available Payment Methods</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm text-green-700">
+          <div className="flex items-center gap-2">
+            <span>📱</span>
+            <span>UPI (PhonePe, GPay)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>💳</span>
+            <span>Credit/Debit Cards</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>🏦</span>
+            <span>Net Banking</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>👛</span>
+            <span>Digital Wallets</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Plan Details */}
       <div className="mb-8">
         <div className={`rounded-lg p-6 text-white ${plan.order === 3 ? "bg-blue-900" : "bg-[#245BA7]"}`}>
           <h2 className="text-xl font-medium mb-1">{plan.name}</h2>
@@ -419,6 +647,7 @@ const MembershipConfirmation: React.FC = () => {
         </div>
       </div>
 
+      {/* Form */}
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -428,7 +657,7 @@ const MembershipConfirmation: React.FC = () => {
       >
         <div>
           <label htmlFor="name" className="block text-blue-900 font-medium mb-2">
-            Full Name
+            Full Name *
           </label>
           <input
             type="text"
@@ -441,9 +670,10 @@ const MembershipConfirmation: React.FC = () => {
             required
           />
         </div>
+
         <div>
           <label htmlFor="email" className="block text-blue-900 font-medium mb-2">
-            Email
+            Email *
           </label>
           <input
             type="email"
@@ -456,9 +686,10 @@ const MembershipConfirmation: React.FC = () => {
             required
           />
         </div>
+
         <div>
           <label htmlFor="phone" className="block text-blue-900 font-medium mb-2">
-            Phone Number
+            Phone Number *
           </label>
           <input
             type="tel"
@@ -471,30 +702,30 @@ const MembershipConfirmation: React.FC = () => {
             required
           />
         </div>
-        <input type="hidden" name="planId" value={planId} />
+
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full py-4 bg-[#C83C92] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center ${
+          className={`w-full py-4 bg-[#C83C92] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center transition-colors ${
             isSubmitting ? "opacity-70 cursor-not-allowed" : ""
           }`}
         >
-          {isSubmitting ? "Processing..." : "Proceed to Payment"}
-          {!isSubmitting && (
-            <svg
-              className="ml-2 w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
+          {isSubmitting ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+              Processing...
+            </>
+          ) : (
+            <>
+              Pay with UPI, Cards & More
+              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </>
           )}
         </button>
       </form>
 
-      {/* Authentication Modal */}
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}

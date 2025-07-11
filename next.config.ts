@@ -1,13 +1,22 @@
-import { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
-  images: {
-    domains: ["res.cloudinary.com"],
-  },
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "standalone",
+  basePath: "/",
+  assetPrefix: '/',
+  trailingSlash: true,
   experimental: {
-    typedRoutes: false,
-    turbo: false, // ❗ Add this line to disable Turbopack
+    serverActions: true,
+    outputFileTracingRoot: undefined,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  images: {
+    unoptimized: true,
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

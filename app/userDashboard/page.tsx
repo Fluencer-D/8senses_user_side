@@ -1,23 +1,19 @@
 "use client"
-
-import type React from "react"
-import { useState, useEffect } from "react"
+import React from "react"
+import { useState, useEffect, useRef } from "react"
 import {
   Calendar,
   Mail,
   ChefHat,
-  Users,
   Video,
-  WorkflowIcon as Workshop,
+  WorkflowIcon as WorkshopIcon,
   Gamepad2,
   MessageSquare,
-  Leaf,
   Download,
   Star,
   Crown,
   Bell,
   Play,
-  CalendarDays,
   FileText,
   Settings,
   X,
@@ -28,42 +24,141 @@ import {
   Printer,
   Share2,
   BookOpen,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
+  Loader2,
+  Leaf,
+  Clock,
+  CalendarDays,
+  Heart,
+  Sparkles,
 } from "lucide-react"
+import Navbar from "../components/navbar/page"
 
-// API base URL - you can move this to environment variables
+// API Configuration
 const API_BASE_URL = "http://localhost:5000/api"
 
-// API helper function
-const apiCall = async (endpoint: string, options: RequestInit = {}) => {
-  const token = localStorage.getItem("token") // Assuming JWT token is stored in localStorage
-
-  console.log("endpoint",API_BASE_URL,endpoint)
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token ? `Bearer ${token}` : "",
-      ...options.headers,
-    },
-    ...options,
-  })
-
-  if (!response.ok) {
-    throw new Error(`API Error: ${response.statusText}`)
-  }
-
-  return response.json()
+// Types based on your API response
+interface User {
+  name: string
+  email: string
+  role: string
+  membership: string
+  subscriptionStart?: string
+  subscriptionEnd?: string
 }
 
-// Inline UI Components
+interface Recipe {
+  _id: string
+  title: string
+  description: string
+  category: string
+  image: string
+  prepTime: string
+  cookTime: string
+  servings: number
+  ingredients: string[]
+  instructions: string[]
+  downloads: number
+  isGlutenFree: boolean
+  tags: string[]
+  nutritionFacts: {
+    calories: number
+    protein: number
+    carbs: number
+    fat: number
+    fiber: number
+  }
+  createdAt: string
+  updatedAt: string
+}
+
+interface Workshop {
+  _id: string
+  title: string
+  description: string
+  instructor: string
+  date: string
+  startTime: string
+  endTime: string
+  location: string
+  maxParticipants: number
+  currentParticipants: number
+  price: number
+  memberDiscount: number
+  category: string
+  status: string
+  image: string
+  materials: string[]
+  prerequisites: string[]
+  availableSpots: number
+}
+
+interface Webinar {
+  _id: string
+  title: string
+  speaker: string
+  date: string
+  duration: number
+  startTime: string
+  maxRegistrations: number
+  status: string
+  url: string
+  thumbnail: string
+  description: string
+  tags: string[]
+  participantsCount: number
+  availableSlots: number
+}
+
+interface Email {
+  _id: string
+  subject: string
+  content: string
+  createdAt: string
+}
+
+interface DetoxPlan {
+  _id: string
+  title: string
+  description: string
+  duration: string
+  meals: {
+    _id: string
+    day: string
+    mealPlan: string
+  }[]
+  createdBy: string
+  createdAt: string
+  updatedAt: string
+}
+
+interface DashboardData {
+  isSubscribed: boolean
+  user: User
+  recipes: Recipe[]
+  workshops: Workshop[]
+  webinars: Webinar[]
+  emails: Email[]
+  detoxPlans: DetoxPlan[]
+}
+
+// Custom Components (same as before)
 const Card = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${className}`}>{children}</div>
 )
 
 const CardHeader = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`p-6 pb-3 ${className}`}>{children}</div>
+  <div className={`p-6 pb-4 ${className}`}>{children}</div>
 )
 
 const CardContent = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div className={`p-6 pt-0 ${className}`}>{children}</div>
+)
+
+const CardFooter = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={`p-6 pt-0 ${className}`}>{children}</div>
 )
 
@@ -73,10 +168,6 @@ const CardTitle = ({ children, className = "" }: { children: React.ReactNode; cl
 
 const CardDescription = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <p className={`text-sm text-gray-600 ${className}`}>{children}</p>
-)
-
-const CardFooter = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={`p-6 pt-0 ${className}`}>{children}</div>
 )
 
 const Button = ({
@@ -98,13 +189,11 @@ const Button = ({
 }) => {
   const baseClasses =
     "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none"
-
   const variants = {
-    default: "bg-blue-600 text-white hover:bg-blue-700",
-    outline: "border border-gray-300 bg-white hover:bg-gray-50",
-    ghost: "hover:bg-gray-100",
+    default: "bg-[#C83C92]  text-white hover:bg-blue-700",
+    outline: "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700",
+    ghost: "hover:bg-gray-100 text-gray-700",
   }
-
   const sizes = {
     default: "h-10 py-2 px-4",
     sm: "h-9 px-3 text-sm",
@@ -133,13 +222,12 @@ const Badge = ({
   className?: string
 }) => {
   const variants = {
-    default: "bg-blue-600 text-white",
+    default: "bg-[#C83C92]  text-white",
     secondary: "bg-gray-100 text-gray-800",
   }
-
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${variants[variant]} ${className}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${variants[variant]} ${className}`}
     >
       {children}
     </span>
@@ -151,19 +239,19 @@ const Avatar = ({ children, className = "" }: { children: React.ReactNode; class
 )
 
 const AvatarImage = ({ src, alt }: { src: string; alt: string }) => (
-  <img className="aspect-square h-full w-full" src={src || "/placeholder.svg"} alt={alt} />
+  <img className="aspect-square h-full w-full object-cover" src={src || "/placeholder.svg"} alt={alt} />
 )
 
 const AvatarFallback = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-100">
-    <span className="text-sm font-medium text-gray-600">{children}</span>
+  <div className="flex h-full w-full items-center justify-center rounded-full bg-gray-100 text-sm font-medium text-gray-600">
+    {children}
   </div>
 )
 
 const Progress = ({ value, className = "" }: { value: number; className?: string }) => (
   <div className={`relative h-4 w-full overflow-hidden rounded-full bg-gray-200 ${className}`}>
     <div
-      className="h-full w-full flex-1 bg-blue-600 transition-all"
+      className="h-full w-full flex-1 bg-[#C83C92]  transition-all"
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     />
   </div>
@@ -179,35 +267,40 @@ const Dialog = ({
   children: React.ReactNode
 }) => {
   if (!open) return null
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="fixed inset-0 bg-black/50" onClick={() => onOpenChange(false)} />
-      <div className="relative bg-white rounded-lg shadow-lg max-w-lg w-full mx-4 max-h-[90vh] overflow-auto">
-        {children}
-      </div>
+      <div className="relative z-50 max-h-[90vh] w-full max-w-lg overflow-auto">{children}</div>
     </div>
   )
 }
 
 const DialogContent = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <div className={className}>{children}</div>
+  <div className={`bg-white rounded-lg shadow-lg ${className}`}>{children}</div>
 )
 
-const DialogHeader = ({ children }: { children: React.ReactNode }) => <div className="p-6 pb-4">{children}</div>
-
-const DialogTitle = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="text-lg font-semibold">{children}</h2>
+const DialogHeader = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div className={`p-6 pb-4 ${className}`}>{children}</div>
 )
 
-const DialogDescription = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-sm text-gray-600 mt-1">{children}</p>
+const DialogTitle = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <h2 className={`text-lg font-semibold leading-none tracking-tight ${className}`}>{children}</h2>
 )
 
-const DialogFooter = ({ children }: { children: React.ReactNode }) => <div className="p-6 pt-4">{children}</div>
+const DialogDescription = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <p className={`text-sm text-gray-600 mt-2 ${className}`}>{children}</p>
+)
 
 const DialogClose = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <button className={`absolute top-4 right-4 ${className}`}>{children}</button>
+  <button
+    className={`absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 ${className}`}
+  >
+    {children}
+  </button>
+)
+
+const DialogFooter = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <div className={`p-6 pt-0 ${className}`}>{children}</div>
 )
 
 const Input = ({
@@ -224,11 +317,10 @@ const Input = ({
   [key: string]: any
 }) => (
   <input
-    type="text"
+    className={`flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
     placeholder={placeholder}
     value={value}
     onChange={onChange}
-    className={`flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className}`}
     {...props}
   />
 )
@@ -241,17 +333,34 @@ const Select = ({
   value: string
   onValueChange: (value: string) => void
   children: React.ReactNode
-}) => (
-  <div className="relative">
-    <select
-      value={value}
-      onChange={(e) => onValueChange(e.target.value)}
-      className="flex h-10 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-    >
-      {children}
-    </select>
-  </div>
-)
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <div className="relative">
+      <button
+        className="flex h-10 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{value}</span>
+        <svg className="h-4 w-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {isOpen && (
+        <div className="absolute top-full z-50 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-md">
+          {React.Children.map(children, (child) =>
+            React.cloneElement(child as React.ReactElement, {
+              onClick: () => {
+                onValueChange((child as React.ReactElement).props.value)
+                setIsOpen(false)
+              },
+            }),
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
 
 const SelectTrigger = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <div className={className}>{children}</div>
@@ -261,189 +370,324 @@ const SelectValue = ({ placeholder }: { placeholder: string }) => <span>{placeho
 
 const SelectContent = ({ children }: { children: React.ReactNode }) => <>{children}</>
 
-const SelectItem = ({ value, children }: { value: string; children: React.ReactNode }) => (
-  <option value={value}>{children}</option>
+const SelectItem = ({
+  value,
+  children,
+  onClick,
+}: {
+  value: string
+  children: React.ReactNode
+  onClick?: () => void
+}) => (
+  <div
+    className="relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-gray-100 focus:bg-gray-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+    onClick={onClick}
+  >
+    {children}
+  </div>
 )
 
+// Video Player Component
+const VideoPlayer = ({
+  src,
+  thumbnail,
+  title,
+}: {
+  src: string
+  thumbnail?: string
+  title?: string
+}) => {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [showControls, setShowControls] = useState(true)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const handleLoadedData = () => {
+      setIsLoading(false)
+      setDuration(video.duration)
+    }
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(video.currentTime)
+    }
+
+    const handleError = () => {
+      setIsLoading(false)
+      setHasError(true)
+    }
+
+    const handlePlay = () => setIsPlaying(true)
+    const handlePause = () => setIsPlaying(false)
+
+    video.addEventListener("loadeddata", handleLoadedData)
+    video.addEventListener("timeupdate", handleTimeUpdate)
+    video.addEventListener("error", handleError)
+    video.addEventListener("play", handlePlay)
+    video.addEventListener("pause", handlePause)
+
+    return () => {
+      video.removeEventListener("loadeddata", handleLoadedData)
+      video.removeEventListener("timeupdate", handleTimeUpdate)
+      video.removeEventListener("error", handleError)
+      video.removeEventListener("play", handlePlay)
+      video.removeEventListener("pause", handlePause)
+    }
+  }, [src])
+
+  const togglePlay = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (isPlaying) {
+      video.pause()
+    } else {
+      video.play()
+    }
+  }
+
+  const toggleMute = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    video.muted = !video.muted
+    setIsMuted(video.muted)
+  }
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const video = videoRef.current
+    if (!video) return
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const clickX = e.clientX - rect.left
+    const newTime = (clickX / rect.width) * duration
+    video.currentTime = newTime
+  }
+
+  const toggleFullscreen = () => {
+    const video = videoRef.current
+    if (!video) return
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen()
+    } else {
+      video.requestFullscreen()
+    }
+  }
+
+  const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`
+  }
+
+  if (hasError) {
+    return (
+      <div className="aspect-video w-full bg-gray-900 flex items-center justify-center text-white">
+        <div className="text-center">
+          <Video className="h-12 w-12 mx-auto mb-4 opacity-50" />
+          <p className="text-sm">Failed to load video</p>
+          <p className="text-xs opacity-75 mt-1">Please check the video URL</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="relative aspect-video w-full bg-black group"
+      onMouseEnter={() => setShowControls(true)}
+      onMouseLeave={() => setShowControls(false)}
+    >
+      <video
+        ref={videoRef}
+        className="w-full h-full object-contain"
+        poster={thumbnail}
+        preload="metadata"
+        crossOrigin="anonymous"
+      >
+        <source src={src} type="video/mp4" />
+        <source src={src} type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Loading Overlay */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-center text-white">
+            <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
+            <p className="text-sm">Loading video...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Play Button Overlay */}
+      {!isPlaying && !isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <button onClick={togglePlay} className="bg-black/50 hover:bg-black/70 rounded-full p-4 transition-colors">
+            <Play className="h-12 w-12 text-white fill-white" />
+          </button>
+        </div>
+      )}
+
+      {/* Controls */}
+      {showControls && !isLoading && (
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+          {/* Progress Bar */}
+          <div className="w-full h-1 bg-white/30 rounded-full mb-4 cursor-pointer" onClick={handleSeek}>
+            <div
+              className="h-full bg-blue-500 rounded-full transition-all"
+              style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+            />
+          </div>
+
+          {/* Control Buttons */}
+          <div className="flex items-center justify-between text-white">
+            <div className="flex items-center gap-3">
+              <button onClick={togglePlay} className="hover:bg-white/20 rounded-full p-2 transition-colors">
+                {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-white" />}
+              </button>
+
+              <button onClick={toggleMute} className="hover:bg-white/20 rounded-full p-2 transition-colors">
+                {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+              </button>
+
+              <span className="text-sm">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </span>
+            </div>
+
+            <button onClick={toggleFullscreen} className="hover:bg-white/20 rounded-full p-2 transition-colors">
+              <Maximize className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function UserDashboard() {
-  const [activeTab, setActiveTab] = useState("overview")
+  // State for API data
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // User and dashboard data
-  const [userData, setUserData] = useState<any>(null)
-  const [dashboardData, setDashboardData] = useState<any>(null)
-
-  // Feature-specific data
-  const [emailArchive, setEmailArchive] = useState<any[]>([])
-  const [recipes, setRecipes] = useState<any[]>([])
-  const [webinars, setWebinars] = useState<any[]>([])
-  const [expertSessions, setExpertSessions] = useState<any[]>([])
-
-  // Modal states
-  const [selectedVideo, setSelectedVideo] = useState<any>(null)
+  // UI State
+  const [selectedVideo, setSelectedVideo] = useState<Webinar | null>(null)
   const [showAllRecipes, setShowAllRecipes] = useState(false)
   const [showAllEmails, setShowAllEmails] = useState(false)
-  const [selectedRecipe, setSelectedRecipe] = useState<any>(null)
-  const [selectedEmail, setSelectedEmail] = useState<any>(null)
-
-  // Search states
+  const [showAllDetoxPlans, setShowAllDetoxPlans] = useState(false)
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null)
+  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null)
+  const [selectedDetoxPlan, setSelectedDetoxPlan] = useState<DetoxPlan | null>(null)
   const [recipeSearchQuery, setRecipeSearchQuery] = useState("")
   const [recipeCategory, setRecipeCategory] = useState("all")
   const [emailSearchQuery, setEmailSearchQuery] = useState("")
+  const [detoxSearchQuery, setDetoxSearchQuery] = useState("")
 
-  const isPremium = userData?.membership === "premium plan"
+  // Check if user has premium membership
+  const isPremium = dashboardData?.user?.membership === "premium plan"
 
-  // Fetch dashboard data on component mount
-  useEffect(() => {
-    fetchDashboardData()
-  }, [])
-
+  // Fetch dashboard data
   const fetchDashboardData = async () => {
     try {
       setLoading(true)
       setError(null)
+      const token = localStorage.getItem("token") // Adjust based on your auth implementation
+      const response = await fetch(`${API_BASE_URL}/users/dashboard`, {
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      })
 
-      // Fetch main dashboard data
-      const dashboardResponse = await apiCall("/overview")
-      setDashboardData(dashboardResponse.data)
-      setUserData(dashboardResponse.data.user)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
 
-      // Set individual data arrays
-      setEmailArchive(dashboardResponse.data.recentEmails || [])
-      setRecipes(dashboardResponse.data.popularRecipes || [])
-      setWebinars(dashboardResponse.data.upcomingWebinars || [])
-      setExpertSessions(dashboardResponse.data.upcomingAppointments || [])
+      const result = await response.json()
+      if (result.success) {
+        setDashboardData(result.data)
+      } else {
+        throw new Error("Failed to fetch dashboard data")
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch dashboard data")
       console.error("Dashboard fetch error:", err)
+      setError(err instanceof Error ? err.message : "Failed to fetch dashboard data")
     } finally {
       setLoading(false)
     }
   }
 
-  // Email API functions
-  const fetchAllEmails = async () => {
-    try {
-      const response = await apiCall("/dashboard/emails")
-      return response.data
-    } catch (err) {
-      console.error("Failed to fetch emails:", err)
-      return []
-    }
+  useEffect(() => {
+    fetchDashboardData()
+  }, [])
+
+  // Filter recipes based on search query and category
+  const filteredRecipes =
+    dashboardData?.recipes?.filter((recipe) => {
+      const matchesSearch = recipe.title.toLowerCase().includes(recipeSearchQuery.toLowerCase())
+      const matchesCategory = recipeCategory === "all" || recipe.category.toLowerCase() === recipeCategory.toLowerCase()
+      return matchesSearch && matchesCategory
+    }) || []
+
+  // Filter emails based on search query
+  const filteredEmails =
+    dashboardData?.emails?.filter(
+      (email) =>
+        email.subject.toLowerCase().includes(emailSearchQuery.toLowerCase()) ||
+        email.content.toLowerCase().includes(emailSearchQuery.toLowerCase()),
+    ) || []
+
+  // Filter detox plans based on search query
+  const filteredDetoxPlans =
+    dashboardData?.detoxPlans?.filter(
+      (plan) =>
+        plan.title.toLowerCase().includes(detoxSearchQuery.toLowerCase()) ||
+        plan.description.toLowerCase().includes(detoxSearchQuery.toLowerCase()),
+    ) || []
+
+  // Helper functions
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString()
   }
 
-  const markEmailAsRead = async (emailId: string) => {
-    try {
-      await apiCall(`/dashboard/emails/${emailId}/read`, { method: "PUT" })
-      // Update local state
-      setEmailArchive((prev) => prev.map((email) => (email._id === emailId ? { ...email, isRead: true } : email)))
-    } catch (err) {
-      console.error("Failed to mark email as read:", err)
-    }
+  const formatDateRange = (startDate: string, endDate: string) => {
+    const start = new Date(startDate).toLocaleDateString()
+    const end = new Date(endDate).toLocaleDateString()
+    return `${start} - ${end}`
   }
 
-  const downloadEmailAPI = async (emailId: string) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/emails/${emailId}/download`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+  const getSubscriptionStatus = () => {
+    if (!dashboardData?.user?.subscriptionEnd) return "Unknown"
+    const endDate = new Date(dashboardData.user.subscriptionEnd)
+    const now = new Date()
+    const daysLeft = Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
 
-      if (response.ok) {
-        const blob = await response.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = `email-${emailId}.txt`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        URL.revokeObjectURL(url)
-      }
-    } catch (err) {
-      console.error("Failed to download email:", err)
-    }
+    if (daysLeft < 0) return "Expired"
+    if (daysLeft <= 7) return `Expires in ${daysLeft} days`
+    return "Active"
   }
 
-  // Recipe API functions
-  const fetchAllRecipes = async () => {
-    try {
-      const response = await apiCall("/dashboard/recipes")
-      return response.data
-    } catch (err) {
-      console.error("Failed to fetch recipes:", err)
-      return []
-    }
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
   }
 
-  const searchRecipesAPI = async (query: string, category: string) => {
-    try {
-      const params = new URLSearchParams()
-      if (query) params.append("q", query)
-      if (category && category !== "all") params.append("category", category)
-
-      const response = await apiCall(`/dashboard/recipes/search?${params.toString()}`)
-      return response.data
-    } catch (err) {
-      console.error("Failed to search recipes:", err)
-      return []
-    }
-  }
-
-  const downloadRecipeAPI = async (recipeId: string) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/dashboard/recipes/${recipeId}/download`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-
-      if (response.ok) {
-        const blob = await response.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement("a")
-        a.href = url
-        a.download = `recipe-${recipeId}.txt`
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        URL.revokeObjectURL(url)
-      }
-    } catch (err) {
-      console.error("Failed to download recipe:", err)
-    }
-  }
-
-  // Webinar API functions
-  const registerForWebinarAPI = async (webinarId: string) => {
-    try {
-      const response = await apiCall(`/dashboard/webinars/${webinarId}/register`, {
-        method: "POST",
-      })
-      alert("Successfully registered for webinar!")
-      return response.data
-    } catch (err) {
-      console.error("Failed to register for webinar:", err)
-      alert("Failed to register for webinar")
-    }
-  }
-
-  // Appointment API functions
-  const createAppointmentAPI = async (appointmentData: any) => {
-    try {
-      const response = await apiCall("/dashboard/appointments", {
-        method: "POST",
-        body: JSON.stringify(appointmentData),
-      })
-      alert("Appointment booked successfully!")
-      fetchDashboardData() // Refresh data
-      return response.data
-    } catch (err) {
-      console.error("Failed to create appointment:", err)
-      alert("Failed to book appointment")
-    }
+  const calculateMembershipProgress = () => {
+    // This could be based on actual membership data from your API
+    return isPremium ? 90 : 45
   }
 
   const DashboardCard = ({
@@ -463,23 +707,23 @@ export default function UserDashboard() {
   }) => (
     <Card className={`relative ${className} ${premium && !isPremium ? "opacity-60" : ""}`}>
       {premium && !isPremium && (
-        <div className="absolute top-2 right-2">
+        <div className="absolute top-3 right-3">
           <Crown className="h-4 w-4 text-yellow-500" />
         </div>
       )}
-      <CardHeader className="pb-3">
-        <div className="flex items-center gap-2">
+      <CardHeader className="pb-4">
+        <div className="flex items-center gap-3">
           <Icon className="h-5 w-5 text-blue-600" />
           <CardTitle className="text-lg">{title}</CardTitle>
         </div>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription className="mt-2">{description}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         {premium && !isPremium ? (
-          <div className="text-center py-4">
-            <p className="text-sm text-gray-600 mb-2">Premium Feature</p>
+          <div className="text-center py-6">
+            <p className="text-sm text-gray-600 mb-3">Premium Feature</p>
             <Button variant="outline" size="sm">
-              Upgrade to Access
+              Upgrade to Premium
             </Button>
           </div>
         ) : (
@@ -489,174 +733,233 @@ export default function UserDashboard() {
     </Card>
   )
 
-  const handleEmailClick = async (email: any) => {
-    setSelectedEmail(email)
-    if (!email.isRead) {
-      await markEmailAsRead(email._id || email.id)
-    }
+  // Function to download recipe
+  const downloadRecipe = (recipe: Recipe) => {
+    const recipeText = `${recipe.title}
+
+Category: ${recipe.category}
+Prep Time: ${recipe.prepTime}
+Cook Time: ${recipe.cookTime}
+Servings: ${recipe.servings}
+
+DESCRIPTION:
+${recipe.description}
+
+INGREDIENTS:
+${recipe.ingredients.join("\n")}
+
+INSTRUCTIONS:
+${recipe.instructions.map((instruction, index) => `${index + 1}. ${instruction}`).join("\n")}
+
+NUTRITION FACTS:
+Calories: ${recipe.nutritionFacts.calories}
+Protein: ${recipe.nutritionFacts.protein}g
+Carbs: ${recipe.nutritionFacts.carbs}g
+Fat: ${recipe.nutritionFacts.fat}g
+Fiber: ${recipe.nutritionFacts.fiber}g
+
+Tags: ${recipe.tags.join(", ")}
+Gluten-Free: ${recipe.isGlutenFree ? "Yes" : "No"}
+    `
+
+    const blob = new Blob([recipeText], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `${recipe.title.replace(/\s+/g, "-").toLowerCase()}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
-  const downloadRecipe = async (recipe: any) => {
-    await downloadRecipeAPI(recipe._id || recipe.id)
+  // Function to download email
+  const downloadEmail = (email: Email) => {
+    const emailText = `Subject: ${email.subject}
+Date: ${formatDate(email.createdAt)}
+
+${email.content}
+    `
+
+    const blob = new Blob([emailText], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `email-${email._id}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
-  const downloadEmail = async (email: any) => {
-    await downloadEmailAPI(email._id || email.id)
+  // Function to download detox plan
+  const downloadDetoxPlan = (plan: DetoxPlan) => {
+    const planText = `${plan.title}
+
+Duration: ${plan.duration}
+
+DESCRIPTION:
+${plan.description}
+
+MEAL PLAN:
+${plan.meals.map((meal) => `${meal.day}: ${meal.mealPlan}`).join("\n\n")}
+
+Created: ${formatDate(plan.createdAt)}
+    `
+
+    const blob = new Blob([planText], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `${plan.title.replace(/\s+/g, "-").toLowerCase()}-detox-plan.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
   }
 
-  const handleShowAllRecipes = async () => {
-    setShowAllRecipes(true)
-    const allRecipes = await fetchAllRecipes()
-    setRecipes(allRecipes)
-  }
-
-  const handleShowAllEmails = async () => {
-    setShowAllEmails(true)
-    const allEmails = await fetchAllEmails()
-    setEmailArchive(allEmails)
-  }
-
-  const handleRecipeSearch = async () => {
-    const searchResults = await searchRecipesAPI(recipeSearchQuery, recipeCategory)
-    setRecipes(searchResults)
-  }
-
-  // Update search when query or category changes
-  useEffect(() => {
-    if (showAllRecipes) {
-      handleRecipeSearch()
-    }
-  }, [recipeSearchQuery, recipeCategory])
-
-  const filteredRecipes = recipes.filter(
-    (recipe) =>
-      recipe.title.toLowerCase().includes(recipeSearchQuery.toLowerCase()) &&
-      (recipeCategory === "all" || recipe.category.toLowerCase() === recipeCategory.toLowerCase()),
-  )
-
-  const filteredEmails = emailArchive.filter((email) =>
-    email.subject.toLowerCase().includes(emailSearchQuery.toLowerCase()),
-  )
-
+  // Loading state
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 p-4 md:p-6 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p>Loading dashboard...</p>
+          <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
     )
   }
 
+  // Error state
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 p-4 md:p-6 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-500 mb-4">Error: {error}</p>
-          <Button onClick={fetchDashboardData}>Retry</Button>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
+            <h3 className="text-red-800 font-medium mb-2">Error Loading Dashboard</h3>
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={fetchDashboardData} variant="outline">
+              Try Again
+            </Button>
+          </div>
         </div>
       </div>
     )
   }
 
-  if (!userData) {
+  // No data state
+  if (!dashboardData) {
     return (
       <div className="min-h-screen bg-gray-50 p-4 md:p-6 flex items-center justify-center">
-        <p>No user data available</p>
+        <div className="text-center">
+          <p className="text-gray-600">No dashboard data available</p>
+          <Button onClick={fetchDashboardData} variant="outline" className="mt-4 bg-transparent">
+            Refresh
+          </Button>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+<>
+    <Navbar/>
+        <div className="min-h-screen  bg-gray-50 p-2 mt-22 md:p-6">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex items-center gap-4">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={userData.profilePicture || "/placeholder.svg"} alt={userData.fullName} />
-              <AvatarFallback>
-                {userData.firstName?.[0]}
-                {userData.lastName?.[0]}
-              </AvatarFallback>
+              <AvatarFallback>{getInitials(dashboardData.user.name)}</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="text-2xl font-bold">Welcome back, {userData.firstName}!</h1>
-              <p className="text-gray-600">Manage your wellness journey</p>
+              <h1 className="text-2xl font-bold">Welcome back, {dashboardData.user.name.split(" ")[0]}!</h1>
+              <p className="text-gray-600 mt-1">Manage your wellness journey</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Badge variant={isPremium ? "default" : "secondary"} className="gap-1">
               {isPremium && <Crown className="h-3 w-3" />}
               {isPremium ? "Premium Member" : "Basic Member"}
             </Badge>
+            {dashboardData.isSubscribed && (
+              <Badge variant="default" className="bg-green-600">
+                Subscribed
+              </Badge>
+            )}
           </div>
         </div>
 
         {/* Membership Overview */}
         <Card>
           <CardHeader>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <Star className="h-5 w-5 text-blue-600" />
               <CardTitle>Membership Overview</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Current Plan</p>
-                <p className="text-2xl font-bold">{isPremium ? "Premium Plan" : "Basic Plan"}</p>
-                <Badge variant={dashboardData?.subscription?.isActive ? "default" : "secondary"}>
-                  {dashboardData?.subscription?.isActive ? "Active" : "Inactive"}
-                </Badge>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-700">Current Plan</p>
+                <p className="text-2xl font-bold capitalize">{dashboardData.user.membership}</p>
+                <Badge variant={dashboardData.isSubscribed ? "default" : "secondary"}>{getSubscriptionStatus()}</Badge>
               </div>
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Renewal Date</p>
-                <p className="text-lg">
-                  {userData.subscriptionEnd ? new Date(userData.subscriptionEnd).toLocaleDateString() : "N/A"}
-                </p>
-                <p className="text-sm text-gray-600">
-                  {userData.subscriptionEnd
-                    ? Math.ceil(
-                        (new Date(userData.subscriptionEnd).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
-                      ) + " days remaining"
-                    : "No active subscription"}
-                </p>
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-700">Account Details</p>
+                <p className="text-lg capitalize">{dashboardData.user.role}</p>
+                <p className="text-sm text-gray-600">{dashboardData.user.email}</p>
               </div>
-              <div className="space-y-2">
-                <p className="text-sm font-medium">Member Since</p>
-                <p className="text-lg">{new Date(userData.subscriptionStart).toLocaleDateString()}</p>
-                <Progress value={75} className="w-full" />
-                <p className="text-xs text-gray-600">75% through your wellness journey</p>
+              {dashboardData.user.subscriptionStart && dashboardData.user.subscriptionEnd && (
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-gray-700">Subscription Period</p>
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <CalendarDays className="h-4 w-4" />
+                    <span>
+                      {formatDateRange(dashboardData.user.subscriptionStart, dashboardData.user.subscriptionEnd)}
+                    </span>
+                  </div>
+                </div>
+              )}
+              <div className="space-y-3">
+                <p className="text-sm font-medium text-gray-700">Wellness Journey</p>
+                <Progress value={calculateMembershipProgress()} className="w-full" />
+                <p className="text-xs text-gray-600">{calculateMembershipProgress()}% complete</p>
               </div>
             </div>
           </CardContent>
         </Card>
 
         {/* Main Dashboard Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {/* Weekly Email Archive */}
           <DashboardCard title="Weekly Email Archive" description="Access all your motivational emails" icon={Mail}>
-            <div className="space-y-3">
-              {emailArchive.slice(0, 3).map((email) => (
+            <div className="space-y-4">
+              {dashboardData.emails.slice(0, 3).map((email) => (
                 <div
-                  key={email._id || email.id}
-                  className="flex items-center justify-between p-2 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
-                  onClick={() => handleEmailClick(email)}
+                  key={email._id}
+                  className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
+                  onClick={() => setSelectedEmail(email)}
                 >
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{email.subject}</p>
-                    <p className="text-xs text-gray-600">
-                      {new Date(email.createdAt || email.date).toLocaleDateString()}
-                    </p>
+                    <p className="text-xs text-gray-600 mt-1">{formatDate(email.createdAt)}</p>
                   </div>
-                  <Badge variant={email.isRead ? "secondary" : "default"} className="text-xs">
-                    {email.isRead ? "Read" : "New"}
+                  <Badge variant="secondary" className="text-xs ml-2">
+                    New
                   </Badge>
                 </div>
               ))}
-              <Button variant="outline" size="sm" className="w-full bg-transparent" onClick={handleShowAllEmails}>
+              {dashboardData.emails.length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-6">No emails available</p>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full bg-transparent"
+                onClick={() => setShowAllEmails(true)}
+                disabled={dashboardData.emails.length === 0}
+              >
                 View All Emails
               </Button>
             </div>
@@ -664,16 +967,16 @@ export default function UserDashboard() {
 
           {/* Recipe Collection */}
           <DashboardCard title="Recipe Collection" description="Download gluten-free recipes" icon={ChefHat}>
-            <div className="space-y-3">
-              {recipes.slice(0, 3).map((recipe) => (
+            <div className="space-y-4">
+              {dashboardData.recipes.slice(0, 3).map((recipe) => (
                 <div
-                  key={recipe._id || recipe.id}
-                  className="flex items-center justify-between p-2 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
+                  key={recipe._id}
+                  className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
                   onClick={() => setSelectedRecipe(recipe)}
                 >
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium">{recipe.title}</p>
-                    <p className="text-xs text-gray-600">
+                    <p className="text-xs text-gray-600 mt-1">
                       {recipe.category} • {recipe.downloads} downloads
                     </p>
                   </div>
@@ -689,73 +992,99 @@ export default function UserDashboard() {
                   </Button>
                 </div>
               ))}
-              <Button variant="outline" size="sm" className="w-full bg-transparent" onClick={handleShowAllRecipes}>
+              {dashboardData.recipes.length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-6">No recipes available</p>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full bg-transparent"
+                onClick={() => setShowAllRecipes(true)}
+                disabled={dashboardData.recipes.length === 0}
+              >
                 Browse All Recipes
-              </Button>
-            </div>
-          </DashboardCard>
-
-          {/* Expert Session Hub */}
-          <DashboardCard title="Expert Session Hub" description="Book and manage expert sessions" icon={Users}>
-            <div className="space-y-3">
-              {expertSessions.map((session) => (
-                <div key={session.id} className="p-2 rounded-lg border">
-                  <div className="flex items-center justify-between mb-1">
-                    <p className="text-sm font-medium">{session.expert}</p>
-                    <Badge variant={session.status === "upcoming" ? "default" : "secondary"}>{session.status}</Badge>
-                  </div>
-                  <p className="text-xs text-gray-600">{session.topic}</p>
-                  <p className="text-xs text-gray-600">{session.date}</p>
-                </div>
-              ))}
-              <Button size="sm" className="w-full">
-                <CalendarDays className="h-4 w-4 mr-2" />
-                Book New Session
               </Button>
             </div>
           </DashboardCard>
 
           {/* Webinar Library */}
           <DashboardCard title="Webinar Library" description="Access learning webinars and recordings" icon={Video}>
-            <div className="space-y-3">
-              {webinars.map((webinar) => (
+            <div className="space-y-4">
+              {dashboardData.webinars.slice(0, 3).map((webinar) => (
                 <div
-                  key={webinar.id}
-                  className="flex items-center justify-between p-2 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
+                  key={webinar._id}
+                  className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
                   onClick={() => setSelectedVideo(webinar)}
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="relative w-16 h-9 rounded overflow-hidden bg-gray-200 flex-shrink-0">
-                      <img
-                        src={webinar.thumbnail || "/placeholder.svg"}
-                        alt={webinar.title}
-                        className="object-cover w-full h-full"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                        <Play className="h-4 w-4 text-white" />
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{webinar.title}</p>
-                      <p className="text-xs text-gray-600">
-                        {webinar.duration} • {webinar.views} views
-                      </p>
+                  <div className="relative w-16 h-9 rounded overflow-hidden bg-gray-200 flex-shrink-0">
+                    <img
+                      src={webinar.thumbnail || "/placeholder.svg"}
+                      alt={webinar.title}
+                      className="object-cover w-full h-full"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                      <Play className="h-4 w-4 text-white" />
                     </div>
                   </div>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedVideo(webinar)
-                    }}
-                  >
-                    <Play className="h-4 w-4" />
-                  </Button>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium">{webinar.title}</p>
+                    <p className="text-xs text-gray-600 mt-1">
+                      {webinar.duration} min • {webinar.participantsCount} participants
+                    </p>
+                    <Badge variant={webinar.status === "upcoming" ? "default" : "secondary"} className="text-xs mt-2">
+                      {webinar.status}
+                    </Badge>
+                  </div>
                 </div>
               ))}
+              {dashboardData.webinars.length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-6">No webinars available</p>
+              )}
               <Button variant="outline" size="sm" className="w-full bg-transparent">
                 View All Webinars
+              </Button>
+            </div>
+          </DashboardCard>
+
+          {/* Detox Plans - Premium */}
+          <DashboardCard
+            title="Detox Plans"
+            description="Personalized detox and cleanse programs"
+            icon={Leaf}
+            premium={true}
+          >
+            <div className="space-y-4">
+              {dashboardData.detoxPlans.slice(0, 2).map((plan) => (
+                <div
+                  key={plan._id}
+                  className="p-4 rounded-lg bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 cursor-pointer hover:shadow-sm transition-all"
+                  onClick={() => setSelectedDetoxPlan(plan)}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="h-4 w-4 text-green-600" />
+                    <p className="text-sm font-medium">{plan.title}</p>
+                  </div>
+                  <p className="text-xs text-gray-600 mb-2">{plan.description}</p>
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-3 w-3 text-gray-500" />
+                    <span className="text-xs text-gray-600">{plan.duration}</span>
+                    <Badge variant="secondary" className="text-xs ml-auto">
+                      {plan.meals.length} days
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+              {dashboardData.detoxPlans.length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-6">No detox plans available</p>
+              )}
+              <Button
+                size="sm"
+                className="w-full"
+                onClick={() => setShowAllDetoxPlans(true)}
+                disabled={dashboardData.detoxPlans.length === 0}
+              >
+                <Heart className="h-4 w-4 mr-2" />
+                View All Plans
               </Button>
             </div>
           </DashboardCard>
@@ -764,18 +1093,27 @@ export default function UserDashboard() {
           <DashboardCard
             title="Workshop Notifications"
             description="Offline workshops with discounts"
-            icon={Workshop}
+            icon={WorkshopIcon}
             premium={true}
           >
-            <div className="space-y-3">
-              <div className="p-3 rounded-lg bg-gray-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <Bell className="h-4 w-4 text-blue-600" />
-                  <p className="text-sm font-medium">Upcoming Workshop</p>
+            <div className="space-y-4">
+              {dashboardData.workshops.slice(0, 2).map((workshop) => (
+                <div key={workshop._id} className="p-4 rounded-lg bg-gray-50 border">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Bell className="h-4 w-4 text-blue-600" />
+                    <p className="text-sm font-medium">{workshop.title}</p>
+                  </div>
+                  <p className="text-xs text-gray-600 mb-2">
+                    {formatDate(workshop.date)} • {workshop.memberDiscount}% Member Discount
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    ₹{workshop.price} • {workshop.availableSpots} spots available
+                  </p>
                 </div>
-                <p className="text-sm">Mindful Cooking Workshop</p>
-                <p className="text-xs text-gray-600">Jan 25, 2024 • 20% Member Discount</p>
-              </div>
+              ))}
+              {dashboardData.workshops.length === 0 && (
+                <p className="text-sm text-gray-500 text-center py-6">No workshops available</p>
+              )}
               <Button size="sm" className="w-full">
                 View All Workshops
               </Button>
@@ -789,11 +1127,11 @@ export default function UserDashboard() {
             icon={Gamepad2}
             premium={true}
           >
-            <div className="space-y-3">
-              <div className="text-center p-4 rounded-lg bg-gray-100">
-                <Gamepad2 className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+            <div className="space-y-4">
+              <div className="text-center p-6 rounded-lg bg-gray-50 border">
+                <Gamepad2 className="h-8 w-8 mx-auto mb-3 text-blue-600" />
                 <p className="text-sm font-medium">15% Member Discount</p>
-                <p className="text-xs text-gray-600">Available on all toy library services</p>
+                <p className="text-xs text-gray-600 mt-1">Available on all toy library services</p>
               </div>
               <Button size="sm" className="w-full">
                 Browse Toy Library
@@ -808,32 +1146,15 @@ export default function UserDashboard() {
             icon={MessageSquare}
             premium={true}
           >
-            <div className="space-y-3">
-              <div className="p-2 rounded-lg border">
-                <p className="text-sm font-medium">Next Consultation</p>
-                <p className="text-xs text-gray-600">Jan 22, 2024 at 2:00 PM</p>
-                <p className="text-xs text-gray-600">Dr. Sarah Wilson - Nutrition</p>
+            <div className="space-y-4">
+              <div className="p-4 rounded-lg border bg-gray-50">
+                <p className="text-sm font-medium mb-2">Book Your Next Session</p>
+                <p className="text-xs text-gray-600 mb-1">Expert consultations available</p>
+                <p className="text-xs text-gray-600">Personalized guidance for your journey</p>
               </div>
               <Button size="sm" className="w-full">
                 <Calendar className="h-4 w-4 mr-2" />
                 Book Consultation
-              </Button>
-            </div>
-          </DashboardCard>
-
-          {/* Detox Diet Portal - Premium */}
-          <DashboardCard title="Detox Diet Portal" description="Exclusive detox diet plans" icon={Leaf} premium={true}>
-            <div className="space-y-3">
-              <div className="p-3 rounded-lg bg-gray-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <Leaf className="h-4 w-4 text-green-600" />
-                  <p className="text-sm font-medium">7-Day Spring Detox</p>
-                </div>
-                <p className="text-xs text-gray-600">Personalized meal plans and shopping lists</p>
-              </div>
-              <Button size="sm" className="w-full">
-                <FileText className="h-4 w-4 mr-2" />
-                View Diet Plans
               </Button>
             </div>
           </DashboardCard>
@@ -846,8 +1167,13 @@ export default function UserDashboard() {
             <CardDescription>Frequently used features</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={() => setSelectedRecipe(recipes[0])}>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => dashboardData.recipes[0] && setSelectedRecipe(dashboardData.recipes[0])}
+                disabled={dashboardData.recipes.length === 0}
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Download Latest Recipe
               </Button>
@@ -858,10 +1184,20 @@ export default function UserDashboard() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setSelectedEmail(emailArchive.find((e) => !e.read) || emailArchive[0])}
+                onClick={() => dashboardData.emails[0] && setSelectedEmail(dashboardData.emails[0])}
+                disabled={dashboardData.emails.length === 0}
               >
                 <Mail className="h-4 w-4 mr-2" />
                 Read Latest Email
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => dashboardData.detoxPlans[0] && setSelectedDetoxPlan(dashboardData.detoxPlans[0])}
+                disabled={dashboardData.detoxPlans.length === 0}
+              >
+                <Leaf className="h-4 w-4 mr-2" />
+                View Detox Plan
               </Button>
               <Button variant="outline" size="sm">
                 <Settings className="h-4 w-4 mr-2" />
@@ -874,46 +1210,176 @@ export default function UserDashboard() {
 
       {/* Video Player Dialog */}
       <Dialog open={!!selectedVideo} onOpenChange={(open) => !open && setSelectedVideo(null)}>
-        <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden">
-          <DialogHeader className="p-4 pb-0">
+        <DialogContent className="sm:max-w-[900px] p-0 overflow-hidden">
+          <DialogHeader className="p-6 pb-0">
             <div className="flex items-center justify-between">
               <DialogTitle>{selectedVideo?.title}</DialogTitle>
-              <DialogClose className="h-8 w-8 rounded-full hover:bg-gray-100 flex items-center justify-center">
+              <DialogClose
+                className="h-8 w-8 rounded-full hover:bg-gray-100 flex items-center justify-center"
+                onClick={() => setSelectedVideo(null)}
+              >
                 <X className="h-4 w-4" />
                 <span className="sr-only">Close</span>
               </DialogClose>
             </div>
             <DialogDescription>
-              {selectedVideo?.duration} • {selectedVideo?.views} views
+              {selectedVideo?.duration} min • Speaker: {selectedVideo?.speaker}
             </DialogDescription>
           </DialogHeader>
-          <div className="aspect-video w-full bg-black relative">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white">
-                <Play className="h-16 w-16 mx-auto mb-4" />
-                <p className="text-sm">Video would play here</p>
-                <p className="text-xs text-gray-400 mt-2">Using URL: {selectedVideo?.videoUrl}</p>
-              </div>
+
+          {/* Video Player */}
+          {selectedVideo && (
+            <VideoPlayer src={selectedVideo.url} thumbnail={selectedVideo.thumbnail} title={selectedVideo.title} />
+          )}
+
+          <div className="p-6">
+            <div className="mb-6">
+              <h3 className="font-medium mb-3">Description</h3>
+              <p className="text-sm text-gray-600">{selectedVideo?.description}</p>
             </div>
-          </div>
-          <div className="p-4">
+
+            {selectedVideo?.tags && selectedVideo.tags.length > 0 && (
+              <div className="mb-6">
+                <h3 className="font-medium mb-3">Tags</h3>
+                <div className="flex flex-wrap gap-2">
+                  {selectedVideo.tags.map((tag, index) => (
+                    <Badge key={index} variant="secondary">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center justify-between">
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <Button size="sm">
-                  <Download className="h-4 w-4 mr-2" />
-                  Download
+                  <Play className="h-4 w-4 mr-2" />
+                  Join Live Session
                 </Button>
                 <Button size="sm" variant="outline">
                   <FileText className="h-4 w-4 mr-2" />
-                  Notes
+                  Download Notes
                 </Button>
               </div>
-              <Button size="sm" variant="outline">
-                <Star className="h-4 w-4 mr-2" />
-                Save
-              </Button>
+              <Badge variant={selectedVideo?.status === "upcoming" ? "default" : "secondary"}>
+                {selectedVideo?.status}
+              </Badge>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Detox Plans Dialog */}
+      <Dialog open={showAllDetoxPlans} onOpenChange={setShowAllDetoxPlans}>
+        <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Detox Plans</DialogTitle>
+            <DialogDescription>Personalized detox and cleanse programs for your wellness journey</DialogDescription>
+          </DialogHeader>
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+            <Input
+              placeholder="Search detox plans..."
+              className="pl-10"
+              value={detoxSearchQuery}
+              onChange={(e) => setDetoxSearchQuery(e.target.value)}
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredDetoxPlans.map((plan) => (
+              <Card key={plan._id} className="overflow-hidden hover:shadow-md transition-shadow">
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Leaf className="h-5 w-5 text-green-600" />
+                    <CardTitle className="text-lg">{plan.title}</CardTitle>
+                  </div>
+                  <CardDescription className="mb-4">{plan.description}</CardDescription>
+                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      <span>{plan.duration}</span>
+                    </div>
+                    <Badge variant="secondary">{plan.meals.length} days</Badge>
+                  </div>
+                </div>
+                <CardFooter className="flex justify-between p-6">
+                  <Button variant="outline" size="sm" onClick={() => setSelectedDetoxPlan(plan)}>
+                    <Eye className="h-4 w-4 mr-2" />
+                    View Details
+                  </Button>
+                  <Button size="sm" onClick={() => downloadDetoxPlan(plan)}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Download
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+          {filteredDetoxPlans.length === 0 && (
+            <div className="text-center py-12">
+              <Leaf className="h-12 w-12 mx-auto text-gray-500 mb-4" />
+              <p className="text-gray-500">No detox plans found. Try a different search term.</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Detox Plan Detail Dialog */}
+      <Dialog open={!!selectedDetoxPlan} onOpenChange={(open) => !open && setSelectedDetoxPlan(null)}>
+        <DialogContent className="sm:max-w-[700px] p-4 max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center gap-2">
+              <Leaf className="h-5 w-5 text-green-600" />
+              <DialogTitle>{selectedDetoxPlan?.title}</DialogTitle>
+            </div>
+            <DialogDescription>Duration: {selectedDetoxPlan?.duration}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6">
+            <div className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+              <h3 className="font-medium mb-2">About This Plan</h3>
+              <p className="text-sm text-gray-600">{selectedDetoxPlan?.description}</p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-medium mb-4">Daily Meal Plan</h3>
+              <div className="space-y-4">
+                {selectedDetoxPlan?.meals.map((meal, index) => (
+                  <div key={meal._id} className="p-4 rounded-lg border bg-gray-50">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-medium">
+                        {index + 1}
+                      </div>
+                      <h4 className="font-medium">{meal.day}</h4>
+                    </div>
+                    <p className="text-sm text-gray-600 ml-10">{meal.mealPlan}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-xs text-gray-500">
+              Created: {selectedDetoxPlan && formatDate(selectedDetoxPlan.createdAt)}
+            </div>
+          </div>
+          <DialogFooter>
+            <div className="flex w-full justify-between">
+              <Button variant="outline" onClick={() => downloadDetoxPlan(selectedDetoxPlan!)}>
+                <Download className="h-4 w-4 mr-2" />
+                Download Plan
+              </Button>
+              <div className="flex gap-3">
+                <Button variant="outline">
+                  <Printer className="h-4 w-4 mr-2" />
+                  Print
+                </Button>
+                <Button variant="outline">
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share
+                </Button>
+              </div>
+            </div>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
@@ -924,13 +1390,12 @@ export default function UserDashboard() {
             <DialogTitle>Recipe Collection</DialogTitle>
             <DialogDescription>Browse and download all gluten-free recipes</DialogDescription>
           </DialogHeader>
-
-          <div className="flex flex-col md:flex-row gap-4 items-center p-6">
+          <div className="flex flex-col md:flex-row gap-4 items-center mb-6">
             <div className="relative flex-1">
-              <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
               <Input
                 placeholder="Search recipes..."
-                className="pl-8"
+                className="pl-10"
                 value={recipeSearchQuery}
                 onChange={(e) => setRecipeSearchQuery(e.target.value)}
               />
@@ -948,16 +1413,16 @@ export default function UserDashboard() {
               </SelectContent>
             </Select>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 pt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredRecipes.map((recipe) => (
-              <Card key={recipe._id || recipe.id} className="overflow-hidden">
+              <Card key={recipe._id} className="overflow-hidden">
                 <div className="aspect-video w-full bg-gray-200 relative">
                   <img
                     src={recipe.image || "/placeholder.svg"}
                     alt={recipe.title}
                     className="object-cover w-full h-full"
                   />
+                  {recipe.isGlutenFree && <Badge className="absolute top-2 right-2 bg-green-600">Gluten-Free</Badge>}
                 </div>
                 <CardHeader className="p-4 pb-2">
                   <CardTitle className="text-lg">{recipe.title}</CardTitle>
@@ -978,11 +1443,10 @@ export default function UserDashboard() {
               </Card>
             ))}
           </div>
-
           {filteredRecipes.length === 0 && (
-            <div className="text-center py-8">
-              <BookOpen className="h-12 w-12 mx-auto text-gray-400" />
-              <p className="mt-2 text-gray-600">No recipes found. Try a different search term or category.</p>
+            <div className="text-center py-12">
+              <BookOpen className="h-12 w-12 mx-auto text-gray-500 mb-4" />
+              <p className="text-gray-500">No recipes found. Try a different search term or category.</p>
             </div>
           )}
         </DialogContent>
@@ -995,37 +1459,31 @@ export default function UserDashboard() {
             <DialogTitle>Email Archive</DialogTitle>
             <DialogDescription>Access all your motivational emails</DialogDescription>
           </DialogHeader>
-
-          <div className="relative p-6">
-            <Search className="absolute left-8 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
             <Input
               placeholder="Search emails..."
-              className="pl-8"
+              className="pl-10"
               value={emailSearchQuery}
               onChange={(e) => setEmailSearchQuery(e.target.value)}
             />
           </div>
-
-          <div className="space-y-2 px-6 pb-6">
+          <div className="space-y-3">
             {filteredEmails.map((email) => (
               <div
-                key={email._id || email.id}
-                className="flex items-center justify-between p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
+                key={email._id}
+                className="flex items-center justify-between p-4 rounded-lg border hover:bg-gray-50 cursor-pointer transition-colors"
                 onClick={() => setSelectedEmail(email)}
               >
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
                     <p className="font-medium">{email.subject}</p>
-                    {!email.isRead && (
-                      <Badge variant="default" className="text-xs">
-                        New
-                      </Badge>
-                    )}
+                    <Badge variant="default" className="text-xs">
+                      New
+                    </Badge>
                   </div>
-                  <p className="text-sm text-gray-600">
-                    {new Date(email.createdAt || email.date).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-gray-600 truncate">{email.content.substring(0, 60)}...</p>
+                  <p className="text-sm text-gray-600 mb-1">{formatDate(email.createdAt)}</p>
+                  <p className="text-sm text-gray-600 truncate">{email.content.substring(0, 80)}...</p>
                 </div>
                 <Button
                   size="sm"
@@ -1040,11 +1498,10 @@ export default function UserDashboard() {
               </div>
             ))}
           </div>
-
           {filteredEmails.length === 0 && (
-            <div className="text-center py-8">
-              <Mail className="h-12 w-12 mx-auto text-gray-400" />
-              <p className="mt-2 text-gray-600">No emails found. Try a different search term.</p>
+            <div className="text-center py-12">
+              <Mail className="h-12 w-12 mx-auto text-gray-500 mb-4" />
+              <p className="text-gray-500">No emails found. Try a different search term.</p>
             </div>
           )}
         </DialogContent>
@@ -1057,8 +1514,7 @@ export default function UserDashboard() {
             <DialogTitle>{selectedRecipe?.title}</DialogTitle>
             <DialogDescription>{selectedRecipe?.category}</DialogDescription>
           </DialogHeader>
-
-          <div className="space-y-4 p-6">
+          <div className="space-y-6">
             <div className="aspect-video w-full bg-gray-200 rounded-md overflow-hidden">
               <img
                 src={selectedRecipe?.image || "/placeholder.svg"}
@@ -1066,80 +1522,87 @@ export default function UserDashboard() {
                 className="object-cover w-full h-full"
               />
             </div>
-
-            <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="p-2 bg-gray-100 rounded-md">
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="p-3 bg-gray-100 rounded-md">
                 <p className="text-xs text-gray-600">Prep Time</p>
                 <p className="font-medium">{selectedRecipe?.prepTime}</p>
               </div>
-              <div className="p-2 bg-gray-100 rounded-md">
+              <div className="p-3 bg-gray-100 rounded-md">
                 <p className="text-xs text-gray-600">Cook Time</p>
                 <p className="font-medium">{selectedRecipe?.cookTime}</p>
               </div>
-              <div className="p-2 bg-gray-100 rounded-md">
+              <div className="p-3 bg-gray-100 rounded-md">
                 <p className="text-xs text-gray-600">Servings</p>
                 <p className="font-medium">{selectedRecipe?.servings}</p>
               </div>
             </div>
-
             <div>
-              <h3 className="text-lg font-medium mb-2">Ingredients</h3>
+              <p className="text-sm text-gray-600 mb-4">{selectedRecipe?.description}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-medium mb-3">Ingredients</h3>
               <ul className="list-disc pl-5 space-y-1">
-                {selectedRecipe?.ingredients?.map((ingredient: string, index: number) => (
+                {selectedRecipe?.ingredients.map((ingredient, index) => (
                   <li key={index} className="text-sm">
                     {ingredient}
                   </li>
                 ))}
               </ul>
             </div>
-
             <div>
-              <h3 className="text-lg font-medium mb-2">Instructions</h3>
+              <h3 className="text-lg font-medium mb-3">Instructions</h3>
               <ol className="list-decimal pl-5 space-y-2">
-                {selectedRecipe?.instructions?.map((instruction: string, index: number) => (
+                {selectedRecipe?.instructions.map((instruction, index) => (
                   <li key={index} className="text-sm">
                     {instruction}
                   </li>
                 ))}
               </ol>
             </div>
-
-            {selectedRecipe?.nutritionFacts && (
-              <div>
-                <h3 className="text-lg font-medium mb-2">Nutrition Facts</h3>
-                <div className="grid grid-cols-5 gap-2 text-center">
-                  <div className="p-2 bg-gray-100 rounded-md">
-                    <p className="text-xs text-gray-600">Calories</p>
-                    <p className="font-medium">{selectedRecipe.nutritionFacts.calories}</p>
-                  </div>
-                  <div className="p-2 bg-gray-100 rounded-md">
-                    <p className="text-xs text-gray-600">Protein</p>
-                    <p className="font-medium">{selectedRecipe.nutritionFacts.protein}g</p>
-                  </div>
-                  <div className="p-2 bg-gray-100 rounded-md">
-                    <p className="text-xs text-gray-600">Carbs</p>
-                    <p className="font-medium">{selectedRecipe.nutritionFacts.carbs}g</p>
-                  </div>
-                  <div className="p-2 bg-gray-100 rounded-md">
-                    <p className="text-xs text-gray-600">Fat</p>
-                    <p className="font-medium">{selectedRecipe.nutritionFacts.fat}g</p>
-                  </div>
-                  <div className="p-2 bg-gray-100 rounded-md">
-                    <p className="text-xs text-gray-600">Fiber</p>
-                    <p className="font-medium">{selectedRecipe.nutritionFacts.fiber}g</p>
-                  </div>
+            <div>
+              <h3 className="text-lg font-medium mb-3">Nutrition Facts</h3>
+              <div className="grid grid-cols-5 gap-3 text-center">
+                <div className="p-3 bg-gray-100 rounded-md">
+                  <p className="text-xs text-gray-600">Calories</p>
+                  <p className="font-medium">{selectedRecipe?.nutritionFacts.calories}</p>
+                </div>
+                <div className="p-3 bg-gray-100 rounded-md">
+                  <p className="text-xs text-gray-600">Protein</p>
+                  <p className="font-medium">{selectedRecipe?.nutritionFacts.protein}g</p>
+                </div>
+                <div className="p-3 bg-gray-100 rounded-md">
+                  <p className="text-xs text-gray-600">Carbs</p>
+                  <p className="font-medium">{selectedRecipe?.nutritionFacts.carbs}g</p>
+                </div>
+                <div className="p-3 bg-gray-100 rounded-md">
+                  <p className="text-xs text-gray-600">Fat</p>
+                  <p className="font-medium">{selectedRecipe?.nutritionFacts.fat}g</p>
+                </div>
+                <div className="p-3 bg-gray-100 rounded-md">
+                  <p className="text-xs text-gray-600">Fiber</p>
+                  <p className="font-medium">{selectedRecipe?.nutritionFacts.fiber}g</p>
                 </div>
               </div>
-            )}
+            </div>
+            <div>
+              <h3 className="text-lg font-medium mb-3">Tags</h3>
+              <div className="flex flex-wrap gap-2">
+                {selectedRecipe?.tags.map((tag, index) => (
+                  <Badge key={index} variant="secondary">
+                    {tag}
+                  </Badge>
+                ))}
+                {selectedRecipe?.isGlutenFree && <Badge className="bg-green-600">Gluten-Free</Badge>}
+              </div>
+            </div>
           </div>
-
           <DialogFooter>
             <div className="flex w-full justify-between">
               <Button variant="outline" onClick={() => downloadRecipe(selectedRecipe!)}>
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </Button>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <Button variant="outline">
                   <Printer className="h-4 w-4 mr-2" />
                   Print
@@ -1159,23 +1622,18 @@ export default function UserDashboard() {
         <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{selectedEmail?.subject}</DialogTitle>
-            <DialogDescription>
-              From: {selectedEmail?.sender} •{" "}
-              {new Date(selectedEmail?.createdAt || selectedEmail?.date).toLocaleDateString()}
-            </DialogDescription>
+            <DialogDescription>Date: {selectedEmail && formatDate(selectedEmail.createdAt)}</DialogDescription>
           </DialogHeader>
-
-          <div className="space-y-4 p-6">
-            <div className="p-4 bg-gray-100 rounded-md whitespace-pre-line">{selectedEmail?.content}</div>
+          <div className="space-y-4">
+            <div className="p-6 bg-gray-50 rounded-md whitespace-pre-line border">{selectedEmail?.content}</div>
           </div>
-
           <DialogFooter>
             <div className="flex w-full justify-between">
               <Button variant="outline" onClick={() => downloadEmail(selectedEmail!)}>
                 <Download className="h-4 w-4 mr-2" />
                 Download
               </Button>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <Button variant="outline">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Previous
@@ -1190,5 +1648,6 @@ export default function UserDashboard() {
         </DialogContent>
       </Dialog>
     </div>
+</>
   )
 }

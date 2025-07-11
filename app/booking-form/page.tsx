@@ -82,9 +82,10 @@ export default function BookingForm() {
         paymentMethod: formData.paymentMethod
       };
 
-      const response = await fetch(`https://eight-senses-backend.onrender.com/api/appointment-forms`, {
+      const response = await fetch(`http://localhost:5000/api/appointments/request`, {
         method: 'POST',
         headers: {
+          "Authorization" : `Bearer ${localStorage.getItem("token")}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestData)
