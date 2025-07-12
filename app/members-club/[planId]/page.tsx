@@ -387,7 +387,7 @@ const MembershipConfirmation: React.FC = () => {
             })
 
             setDebugInfo("Subscription created successfully")
-            router.push(`/payment-success?plan=${planId}&subscription=${subscriptionData.data._id}`)
+            router.replace('/')
           } catch (err: any) {
             console.error("Post-payment error:", err)
             setError(`Subscription creation failed: ${err.message}`)

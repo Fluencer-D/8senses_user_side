@@ -11,7 +11,7 @@ import Webinar1 from '@/public/Webinar1.png';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaQuoteLeft } from 'react-icons/fa';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 interface Webinar {
@@ -45,7 +45,8 @@ const Webinars = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  // const router = useRouter();
+  const router = useRouter();
+
   const categories = [
     "All",
     "Parenting & Child Development",
@@ -144,6 +145,13 @@ const Webinars = () => {
         <div className="text-red-500 text-xl">{error}</div>
       </div>
     );
+  }
+
+
+  function handleNavigate(){
+    if(localStorage.getItem("user")){
+      router.push("/userDashboard")
+    }
   }
 
 
@@ -294,7 +302,7 @@ const Webinars = () => {
                 {webinar.description}
               </p>
               {webinar.url && (
-                <Button className="w-full mt-4 bg-[#C83C92] text-white rounded-2xl">
+                <Button className="w-full mt-4 bg-[#C83C92] text-white rounded-2xl" onClick={handleNavigate}>
                   Watch Recording
                 </Button>
               )}

@@ -45,13 +45,13 @@ const UserProfile: React.FC = () => {
             )}
           </div>
 
-          <button
+          {/* <button
             onClick={() => setShowDropdown(false)}
             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center"
           >
             <User className="w-4 h-4 mr-2" />
             Profile Settings
-          </button>
+          </button> */}
 
           <button
             onClick={handleLogout}

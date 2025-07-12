@@ -6,8 +6,11 @@ import Testimonials from "./components/testimonials/page";
 import Consultation from "./components/consultation/page";
 import Footer from "./components/footer/page";
 import WhyChoose8Senses from "./components/ChooseSection/page";
+import AuthModal from "./components/auth/AuthModal";
 
 export default function Home() {
+
+
   return (
     <main className="pt-[6rem]">
       <Navbar />

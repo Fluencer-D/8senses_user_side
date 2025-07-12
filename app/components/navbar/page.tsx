@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown, Menu, X, User, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { motion, AnimatePresence } from "framer-motion"
 import FinalLogo from "../../../public/FinalLogo.svg"
+import AuthModal from "../auth/AuthModal"
 
 interface NavItem {
   label: string
@@ -19,10 +20,14 @@ interface NavbarProps {
   onLogout?: () => void
 }
 
-export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps = {}) {
+export default function Navbar({  }: NavbarProps = {}) { //user, isAuthenticated, onLogout
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const [isResourcesOpen, setIsResourcesOpen] = useState<boolean>(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [showUserDropdown, setShowUserDropdown] = useState<boolean>(false)
+  const [user, setUser] = useState<User | null>(null)
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false)
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login")
 
   const navItems: NavItem[] = [
     { label: "Home", href: "/" },
@@ -30,15 +35,21 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
     { label: "Services", href: "/services" },
   ]
 
-  const resourceItems: NavItem[] = [
-    { label: "Blogs", href: "/blogs" },
-    { label: "Our Store", href: "/store" },
-    { label: "Health Library", href: "/health-library" },
-    { label: "Webinars", href: "/webinars" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Career", href: "/career" },
-    { label: "Members Club", href: "/members-club" },
-  ]
+
+
+
+const resourceItems: NavItem[] = [
+  { label: "Blogs", href: "/blogs" },
+  { label: "Our Store", href: "/store" },
+  { label: "Health Library", href: "/health-library" },
+  { label: "Webinars", href: "/webinars" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Career", href: "/career" },
+  { label: "Members Club", href: "/members-club" },
+  ...(user?.membership
+    ? [{ label: "Dashboard", href: "/userDashboard" }]
+    : []),
+];
 
   const handleLogout = async () => {
     if (onLogout) {
@@ -47,6 +58,67 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
     setShowUserDropdown(false)
     setIsMenuOpen(false)
   }
+
+
+  const onLogout=() => {
+          localStorage.removeItem("token")
+          localStorage.removeItem("user")
+          setUser(null)
+          setIsAuthenticated(false)
+        }
+
+
+    useEffect(() => {
+      const checkAuthStatus = async () => {
+        const token = localStorage.getItem("token")
+        const savedUser = localStorage.getItem("user")
+  
+        if (token && savedUser) {
+          try {
+            // Verify token is still valid
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/auth/me`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+            )
+  
+            if (response.ok) {
+              const data = await response.json()
+              setUser(data.data)
+
+              console.log("daat",data.data)
+              setIsAuthenticated(true)
+            } else {
+              // Token is invalid, clear storage
+              localStorage.removeItem("token")
+              localStorage.removeItem("user")
+            }
+          } catch (error) {
+            console.error("Auth verification failed:", error)
+            localStorage.removeItem("token")
+            localStorage.removeItem("user")
+          }
+        }
+      }
+  
+      checkAuthStatus()
+    }, []);
+
+  
+  const handleAuthSuccess = (userData: User) => {
+    setUser(userData)
+    setIsAuthenticated(true)
+    setShowAuthModal(false)
+
+    // If user was trying to select a plan, redirect them to it
+    if (selectedPlanId) {
+      router.push(`/members-club/${selectedPlanId}`)
+    }
+  }
+
 
   return (
     <nav className="fixed top-0 h-[100px] w-full bg-[#245BA7] z-50">
@@ -70,11 +142,11 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
           <div className="hidden md:flex flex-1 justify-center space-x-12 font-nav_link_font ml-9">
             {navItems.map((item) => (
               <Link
-                key={item.label}
-                href={item.href}
+                key={item?.label}
+                href={item?.href}
                 className="text-white text-xl font-medium hover:text-gray-200 transition"
               >
-                {item.label}
+                {item?.label}
               </Link>
             ))}
             <div className="relative group">
@@ -96,12 +168,12 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
                     <div className="py-2">
                       {resourceItems.map((item) => (
                         <Link
-                          key={item.label}
-                          href={item.href}
+                          key={item?.label}
+                          href={item?.href}
                           className="block px-6 py-4 text-white text-lg hover:bg-[#1d4a8c] border-b border-white font-nav_link_font last:border-none"
                           onClick={() => setIsResourcesOpen(false)}
                         >
-                          {item.label}
+                          {item?.label}
                         </Link>
                       ))}
                     </div>
@@ -153,13 +225,13 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
                         )}
                       </div>
 
-                      <button
+                      {/* <button
                         onClick={() => setShowUserDropdown(false)}
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center"
                       >
                         <User className="w-4 h-4 mr-2" />
                         Profile Settings
-                      </button>
+                      </button> */}
 
                       <button
                         onClick={handleLogout}
@@ -234,12 +306,12 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
               {/* Mobile Navigation Items */}
               {navItems.map((item) => (
                 <Link
-                  key={item.label}
-                  href={item.href}
+                  key={item?.label}
+                  href={item?.href}
                   className="block py-3 text-white text-lg font-medium hover:bg-[#1d4a8c] px-4 rounded"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.label}
+                  {item?.label}
                 </Link>
               ))}
 
@@ -268,15 +340,15 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
                     >
                       {resourceItems.map((item) => (
                         <Link
-                          key={item.label}
-                          href={item.href}
+                          key={item?.label}
+                          href={item?.href}
                           className="block py-3 text-white text-lg hover:bg-[#1d4a8c] px-4 rounded border-b border-white/10 last:border-none"
                           onClick={() => {
                             setIsResourcesOpen(false)
                             setIsMenuOpen(false)
                           }}
                         >
-                          {item.label}
+                          {item?.label}
                         </Link>
                       ))}
                     </motion.div>
@@ -306,13 +378,13 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
                     )}
                   </div>
 
-                  <button
+                  {/* <button
                     className="w-full text-left py-3 text-white text-lg font-medium hover:bg-[#1d4a8c] px-4 rounded flex items-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <User className="w-5 h-5 mr-2" />
                     Profile Settings
-                  </button>
+                  </button> */}
 
                   <button
                     onClick={handleLogout}
@@ -335,6 +407,13 @@ export default function Navbar({ user, isAuthenticated, onLogout }: NavbarProps 
           </motion.div>
         )}
       </AnimatePresence>
+
+    <AuthModal
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onAuthSuccess={handleAuthSuccess}
+        initialMode={authMode}
+    />
     </nav>
   )
 }

@@ -198,7 +198,7 @@ const Members: React.FC = () => {
     }
 
     checkAuthStatus()
-  }, [])
+  }, []);
 
   useEffect(() => {
     const fetchSubscriptionPlans = async (): Promise<void> => {
