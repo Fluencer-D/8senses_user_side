@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "8senses",
   description: "8senses",
   icons: {
-    icon: "/finalLogo.svg", // Make sure this is in the public folder
+    icon: "/FinalLogo.svg", // Make sure this is in the public folder
   },
 };
 
