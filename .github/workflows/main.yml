@@ -26,5 +26,5 @@ jobs:
             git pull origin main
             npm install
             npm run build    # ✅ Important for frontend apps
-            pm2 restart hms-app --update-env
+            pm2 restart 8senses_user_side --update-env
           EOF
