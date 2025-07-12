@@ -33,7 +33,7 @@ const Gallery = () => {
   useEffect(() => {
     const fetchGalleryData = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(`${apiUrl}/api/gallery`, {
           headers: {
             'Content-Type': 'application/json',

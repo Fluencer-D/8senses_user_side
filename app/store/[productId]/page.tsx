@@ -26,7 +26,7 @@ const OrderPage: React.FC = () => {
   const [debugInfo, setDebugInfo] = useState<string>("")
   const [backendStatus, setBackendStatus] = useState<string>("Checking...")
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL 
 
   // Check if backend is running
   useEffect(() => {

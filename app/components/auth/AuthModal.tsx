@@ -50,7 +50,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, i
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/auth/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
         {
           method: "POST",
           headers: {
@@ -84,7 +84,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuccess, i
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/auth/register`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
         {
           method: "POST",
           headers: {

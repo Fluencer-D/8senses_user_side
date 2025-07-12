@@ -77,7 +77,7 @@ const resourceItems: NavItem[] = [
           try {
             // Verify token is still valid
             const response = await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/auth/me`,
+              `${process.env.NEXT_PUBLIC_API_URL }/api/auth/me`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,

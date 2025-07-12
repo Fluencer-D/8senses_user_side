@@ -172,7 +172,7 @@ const Members: React.FC = () => {
         try {
           // Verify token is still valid
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/auth/me`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -205,7 +205,7 @@ const Members: React.FC = () => {
       try {
         setLoading(true)
         const response = await axios.get<ApiResponse>(
-          `${process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"}/api/subscriptions/plans`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/plans`,
         )
         console.log("API Response:", response.data)
 

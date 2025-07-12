@@ -76,7 +76,7 @@ const Health = () => {
   useEffect(() => {
     const fetchDiseases = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(`${apiUrl}/api/diseases`, {
           headers: {
             'Content-Type': 'application/json',

@@ -58,7 +58,7 @@ const Webinars = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://eight-senses-backend.onrender.com';
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
         // Fetch webinars
         const webinarResponse = await fetch(`${apiUrl}/api/webinars`);

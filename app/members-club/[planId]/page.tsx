@@ -66,7 +66,7 @@ const MembershipConfirmation: React.FC = () => {
   })
 
   // API Base URL - Make sure this matches your backend
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://eight-senses-backend.onrender.com"
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
   // Enhanced API request function with better debugging
   const makeApiRequest = async (endpoint: string, options: RequestInit = {}) => {
