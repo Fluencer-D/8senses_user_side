@@ -82,7 +82,7 @@ export default function BookingForm() {
         paymentMethod: formData.paymentMethod
       };
 
-      const response = await fetch(`http://localhost:5000/api/appointments/request`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/request`, {
         method: 'POST',
         headers: {
           "Authorization" : `Bearer ${localStorage.getItem("token")}`,
