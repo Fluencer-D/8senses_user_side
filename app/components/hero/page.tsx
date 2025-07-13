@@ -17,7 +17,7 @@ export default function Hero() {
       <p className="max-w-2xl text-2xl text-[#456696] mt-4 px-4">
         Empowering children to reach their full potential through specialized therapy and compassionate care.
       </p>
-      <div className="mt-8 grid gap-4 md:flex md:space-x-6">
+      {/* <div className="mt-8 grid gap-4 md:flex md:space-x-6">
         {/* Custom button to open the modal - Enhanced Styling */}
         <button
           onClick={() => setIsAppointmentDialogOpen(true)}
@@ -31,7 +31,7 @@ export default function Hero() {
             Explore our services
           </button>
         </Link>
-      </div>
+      </div> */}
 
       {/* Custom Modal/Dialog - Enhanced Styling with Transparent Foggy Background */}
       {isAppointmentDialogOpen && (
