@@ -37,6 +37,10 @@ export default function Navbar({  }: NavbarProps = {}) { //user, isAuthenticated
 
 
 
+const handleAuthModal = () =>{
+  setShowAuthModal(true);
+}
+
 
 const resourceItems: NavItem[] = [
   { label: "Blogs", href: "/blogs" },
@@ -245,8 +249,8 @@ const resourceItems: NavItem[] = [
                 </AnimatePresence>
               </div>
             ) : (
-              <Link href="/booking-form">
                 <Button
+                  onClick={handleAuthModal}
                   className="
                     bg-[#C83C92] 
                     hover:bg-[#d43d73] 
@@ -270,9 +274,8 @@ const resourceItems: NavItem[] = [
                     max-[1024px]:h-[40px]
                   "
                 >
-                  Take a service
+                  Login
                 </Button>
-              </Link>
             )}
           </div>
 
@@ -396,11 +399,11 @@ const resourceItems: NavItem[] = [
                 </div>
               ) : (
                 <div className="pt-2 pb-3 border-t border-white/20 mt-4">
-                  <Link href="/booking-form" onClick={() => setIsMenuOpen(false)}>
-                    <Button className="bg-[#C83C92] hover:bg-[#d43d73] text-white rounded-full px-6 py-4 text-lg font-medium w-full transition duration-300 ease-in-out">
-                      Take a service
+                  {/* <Link href="/booking-form" onClick={() => setIsMenuOpen(false)}> */}
+                    <Button onClick={handleAuthModal} className="bg-[#C83C92] hover:bg-[#d43d73] text-white rounded-full px-6 py-4 text-lg font-medium w-full transition duration-300 ease-in-out">
+                      Login
                     </Button>
-                  </Link>
+                  {/* </Link> */}
                 </div>
               )}
             </div>

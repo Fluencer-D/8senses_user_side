@@ -1,19 +1,16 @@
 "use client"
-import React from "react"
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import {
   Calendar,
   Mail,
   ChefHat,
   Video,
   WorkflowIcon as WorkshopIcon,
-  MessageSquare,
   Download,
   Star,
   Crown,
   Bell,
   Play,
-  FileText,
   X,
   Search,
   ArrowLeft,
@@ -21,7 +18,6 @@ import {
   Eye,
   Printer,
   Share2,
-  BookOpen,
   Pause,
   Volume2,
   VolumeX,
@@ -38,6 +34,7 @@ import {
   XCircle,
   UserIcon,
   Tag,
+  BookOpen,
 } from "lucide-react"
 import Navbar from "../components/navbar/page"
 // API Configuration
@@ -131,7 +128,6 @@ interface DetoxPlan {
   createdAt: string
   updatedAt: string
 }
-
 // New Meeting Interface
 interface Meeting {
   _id: string
@@ -147,7 +143,6 @@ interface Meeting {
   title?: string // Optional title for display, if not present, use "Untitled Meeting"
   description?: string // Optional description for display
 }
-
 // Updated DashboardData Interface to include Meetings
 interface DashboardData {
   isSubscribed: boolean
@@ -556,7 +551,6 @@ export default function UserDashboard() {
   const [emailSearchQuery, setEmailSearchQuery] = useState("")
   const [detoxSearchQuery, setDetoxSearchQuery] = useState("")
   const [meetingSearchQuery, setMeetingSearchQuery] = useState("") // New state for meeting search
-
   // Check if user has premium membership
   const isPremium = dashboardData?.user?.membership === "premium plan"
   // Fetch dashboard data
@@ -611,7 +605,6 @@ export default function UserDashboard() {
         plan.title.toLowerCase().includes(detoxSearchQuery.toLowerCase()) ||
         plan.description.toLowerCase().includes(detoxSearchQuery.toLowerCase()),
     ) || []
-
   // New: Filter meetings based on search query
   const filteredMeetings =
     dashboardData?.meetings?.filter(
@@ -620,7 +613,6 @@ export default function UserDashboard() {
         meeting.hostDoctor.toLowerCase().includes(meetingSearchQuery.toLowerCase()) ||
         meeting.meetLink.toLowerCase().includes(meetingSearchQuery.toLowerCase()),
     ) || []
-
   // Helper functions
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString()
@@ -650,20 +642,16 @@ export default function UserDashboard() {
     // This could be based on actual membership data from your API
     return isPremium ? 90 : 45
   }
-
   // New: Get meeting status
   const getMeetingStatus = (meeting: Meeting) => {
     const now = new Date()
     const meetingDate = new Date(meeting.date)
     const [startHour, startMinute] = meeting.startTime.split(":").map(Number)
     const [endHour, endMinute] = meeting.endTime.split(":").map(Number)
-
     const meetingStart = new Date(meetingDate)
     meetingStart.setHours(startHour, startMinute, 0, 0)
-
     const meetingEnd = new Date(meetingDate)
     meetingEnd.setHours(endHour, endMinute, 0, 0)
-
     if (now < meetingStart) {
       return { status: "Upcoming", icon: <Hourglass className="w-3 h-3" />, color: "bg-blue-100 text-blue-800" }
     } else if (now >= meetingStart && now <= meetingEnd) {
@@ -672,7 +660,6 @@ export default function UserDashboard() {
       return { status: "Completed", icon: <XCircle className="w-3 h-3" />, color: "bg-gray-100 text-gray-800" }
     }
   }
-
   const DashboardCard = ({
     title,
     description,
@@ -717,30 +704,7 @@ export default function UserDashboard() {
   )
   // Function to download recipe
   const downloadRecipe = (recipe: Recipe) => {
-    const recipeText = `${recipe.title}
-Category: ${recipe.category}
-Prep Time: ${recipe.prepTime}
-Cook Time: ${recipe.cookTime}
-Servings: ${recipe.servings}
-
-DESCRIPTION:
-${recipe.description}
-
-INGREDIENTS:
-${recipe.ingredients.join("\n")}
-
-INSTRUCTIONS:
-${recipe.instructions.map((instruction, index) => `${index + 1}. ${instruction}`).join("\n")}
-
-NUTRITION FACTS:
-Calories: ${recipe.nutritionFacts.calories}
-Protein: ${recipe.nutritionFacts.protein}g
-Carbs: ${recipe.nutritionFacts.carbs}g
-Fat: ${recipe.nutritionFacts.fat}g
-Fiber: ${recipe.nutritionFacts.fiber}g
-Tags: ${recipe.tags.join(", ")}
-Gluten-Free: ${recipe.isGlutenFree ? "Yes" : "No"}
-    `
+    const recipeText = `${recipe.title}Category: ${recipe.category}Prep Time: ${recipe.prepTime}Cook Time: ${recipe.cookTime}Servings: ${recipe.servings}DESCRIPTION:${recipe.description}INGREDIENTS:${recipe.ingredients.join("\n")}INSTRUCTIONS:${recipe.instructions.map((instruction, index) => `${index + 1}. ${instruction}`).join("\n")}NUTRITION FACTS:Calories: ${recipe.nutritionFacts.calories}Protein: ${recipe.nutritionFacts.protein}gCarbs: ${recipe.nutritionFacts.carbs}gFat: ${recipe.nutritionFacts.fat}gFiber: ${recipe.nutritionFacts.fiber}gTags: ${recipe.tags.join(", ")}Gluten-Free: ${recipe.isGlutenFree ? "Yes" : "No"}    `
     const blob = new Blob([recipeText], { type: "text/plain" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -753,11 +717,7 @@ Gluten-Free: ${recipe.isGlutenFree ? "Yes" : "No"}
   }
   // Function to download email
   const downloadEmail = (email: Email) => {
-    const emailText = `Subject: ${email.subject}
-Date: ${formatDate(email.createdAt)}
-
-${email.content}
-    `
+    const emailText = `Subject: ${email.subject}Date: ${formatDate(email.createdAt)}${email.content}    `
     const blob = new Blob([emailText], { type: "text/plain" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -770,17 +730,7 @@ ${email.content}
   }
   // Function to download detox plan
   const downloadDetoxPlan = (plan: DetoxPlan) => {
-    const planText = `${plan.title}
-Duration: ${plan.duration}
-
-DESCRIPTION:
-${plan.description}
-
-MEAL PLAN:
-${plan.meals.map((meal) => `${meal.day}: ${meal.mealPlan}`).join("\n\n")}
-
-Created: ${formatDate(plan.createdAt)}
-    `
+    const planText = `${plan.title}Duration: ${plan.duration}DESCRIPTION:${plan.description}MEAL PLAN:${plan.meals.map((meal) => `${meal.day}: ${meal.mealPlan}`).join("\n\n")}Created: ${formatDate(plan.createdAt)}    `
     const blob = new Blob([planText], { type: "text/plain" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -945,20 +895,8 @@ Created: ${formatDate(plan.createdAt)}
                   >
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium">{recipe.title}</p>
-                      <p className="text-xs text-gray-600 mt-1">
-                        {recipe.category} • {recipe.downloads} downloads
-                      </p>
+                     
                     </div>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        downloadRecipe(recipe)
-                      }}
-                    >
-                      <Download className="h-4 w-4" />
-                    </Button>
                   </div>
                 ))}
                 {dashboardData.recipes.length === 0 && (
@@ -1085,7 +1023,6 @@ Created: ${formatDate(plan.createdAt)}
                 </Button>
               </div>
             </DashboardCard>
-
             {/* New: Upcoming Meetings Card */}
             <DashboardCard
               title="Upcoming Meetings"
@@ -1137,7 +1074,6 @@ Created: ${formatDate(plan.createdAt)}
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-3">
-                
                 <Button
                   variant="outline"
                   size="sm"
@@ -1214,7 +1150,7 @@ Created: ${formatDate(plan.createdAt)}
         </Dialog>
         {/* Detox Plans Dialog */}
         <Dialog open={showAllDetoxPlans} onOpenChange={setShowAllDetoxPlans}>
-          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <DialogTitle>Detox Plans</DialogTitle>
               <DialogDescription>Personalized detox and cleanse programs for your wellness journey</DialogDescription>
@@ -1264,7 +1200,7 @@ Created: ${formatDate(plan.createdAt)}
         </Dialog>
         {/* Detox Plan Detail Dialog */}
         <Dialog open={!!selectedDetoxPlan} onOpenChange={(open) => !open && setSelectedDetoxPlan(null)}>
-          <DialogContent className="sm:max-w-[700px] p-4 max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <div className="flex items-center gap-2">
                 <Leaf className="h-5 w-5 text-green-600" />
@@ -1297,25 +1233,11 @@ Created: ${formatDate(plan.createdAt)}
                 Created: {selectedDetoxPlan && formatDate(selectedDetoxPlan.createdAt)}
               </div>
             </div>
-            <DialogFooter>
-              <div className="flex w-full justify-between">
-                <div className="flex gap-3">
-                  <Button variant="outline">
-                    <Printer className="h-4 w-4 mr-2" />
-                    Print
-                  </Button>
-                  <Button variant="outline">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
-                </div>
-              </div>
-            </DialogFooter>
           </DialogContent>
         </Dialog>
         {/* Recipe Browser Dialog */}
         <Dialog open={showAllRecipes} onOpenChange={setShowAllRecipes}>
-          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <DialogTitle>Recipe Collection</DialogTitle>
               <DialogDescription>Browse all gluten-free recipes</DialogDescription>
@@ -1379,7 +1301,7 @@ Created: ${formatDate(plan.createdAt)}
         </Dialog>
         {/* Email Archive Dialog */}
         <Dialog open={showAllEmails} onOpenChange={setShowAllEmails}>
-          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <DialogTitle>Email Archive</DialogTitle>
               <DialogDescription>Access all your motivational emails</DialogDescription>
@@ -1433,7 +1355,7 @@ Created: ${formatDate(plan.createdAt)}
         </Dialog>
         {/* Recipe Detail Dialog */}
         <Dialog open={!!selectedRecipe} onOpenChange={(open) => !open && setSelectedRecipe(null)}>
-          <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <DialogTitle>{selectedRecipe?.title}</DialogTitle>
               <DialogDescription>{selectedRecipe?.category}</DialogDescription>
@@ -1520,13 +1442,12 @@ Created: ${formatDate(plan.createdAt)}
                 </div>
               </div>
             </div>
-            <DialogFooter>
-            </DialogFooter>
+            <DialogFooter className="flex w-full justify-end p-6 pt-0"></DialogFooter>
           </DialogContent>
         </Dialog>
         {/* Email Detail Dialog */}
         <Dialog open={!!selectedEmail} onOpenChange={(open) => !open && setSelectedEmail(null)}>
-          <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <DialogTitle>{selectedEmail?.subject}</DialogTitle>
               <DialogDescription>Date: {selectedEmail && formatDate(selectedEmail.createdAt)}</DialogDescription>
@@ -1534,25 +1455,23 @@ Created: ${formatDate(plan.createdAt)}
             <div className="space-y-4">
               <div className="p-6 bg-gray-50 rounded-md whitespace-pre-line border">{selectedEmail?.content}</div>
             </div>
-            <DialogFooter>
-              <div className="flex w-full justify-between">
-                <div className="flex gap-3">
-                  <Button variant="outline">
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Previous
-                  </Button>
-                  <Button variant="outline">
-                    <ArrowRight className="h-4 w-4 mr-2" />
-                    Next
-                  </Button>
-                </div>
+            <DialogFooter className="flex w-full justify-between p-6 pt-0">
+              <div className="flex gap-3">
+                <Button variant="outline">
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Previous
+                </Button>
+                <Button variant="outline">
+                  <ArrowRight className="h-4 w-4 mr-2" />
+                  Next
+                </Button>
               </div>
             </DialogFooter>
           </DialogContent>
         </Dialog>
         {/* New: All Meetings Dialog */}
         <Dialog open={showAllMeetings} onOpenChange={setShowAllMeetings}>
-          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <DialogTitle>All Meetings</DialogTitle>
               <DialogDescription>Browse your scheduled virtual consultations</DialogDescription>
@@ -1638,7 +1557,7 @@ Created: ${formatDate(plan.createdAt)}
         </Dialog>
         {/* New: Meeting Detail Dialog (similar to Recipe/DetoxPlan detail) */}
         <Dialog open={!!selectedMeetingDetail} onOpenChange={(open) => !open && setSelectedMeetingDetail(null)}>
-          <DialogContent className="sm:max-w-[700px] p-4 max-h-[80vh] overflow-y-auto">
+          <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto p-6">
             <DialogHeader>
               <div className="flex items-center gap-2">
                 <Calendar className="h-5 w-5 text-blue-600" />
@@ -1709,13 +1628,11 @@ Created: ${formatDate(plan.createdAt)}
                 </div>
               )}
             </div>
-            <DialogFooter>
-              <div className="flex w-full justify-end">
-                <Button size="sm" onClick={() => window.open(selectedMeetingDetail!.meetLink, "_blank")}>
-                  <Video className="h-4 w-4 mr-2" />
-                  Join Meeting
-                </Button>
-              </div>
+            <DialogFooter className="flex w-full justify-end p-6 pt-0">
+              <Button size="sm" onClick={() => window.open(selectedMeetingDetail!.meetLink, "_blank")}>
+                <Video className="h-4 w-4 mr-2" />
+                Join Meeting
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
