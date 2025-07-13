@@ -48,7 +48,7 @@
     useEffect(() => {
       const fetchBlogs = async () => {
         try {
-          const response = await fetch('https://eight-senses-backend.onrender.com/api/blogs', {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs`, {
             headers: {
               'Content-Type': 'application/json',
             }

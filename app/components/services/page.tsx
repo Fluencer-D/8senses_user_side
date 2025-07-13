@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DottedPattern from "../dottedPattern/page";
 import Services1 from "@/public/services1.png";
+import Link from "next/link";
 
 const services = [
   {
@@ -45,9 +46,11 @@ const Services = () => {
             </p>
           </div>
           <div className="mt-4 lg:mt-0 py-[30px] md:py-[85px] px-[15px] md:px-[32px]">
+            <Link href={"/services"}>
             <button className="bg-[#C83C92] text-white px-4 md:px-6 py-2 md:py-3 rounded-full text-[18px] md:text-[24px]">
               Explore our all services
             </button>
+            </Link>
           </div>
         </div>
 

@@ -42,7 +42,7 @@ const resourceItems: NavItem[] = [
   { label: "Blogs", href: "/blogs" },
   { label: "Our Store", href: "/store" },
   { label: "Health Library", href: "/health-library" },
-  { label: "Webinars", href: "/webinars" },
+  // { label: "Webinars", href: "/webinars" },
   { label: "Gallery", href: "/gallery" },
   { label: "Career", href: "/career" },
   { label: "Members Club", href: "/members-club" },

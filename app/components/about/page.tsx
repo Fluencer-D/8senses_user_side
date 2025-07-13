@@ -13,9 +13,9 @@ export default function AboutUs() {
         {/* Images Container - Positioned above content */}
         <div className="max-w-6xl mx-auto">
           {/* Images Container - Positioned above content */}
-          <div className="relative flex justify-center mb-16">
+          <div className="relative flex flex-col md:flex-row justify-center items-center mb-16 gap-6 md:gap-0">
             {/* Left image with decorative element */}
-            <div className="relative mr-4 md:mr-12">
+            <div className="relative md:mr-12">
               <div className="hidden 2xl:block absolute top-20 -right-100 z-0">
                 <Image src={AboutContainer} alt="Background Shape" width={78} height={58} />
               </div>
@@ -34,7 +34,7 @@ export default function AboutUs() {
             </div>
 
             {/* Right image */}
-            <div className="relative ml-4 md:ml-12 mt-30">
+            <div className="relative md:ml-12 mt-6 md:mt-30">
               <div className="relative z-10">
                 <Image
                   src={AboutDoctor}
@@ -51,6 +51,7 @@ export default function AboutUs() {
               <DottedPattern />
             </div>
           </div>
+
 
           {/* Text Content - Centered below images */}
           <div className="text-left text-[#245BA7]">

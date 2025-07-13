@@ -144,13 +144,13 @@ const Services = () => {
             skills, improve communication, and gain independence in their daily lives.
           </p>
 
-          <div className="flex justify-center lg:justify-start mt-12 lg:mt-16 2xl:mt-3">
+          {/* <div className="flex justify-center lg:justify-start mt-12 lg:mt-16 2xl:mt-3">
             <button
               onClick={handleBookConsultation}
               className="bg-[#C83C92] text-white text-base md:text-lg font-medium px-6 py-3 rounded-full inline-block cursor-pointer">
               Book a Consultation
             </button>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -173,31 +173,31 @@ const Services = () => {
         </div>
 
         {/* Desktop Button - EXACTLY as is */}
-        <div className="hidden xl:flex justify-start mt-2 ml-[478px]">
+        {/* <div className="hidden xl:flex justify-start mt-2 ml-[478px]">
           <button
             onClick={handleBookConsultation}
             className="bg-[#C83C92] text-white text-lg font-medium px-6 py-3 rounded-full cursor-pointer">
             Book a Consultation
           </button>
-        </div>
+        </div> */}
 
         {/* Tablet/Mid-size Button - Only shows on iPad Pro and Nest Hub */}
-        <div className="hidden lg:flex xl:hidden justify-center w-full mt-8">
+        {/* <div className="hidden lg:flex xl:hidden justify-center w-full mt-8">
           <button
             onClick={handleBookConsultation}
             className="bg-[#C83C92] text-white text-lg font-medium px-6 py-3 rounded-full">
             Book a Consultation
           </button>
-        </div>
+        </div> */}
 
         {/* Mobile Button - Only shows on small screens */}
-        <div className="lg:hidden flex justify-center w-full mt-8">
+        {/* <div className="lg:hidden flex justify-center w-full mt-8">
           <button
             onClick={handleBookConsultation}
             className="bg-[#C83C92] text-white text-lg font-medium px-6 py-3 rounded-full">
             Book a Consultation
           </button>
-        </div>
+        </div> */}
       </section>
 
       {/* Cards Section - Fixed to prevent content overflow */}

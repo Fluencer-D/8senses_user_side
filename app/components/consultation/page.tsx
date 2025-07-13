@@ -62,12 +62,6 @@ const Consultation = () => {
         <p className="mt-4 text-[23px] leading-[34px] tracking-[0.48px] font-normal text-[#E7E7E7] max-w-2xl mx-auto text-center">
           Get expert Pediatric Occupational Therapy and Speech Therapy tailored to your child's needs. Early intervention makes a difference!
         </p>
-
-        <div className="button-group mt-6 flex justify-center gap-[24px]">
-          <Link href={'/booking-form'}><button className="bg-[#C83C92] text-[17px] text-white font-semibold px-[32px] py-[20px] h-[70px] inline-flex items-center justify-center gap-2 rounded-full shadow-lg hover:bg-[#A32E75]">
-            Book an Appointment
-          </button></Link>
-        </div>
       </div>
     </section>
   );
