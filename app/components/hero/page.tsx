@@ -17,7 +17,7 @@ export default function Hero() {
       <p className="max-w-2xl text-2xl text-[#456696] mt-4 px-4">
         Empowering children to reach their full potential through specialized therapy and compassionate care.
       </p>
-      {/* <div className="mt-8 grid gap-4 md:flex md:space-x-6">
+      <div className="mt-8 grid gap-4 md:flex md:space-x-6">
         <button
           onClick={() => setIsAppointmentDialogOpen(true)}
           className="w-[250px] whitespace-nowrap h-[60px] bg-[#C83C92] hover:bg-[#b8327f] text-white px-8 py-4 text-xl rounded-full transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-[#C83C92] focus:ring-opacity-50 shadow-lg"
@@ -30,7 +30,7 @@ export default function Hero() {
             Explore our services
           </button>
         </Link>
-      </div> */}
+      </div>
 
       {/* Custom Modal/Dialog - Enhanced Styling with Transparent Foggy Background */}
       {isAppointmentDialogOpen && (
