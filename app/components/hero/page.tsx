@@ -22,7 +22,7 @@ export default function Hero() {
           priority
         />
       </div>
-      <p className="max-w-2xl text-2xl text-[#C83C92] px-4 font-bold mt-0">
+      <p className="max-w-2xl text-2xl text-[#C83C92] px-4 font-semibold mt-0">
         Pediatric Occupational Therapy and Speech Therapy Clinic
       </p>
       <p className="max-w-2xl text-2xl text-[#456696] mt-4 px-4">
