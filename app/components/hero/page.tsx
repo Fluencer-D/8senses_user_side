@@ -9,7 +9,7 @@ export default function Hero() {
   const [isAppointmentDialogOpen, setIsAppointmentDialogOpen] = useState(false);
 
   return (
-    <section className="relative flex flex-col items-center justify-center text-center py-24 bg-white">
+    <section className="relative flex flex-col items-center justify-center text-center py-15 bg-white">
       <div className="relative">
         <h1 className="ml-[550px] absolute font-nav_link_font text-5xl text-[#245BA7] mt-28">
           Welcome to
@@ -22,7 +22,7 @@ export default function Hero() {
           priority
         />
       </div>
-      <p className="max-w-2xl text-2xl text-[#C83C92] px-4">
+      <p className="max-w-2xl text-2xl text-[#C83C92] px-4 font-bold mt-0">
         Pediatric Occupational Therapy and Speech Therapy Clinic
       </p>
       <p className="max-w-2xl text-2xl text-[#456696] mt-4 px-4">

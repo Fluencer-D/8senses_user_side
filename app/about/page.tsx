@@ -18,6 +18,7 @@ import AbtOurJouney2 from "../../public/AbtOurJouney2.png";
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
+
 const faqs = [
   {
     question:
