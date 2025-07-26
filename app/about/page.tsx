@@ -18,7 +18,6 @@ import AbtOurJouney2 from "../../public/AbtOurJouney2.png";
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
-
 const faqs = [
   {
     question:
@@ -143,10 +142,10 @@ const About = () => {
         <section className="relative bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
           <div className="max-w-6xl mx-auto">
             {/* Images Container - Positioned above content */}
-            <div className="relative flex justify-center mb-16">
+            <div className="relative flex flex-col md:flex-row justify-center mb-16 gap-6 md:gap-12">
               {/* Left image with decorative element */}
-              <div className="relative mr-4 md:mr-12">
-                <div className="hidden 2xl:block absolute top-20 -right-100 z-0">
+              <div className="relative">
+                <div className="hidden 2xl:block absolute top-20 -right-28 z-0">
                   <Image
                     src={AboutContainer}
                     alt="Background Shape"
@@ -154,15 +153,17 @@ const About = () => {
                     height={58}
                   />
                 </div>
-                <div className="relative z-10">
+
+                <div className="relative w-[320px] h-[250px] md:w-[400px] md:h-[280px] lg:w-[450px] lg:h-[300px] z-10">
                   <Image
                     src={Aboutlink}
                     alt="Medical professional with child"
-                    width={450}
-                    height={250}
-                    className="rounded-lg h-80 w-140"
+                    fill
+                    className="rounded-lg object-cover"
+                    priority
                   />
                 </div>
+
                 <div className="hidden 2xl:block absolute bottom-[70px] left-[220px]">
                   <Image
                     src={AboutContainer2}
@@ -174,14 +175,14 @@ const About = () => {
               </div>
 
               {/* Right image */}
-              <div className="relative ml-4 md:ml-12 mt-30">
-                <div className="relative z-10">
+              <div className="relative mt-6 md:mt-30">
+                <div className="relative w-[320px] h-[250px] md:w-[400px] md:h-[280px] lg:w-[450px] lg:h-[300px] z-10">
                   <Image
                     src={Aboutlink2}
                     alt="Medical professional examining baby"
-                    width={450}
-                    height={250}
-                    className="rounded-lg h-80 w-140"
+                    fill
+                    className="rounded-lg object-cover"
+                    priority
                   />
                 </div>
               </div>
@@ -211,7 +212,9 @@ const About = () => {
                 approach, has made her a trusted name in the field—transforming
                 lives and fostering brighter futures for countless families.
               </p>
-              <br></br>
+
+              <br />
+
               <p className="font-nav_link_font text-lg md:text-xl leading-relaxed tracking-[0.02em] text-[#456696] max-w-6xl mx-auto text-left">
                 Dr. Parul Diwan is a highly experienced Audiologist and
                 Pediatric Speech Therapist, dedicated to assessing and treating
