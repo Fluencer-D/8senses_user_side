@@ -22,7 +22,7 @@ export default function Hero() {
           priority
         />
       </div>
-      <p className="max-w-2xl text-2xl text-[#C83C92] px-4 font-semibold mt-0">
+      <p className="whitespace-nowrap overflow-hidden text-ellipsis max-w-full text-2xl text-[#C83C92] px-4 font-semibold mt-0">
         Pediatric Occupational Therapy and Speech Therapy Clinic
       </p>
       <p className="max-w-2xl text-2xl text-[#456696] mt-4 px-4">
@@ -76,11 +76,13 @@ export default function Hero() {
                 <span className="font-bold text-[#245BA7]">
                   Clinic Address:
                 </span>{" "}
-                [Your Clinic Address Here]
+                301, 302 8Senses Pediatric Occupational Therapy and Speech
+                Therapy Clinic, One Gangapur Building, above Reliance Digital,
+                Jehan Circle, Gangapur Road, Nashik, Maharashtra, India-422013
               </p>
               <p className="text-md font-semibold text-gray-800">
-                <span className="font-bold text-[#245BA7]">Phone:</span> [Your
-                Phone Number Here]
+                <span className="font-bold text-[#245BA7]">Phone:</span>{" "}
+                9309187144 | 9766712546 | 86009 94239
               </p>
             </div>
             <div className="flex justify-center pt-4">
