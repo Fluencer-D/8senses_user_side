@@ -1,121 +1,129 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import Navbar from "../components/navbar/page"
-import Banner from "../components/CommonBanner/Banner"
-import MembersBanner from "@/public/MembersBanner.png"
-import DottedPattern from "../components/dottedPattern/page"
-import Image from "next/image"
-import AbtIconContainer from "@/public/AbtIconContainer.png"
-import PricingCard from "../components/PricingCard/PricingCard"
-import Footer from "../components/footer/page"
-import AuthModal from "../components/auth/AuthModal"
-import { useRouter } from "next/navigation"
-import member_club_img from "@/public/member_club_img.png"
-import axios from "axios"
+import type React from "react";
+import { useState, useEffect } from "react";
+import Navbar from "../components/navbar/page";
+import Banner from "../components/CommonBanner/Banner";
+import MembersBanner from "@/public/MembersBanner.png";
+import DottedPattern from "../components/dottedPattern/page";
+import Image from "next/image";
+import AbtIconContainer from "@/public/AbtIconContainer.png";
+import PricingCard from "../components/PricingCard/PricingCard";
+import Footer from "../components/footer/page";
+import AuthModal from "../components/auth/AuthModal";
+import { useRouter } from "next/navigation";
+import member_club_img from "@/public/member_club_img.png";
+import axios from "axios";
 
 // Define TypeScript interfaces
 interface Service {
-  title: string
-  description: string
+  title: string;
+  description: string;
 }
 
 interface PlanFeatures {
-  accessToWebinars: boolean
-  customerDiscounts: boolean
-  autoRenewal: boolean
-  displayOnPricingPage: boolean
-  accessToPremiumCourses: boolean
-  [key: string]: boolean
+  accessToWebinars: boolean;
+  customerDiscounts: boolean;
+  autoRenewal: boolean;
+  displayOnPricingPage: boolean;
+  accessToPremiumCourses: boolean;
+  [key: string]: boolean;
 }
 
 interface SubscriptionPlan {
-  _id?: string
-  name: string
-  description: string
-  status: string
-  price: number
-  billingCycle: string
-  features: PlanFeatures
-  order: number
-  trialPeriod: number
-  gracePeriod: number
-  createdAt: string
-  updatedAt: string
+  _id?: string;
+  name: string;
+  description: string;
+  status: string;
+  price: number;
+  billingCycle: string;
+  features: PlanFeatures;
+  order: number;
+  trialPeriod: number;
+  gracePeriod: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface ApiResponse {
-  success: boolean
-  count: number
-  data: SubscriptionPlan[]
-  message?: string
+  success: boolean;
+  count: number;
+  data: SubscriptionPlan[];
+  message?: string;
 }
 
 interface User {
-  id: string
-  email: string
-  firstName: string
-  lastName: string
-  role: string
-  membership: string | null
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  membership: string | null;
 }
 
 // Helper function to convert billing cycle to duration
-const getBillingCycleDuration = (billingCycle: string): { duration: number; unit: string } => {
+const getBillingCycleDuration = (
+  billingCycle: string
+): { duration: number; unit: string } => {
   switch (billingCycle) {
     case "quarterly":
-      return { duration: 3, unit: "months" }
+      return { duration: 3, unit: "months" };
     case "biannual":
-      return { duration: 6, unit: "months" }
+      return { duration: 6, unit: "months" };
     case "annual":
-      return { duration: 12, unit: "months" }
+      return { duration: 12, unit: "months" };
     case "monthly":
-      return { duration: 1, unit: "month" }
+      return { duration: 1, unit: "month" };
     default:
-      return { duration: 1, unit: "month" }
+      return { duration: 1, unit: "month" };
   }
-}
+};
 
 // Helper function to convert features object to feature strings array
 const convertFeaturesToArray = (plan: SubscriptionPlan): string[] => {
-  const featuresArray: string[] = []
+  const featuresArray: string[] = [];
 
   // Basic plan features
   if (plan.order === 1) {
-    featuresArray.push("Access to Online Learning Hub")
-    featuresArray.push("Weekly Motivational Emails")
-    featuresArray.push("1 Monthly Expert Discussion")
-    featuresArray.push("Access to Parent Community")
+    featuresArray.push("Access to Online Learning Hub");
+    featuresArray.push("Weekly Motivational Emails");
+    featuresArray.push("1 Monthly Expert Discussion");
+    featuresArray.push("Access to Parent Community");
   }
   // Advanced plan features
   else if (plan.order === 2) {
-    featuresArray.push("Everything in the Basic Plan PLUS")
+    featuresArray.push("Everything in the Basic Plan PLUS");
     if (plan.features.accessToWebinars) {
-      featuresArray.push("Gluten-free casein free recipes")
+      featuresArray.push("Gluten-free casein free recipes");
     }
-    featuresArray.push("Personalized Progress Tracking Templates")
+    featuresArray.push("Personalized Progress Tracking Templates");
     if (plan.features.customerDiscounts) {
-      featuresArray.push("10% Discount on Workshops")
+      featuresArray.push("10% Discount on Workshops");
     }
-    featuresArray.push("Priority Access to New Content")
+    featuresArray.push("Priority Access to New Content");
   }
   // Premium plan features
   else if (plan.order === 3) {
-    featuresArray.push("Everything in the Advanced Plan PLUS")
-    featuresArray.push("Gluten-free casein free recipes and full day meal plan")
-    featuresArray.push("Detox diet recipes")
-    featuresArray.push("1 Private Consultation (30 mins) with Dr.Shrruti Paatil, Pediatric Occupational Therapist")
+    featuresArray.push("Everything in the Advanced Plan PLUS");
+    featuresArray.push(
+      "Gluten-free casein free recipes and full day meal plan"
+    );
+    featuresArray.push("Detox diet recipes");
+    featuresArray.push(
+      "1 Private Consultation (30 mins) with Dr.Shrruti Paatil, Pediatric Occupational Therapist"
+    );
     if (plan.features.customerDiscounts) {
-      featuresArray.push("15% on Workshops")
+      featuresArray.push("15% on Workshops");
     }
     if (plan.features.accessToPremiumCourses) {
-      featuresArray.push("Special Recognition as a Parent Advocate in our Community")
+      featuresArray.push(
+        "Special Recognition as a Parent Advocate in our Community"
+      );
     }
   }
 
-  return featuresArray
-}
+  return featuresArray;
+};
 
 const services: Service[] = [
   {
@@ -140,33 +148,41 @@ const services: Service[] = [
   },
   {
     title: "Discounts on Workshops",
-    description: "Enjoy exclusive discounts on therapy programs, workshops, and special events.",
+    description:
+      "Enjoy exclusive discounts on therapy programs, workshops, and special events.",
   },
   {
     title: "Personalized Progress Tracking Tools",
     description:
       "Download goal-setting and progress monitoring templates to track your child's development effectively.",
   },
-]
+  {
+    title: "Special Curated Recipes",
+    description:
+      "Access nutritionist-approved, kid-friendly recipes designed to support sensory needs, oral motor development, and picky eating habits.",
+  },
+];
 
 const Members: React.FC = () => {
-  const router = useRouter()
-  const [subscriptionPlans, setSubscriptionPlans] = useState<SubscriptionPlan[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [subscriptionPlans, setSubscriptionPlans] = useState<
+    SubscriptionPlan[]
+  >([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Authentication states
-  const [user, setUser] = useState<User | null>(null)
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
-  const [showAuthModal, setShowAuthModal] = useState<boolean>(false)
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login")
-  const [selectedPlanId, setSelectedPlanId] = useState<string>("")
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [selectedPlanId, setSelectedPlanId] = useState<string>("");
 
   // Check authentication status on component mount
   useEffect(() => {
     const checkAuthStatus = async () => {
-      const token = localStorage.getItem("token")
-      const savedUser = localStorage.getItem("user")
+      const token = localStorage.getItem("token");
+      const savedUser = localStorage.getItem("user");
 
       if (token && savedUser) {
         try {
@@ -177,73 +193,73 @@ const Members: React.FC = () => {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            },
-          )
+            }
+          );
 
           if (response.ok) {
-            const data = await response.json()
-            setUser(data.data)
-            setIsAuthenticated(true)
+            const data = await response.json();
+            setUser(data.data);
+            setIsAuthenticated(true);
           } else {
             // Token is invalid, clear storage
-            localStorage.removeItem("token")
-            localStorage.removeItem("user")
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
           }
         } catch (error) {
-          console.error("Auth verification failed:", error)
-          localStorage.removeItem("token")
-          localStorage.removeItem("user")
+          console.error("Auth verification failed:", error);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
         }
       }
-    }
+    };
 
-    checkAuthStatus()
+    checkAuthStatus();
   }, []);
 
   useEffect(() => {
     const fetchSubscriptionPlans = async (): Promise<void> => {
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await axios.get<ApiResponse>(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/plans`,
-        )
-        console.log("API Response:", response.data)
+          `${process.env.NEXT_PUBLIC_API_URL}/api/subscriptions/plans`
+        );
+        console.log("API Response:", response.data);
 
-        const plans = response.data.data || []
-        plans.sort((a, b) => a.order - b.order)
+        const plans = response.data.data || [];
+        plans.sort((a, b) => a.order - b.order);
 
-        setSubscriptionPlans(plans)
-        setLoading(false)
+        setSubscriptionPlans(plans);
+        setLoading(false);
       } catch (err) {
-        console.error("Error fetching subscription plans:", err)
-        setError("Failed to load subscription plans. Please try again later.")
-        setLoading(false)
+        console.error("Error fetching subscription plans:", err);
+        setError("Failed to load subscription plans. Please try again later.");
+        setLoading(false);
       }
-    }
+    };
 
-    fetchSubscriptionPlans()
-  }, [])
+    fetchSubscriptionPlans();
+  }, []);
 
   const handlePlanSelect = (planId: string) => {
     if (!isAuthenticated) {
-      setSelectedPlanId(planId)
-      setAuthMode("login")
-      setShowAuthModal(true)
-      return
+      setSelectedPlanId(planId);
+      setAuthMode("login");
+      setShowAuthModal(true);
+      return;
     }
-    router.push(`/members-club/${planId}`)
-  }
+    router.push(`/members-club/${planId}`);
+  };
 
   const handleAuthSuccess = (userData: User) => {
-    setUser(userData)
-    setIsAuthenticated(true)
-    setShowAuthModal(false)
+    setUser(userData);
+    setIsAuthenticated(true);
+    setShowAuthModal(false);
 
     // If user was trying to select a plan, redirect them to it
     if (selectedPlanId) {
-      router.push(`/members-club/${selectedPlanId}`)
+      router.push(`/members-club/${selectedPlanId}`);
     }
-  }
+  };
 
   return (
     <>
@@ -251,10 +267,10 @@ const Members: React.FC = () => {
         user={user}
         isAuthenticated={isAuthenticated}
         onLogout={() => {
-          localStorage.removeItem("token")
-          localStorage.removeItem("user")
-          setUser(null)
-          setIsAuthenticated(false)
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          setUser(null);
+          setIsAuthenticated(false);
         }}
       />
 
@@ -277,16 +293,18 @@ const Members: React.FC = () => {
               <li className="flex mb-6">
                 <span className="mr-3 text-xl text-[#456696]">·</span>
                 <p className="text-base md:text-lg 2xl:text-xl text-[#456696]">
-                  At 8 Senses Pediatric Occupational Therapy Clinic, we understand that parenting a child with
-                  neurological and developmental challenges comes with unique struggles.
+                  At 8 Senses Pediatric Occupational Therapy Clinic, we
+                  understand that parenting a child with neurological and
+                  developmental challenges comes with unique struggles.
                 </p>
               </li>
 
               <li className="flex">
                 <span className="mr-3 text-xl text-[#456696]">·</span>
                 <p className="text-base md:text-lg 2xl:text-xl text-[#456696]">
-                  The 8 Senses Members Club is designed to provide you with continuous guidance, expert knowledge, and a
-                  supportive community to help your child thrive.
+                  The 8 Senses Members Club is designed to provide you with
+                  continuous guidance, expert knowledge, and a supportive
+                  community to help your child thrive.
                 </p>
               </li>
             </ul>
@@ -323,7 +341,8 @@ const Members: React.FC = () => {
             className="text-base sm:text-lg md:text-xl lg:text-[26px] font-normal 
                         leading-relaxed tracking-wide text-[#456696] font-urbanist mb-6"
           >
-            Get access to expert resources, special discounts, and a community that helps your child thrive!
+            Get access to expert resources, special discounts, and a community
+            that helps your child thrive!
           </p>
           <div className="flex justify-center lg:justify-start">
             <button
@@ -356,7 +375,13 @@ const Members: React.FC = () => {
                     className="sm:w-[110px] sm:h-[110px]"
                   />
                   <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 60 60" fill="none">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      viewBox="0 0 60 60"
+                      fill="none"
+                    >
                       <path
                         d="M50 17.5L25 42.5L12.5 30"
                         stroke="white"
@@ -367,8 +392,12 @@ const Members: React.FC = () => {
                     </svg>
                   </div>
                 </div>
-                <h3 className="text-lg sm:text-[24px] font-semibold text-white text-center">{service.title}</h3>
-                <p className="text-[#E7E7E7] text-center text-sm sm:text-[20px] mt-2">{service.description}</p>
+                <h3 className="text-lg sm:text-[24px] font-semibold text-white text-center">
+                  {service.title}
+                </h3>
+                <p className="text-[#E7E7E7] text-center text-sm sm:text-[20px] mt-2">
+                  {service.description}
+                </p>
               </div>
             ))}
           </div>
@@ -381,7 +410,8 @@ const Members: React.FC = () => {
         </h1>
         <h3 className="font-nav_link_font text-base sm:text-xl lg:text-2xl text-[#456696] px-4">
           Select the perfect plan to access expert guidance, exclusive
-          <br className="hidden sm:block" /> resources, and a supportive parent community.
+          <br className="hidden sm:block" /> resources, and a supportive parent
+          community.
         </h3>
       </div>
 
@@ -402,20 +432,23 @@ const Members: React.FC = () => {
           <div className="text-center text-red-500 py-8">{error}</div>
         ) : subscriptionPlans.length > 0 ? (
           subscriptionPlans.map((plan, index) => {
-            const durationInfo = getBillingCycleDuration(plan.billingCycle)
-            const featuresList = convertFeaturesToArray(plan)
+            const durationInfo = getBillingCycleDuration(plan.billingCycle);
+            const featuresList = convertFeaturesToArray(plan);
 
             return (
               <PricingCard
                 key={plan._id || index}
                 title={`${plan.name} (${durationInfo.duration} ${durationInfo.unit})`}
                 price={`₹${plan.price}`}
-                description={plan.description || `per user for ${durationInfo.duration} ${durationInfo.unit}`}
+                description={
+                  plan.description ||
+                  `per user for ${durationInfo.duration} ${durationInfo.unit}`
+                }
                 features={featuresList}
                 isPremium={plan.order === 3}
                 onClick={() => handlePlanSelect(plan._id || "")}
               />
-            )
+            );
           })
         ) : (
           <>
@@ -473,7 +506,7 @@ const Members: React.FC = () => {
 
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Members
+export default Members;
