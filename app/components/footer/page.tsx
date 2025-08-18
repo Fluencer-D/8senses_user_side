@@ -3,9 +3,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const Footer = () => {
+  // Main navigation links
+  // const mainLinks = ["Home", "About", "Services", "Blogs", "Contact"];
+  
+  // Policy links
+  const policyLinks = [
+    { name: "Terms & Conditions", path: "/terms-and-conditions" },
+    { name: "Privacy Policy", path: "/privacy-policy" },
+    { name: "Shipping Policy", path: "/shipping-policy" },
+    { name: "Refund & Cancellation Policy", path: "/refund-cancellation-policy" },
+    { name: "Cancellation & Refund Policy", path: "/cancellation-refund-policy" },
+  ];
+
   return (
     <footer className="bg-[#2D63AF] py-[80px] pt-14 px-[160px] h-[260px] mt-[85.73px]">
-      {/* Tablet-specific styling (iPad, Surface Pro 7, Nest Hub) */}
+      {/* Tablet-specific styling */}
       <style jsx>{`
         @media (min-width: 768px) and (max-width: 1280px) {
           footer {
@@ -25,7 +37,7 @@ const Footer = () => {
         }
       `}</style>
 
-      {/* Mobile-specific styling (unchanged) */}
+      {/* Mobile-specific styling */}
       <style jsx>{`
         @media (max-width: 767px) {
           footer {
@@ -55,7 +67,7 @@ const Footer = () => {
 
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
         {/* Left Section: Logo & Navigation */}
-        <div className="flex flex-col items-center md:items-start gap-[29px]">
+        <div className="flex flex-col items-center md:items-start gap-[20px]">
           <Link href="/">
             <Image 
               src="/FinalLogo.svg" 
@@ -66,20 +78,19 @@ const Footer = () => {
               className="w-[150px] md:w-[182px] mt-10"
             />
           </Link>
-          <nav className="mt-4 text-[18px] flex flex-wrap justify-center md:flex-row md:space-x-[54px] text-white">
-            {["Home", "About", "Services", "Blogs", "Contact"].map((item, index) => {
-              const path = item === "Home" ? "/" : `/${item.toLowerCase()}`;
-              return (
-                <Link 
-                  key={index} 
-                  href={path} 
-                  className="nav-link relative group px-3 py-1 md:px-0 md:py-0"
-                >
-                  {item}
-                  <span className="absolute left-0 bottom-[-2px] w-0 h-[2px] bg-white transition-all duration-300 ease-in-out group-hover:w-full group-hover:scale-x-110"></span>
-                </Link>
-              );
-            })}
+
+          <nav className="mt-4 text-[18px] w-full flex flex-wrap justify-center md:flex-row md:space-x-[54px] text-white">
+            {/* Policy links */}
+            {policyLinks.map((link, index) => (
+              <Link 
+                key={index} 
+                href={link.path} 
+                className="nav-link relative text-sm group px-3 py-1 md:px-0 md:py-0"
+              >
+                {link.name}
+                <span className="absolute left-0 bottom-[-2px] w-0 h-[2px] bg-white transition-all duration-300 ease-in-out group-hover:w-full group-hover:scale-x-110"></span>
+              </Link>
+            ))}
           </nav>
         </div>
 
