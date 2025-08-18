@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/navbar/page";
 
 const TermsAndConditions = () => {
   const sections = [
@@ -50,7 +51,9 @@ Any dispute will be subject to the exclusive jurisdiction of the courts in Nashi
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12">
+    <>
+    <Navbar/>
+        <div className="max-w-4xl mt-22 mx-auto px-6 py-12">
       <h1 className="text-3xl font-bold mb-8 text-center">Terms and Conditions</h1>
       {sections.map((section, idx) => (
         <div key={idx} className="mb-6">
@@ -59,6 +62,7 @@ Any dispute will be subject to the exclusive jurisdiction of the courts in Nashi
         </div>
       ))}
     </div>
+    </>
   );
 };
 

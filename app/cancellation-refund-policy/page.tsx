@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/navbar/page";
 
 const CancellationRefundPolicy = () => {
   const sections = [
@@ -27,7 +28,9 @@ Our support team will process your request promptly.`,
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-12">
+    <>
+    <Navbar/>
+        <div className="max-w-4xl mt-22 mx-auto px-6 py-12">
       <h1 className="text-3xl font-bold mb-8 text-center">Cancellation & Refund Policy</h1>
       {sections.map((section, idx) => (
         <div key={idx} className="mb-6">
@@ -36,6 +39,7 @@ Our support team will process your request promptly.`,
         </div>
       ))}
     </div>
+    </>
   );
 };
 
