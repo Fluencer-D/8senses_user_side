@@ -203,7 +203,7 @@ const About = () => {
                 The clinic's mission is to empower children to reach their full
                 potential through tailored, evidence-based treatments, while
                 also equipping families with practical strategies and unwavering
-                support. Dr. Shrruti is a seasoned Pediatric Occupational
+                support. Dr. Shrruti Paatil is a seasoned Pediatric Occupational
                 Therapist dedicated to supporting children with neurological and
                 developmental challenges. She specializes in Occupational
                 Therapy, Sensory Integration, and neurodevelopmental
