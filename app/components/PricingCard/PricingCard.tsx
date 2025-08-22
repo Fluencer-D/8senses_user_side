@@ -30,12 +30,7 @@ const PricingCard: React.FC<PricingCardProps> = ({
       <div>
         <h3 className="text-lg sm:text-xl font-medium font-nav_link_font">{title}</h3>
         <p className="text-2xl sm:text-4xl font-normal mt-2">{price}</p>
-        <p className={`text-sm sm:text-md mt-1 ${!isPremium ? "text-[#456696]" : "text-[#fff]"}`}>
-          {description}
-        </p>
-        <p className={`text-sm sm:text-md mt-3 sm:mt-5 ${!isPremium ? "text-[#456696]" : "text-[#fff]"}`}>
-          {desc2}
-        </p>
+      
       </div>
 
       {/* Features List */}

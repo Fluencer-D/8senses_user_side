@@ -203,7 +203,7 @@ const About = () => {
                 The clinic's mission is to empower children to reach their full
                 potential through tailored, evidence-based treatments, while
                 also equipping families with practical strategies and unwavering
-                support. Dr. Shrruti is a seasoned Pediatric Occupational
+                support. Dr. Shrruti Patil is a seasoned Pediatric Occupational
                 Therapist dedicated to supporting children with neurological and
                 developmental challenges. She specializes in Occupational
                 Therapy, Sensory Integration, and neurodevelopmental
@@ -286,14 +286,14 @@ const About = () => {
                 <span className="font-bold text-[#456696]">
                   Commitment to Integrity:
                 </span>{" "}
-                Dr. Shrruti's commitment to integrity is at the core of
+                Dr. Shrruti Patil's commitment to integrity is at the core of
                 everything she does. From her interactions with patients and
                 colleagues to her professional development and growth, she
                 upholds the highest standards of professionalism. <br />
                 <span className="font-bold ">
                   Founding 8 Senses Clinic:
                 </span>{" "}
-                One of Dr. Shrruti's greatest achievements is the founding of
+                One of Dr. Shrruti Patils's greatest achievements is the founding of
                 8Senses Occupational Therapy and Speech Therapy Clinic, a
                 Pediatric Occupational Therapy practice that provides vital
                 services to children in need. Under her leadership, 8 Senses
@@ -301,7 +301,7 @@ const About = () => {
                 respected and successful practice, transforming the lives of
                 countless children through Occupational Therapy. <br />
                 <span className="font-bold">Recognized Excellence:</span> Dr.
-                Shrruti's contributions to the healthcare industry have been
+                Shrruti Patil's contributions to the healthcare industry have been
                 recognized with numerous awards and accolades, including being
                 named one of the top 50 Power Women visionaries in the field and
                 receiving the entrepreneur of the year award. <br />

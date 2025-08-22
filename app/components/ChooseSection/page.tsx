@@ -20,7 +20,7 @@ const WhyChoose8Senses = () => {
     {
       title: "Passion for Child Development",
       description:
-        "The founder of 8 Senses Clinic, experienced occupational therapists herself, had a strong passion for supporting the holistic development of children – not just in physical and motor skills, but also in cognitive, emotional, and social growth.",
+        "The founders and occupational therapists and speech therapists of 8 Senses Clinic, experienced occupational therapists herself, had a strong passion for supporting the holistic development of children – not just in physical and motor skills, but also in cognitive, emotional, and social growth.",
     },
     {
       title: "Expert Team",
@@ -50,7 +50,14 @@ const WhyChoose8Senses = () => {
     {
       title: "Cutting edge equipment",
       description:
-        "We use advanced tools like sensory integration equipment's and devices, gross motor gym and fine motor aids and variety of toys range to help child motivated to participate and have fun in therapy sessions' and speech technology for the best outcomes. We also use gold standard assessment scales like Sensory Integration Praxis Test (SIPT), Bayleys developmental Scale of infant and toddlers and DASII",
+        `We use advanced tools like sensory integration 
+        equipment's and devices, gross motor gym and fine motor
+         aids and variety of toys range to help child motivated to 
+         participate and have fun in therapy sessions' and speech 
+         technology for the best outcomes. We also use gold standard 
+         assessment scales like Sensory Integration Praxis Test (SIPT),
+        Oral placement therapy,
+        Bayleys developmental Scale of infant and toddlers and DASII`
     },
     {
       title: "Proven Results",

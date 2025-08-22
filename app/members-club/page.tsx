@@ -431,21 +431,19 @@ const Members: React.FC = () => {
         ) : error ? (
           <div className="text-center text-red-500 py-8">{error}</div>
         ) : subscriptionPlans.length > 0 ? (
-          subscriptionPlans.map((plan, index) => {
+          [...subscriptionPlans]?.reverse()?.map((plan, index) => {
+            console.log("aaapesa",plan)
             const durationInfo = getBillingCycleDuration(plan.billingCycle);
-            const featuresList = convertFeaturesToArray(plan);
+            const featuresList = plan.description.split(",")
 
             return (
               <PricingCard
                 key={plan._id || index}
                 title={`${plan.name} (${durationInfo.duration} ${durationInfo.unit})`}
                 price={`₹${plan.price}`}
-                description={
-                  plan.description ||
-                  `per user for ${durationInfo.duration} ${durationInfo.unit}`
-                }
+                
                 features={featuresList}
-                isPremium={plan.order === 3}
+                isPremium={index == 1}
                 onClick={() => handlePlanSelect(plan._id || "")}
               />
             );

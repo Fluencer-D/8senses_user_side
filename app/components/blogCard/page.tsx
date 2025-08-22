@@ -70,6 +70,7 @@ const BlogSection = () => {
 
         const data = await response.json();
 
+        console.log("blogs data",data)
         const blogsArray = Array.isArray(data)
           ? data
           : data.blogs || data.data || [];
@@ -115,17 +116,13 @@ const BlogSection = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 justify-items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {blogs.slice(0, 4).map((blog, index) => (
-        <BlogCard key={index} {...blog} />
-      ))}
-      {blogs.length > 4 && (
-        <div className="sm:col-span-2 lg:col-span-1 flex justify-center w-full">
-          <BlogCard {...blogs[4]} />
-        </div>
-      )}
-    </div>
-  );
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 justify-items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {blogs.map((blog, index) => (
+      <BlogCard key={index} {...blog} />
+    ))}
+  </div>
+);
+
 };
 
 export default BlogSection;

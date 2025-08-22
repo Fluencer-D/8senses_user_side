@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronDown, Menu, X, User, LogOut } from "lucide-react"
+import { ChevronDown, Menu, X, User, LogOut, Route } from "lucide-react"
 import { Button } from "@/components/ui/Button"
 import { motion, AnimatePresence } from "framer-motion"
 import FinalLogo from "../../../public/FinalLogo.svg"
 import AuthModal from "../auth/AuthModal"
+import { useRouter } from "next/navigation"
 
 interface NavItem {
   label: string
@@ -28,7 +29,7 @@ export default function Navbar({  }: NavbarProps = {}) { //user, isAuthenticated
   const [user, setUser] = useState<User | null>(null)
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false)
   const [authMode, setAuthMode] = useState<"login" | "signup">("login")
-
+  const router = useRouter()
   const navItems: NavItem[] = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -229,13 +230,13 @@ const resourceItems: NavItem[] = [
                         )}
                       </div>
 
-                      {/* <button
-                        onClick={() => setShowUserDropdown(false)}
+                      <button
+                        onClick={()=>{router.push("/userDashboard")}}
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center"
                       >
                         <User className="w-4 h-4 mr-2" />
-                        Profile Settings
-                      </button> */}
+                        Dashboard
+                      </button>
 
                       <button
                         onClick={handleLogout}
