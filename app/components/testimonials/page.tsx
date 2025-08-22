@@ -84,43 +84,58 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
 import DottedPattern from "../dottedPattern/page";
-import avatar from "@/public/testimonial.png";
+import avatar from "@/public/placeholder.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
   {
-    text: "Dr. Shrruti Mam is amazing. Like sunlight in our life, she guided me about my son's behavior and therapy. Thanks to her care, my son has shown tremendous progress. Highly recommended for any parent seeking genuine help.",
-    name: "Rashmi K.",
-    location: "Pune",
-  },
-  {
-    text: "Thanks to Dr. Shrruti Patil and Dr. Patil Diwan for their dedication. We began seeing positive changes within weeks. Their approach is deeply impactful and compassionate.",
-    name: "Suresh D.",
+    text: "Dr. Shruti patil mam is best occupational therapist in nashik.She is professional and very dedicated to her work.she make sure all your questions are answered.within 3-4 months I began to notice positive difference in my daughter.Thank you Shruti mam for helping us and guiding us in right direction.We are really glad to have u as therapist for our kid.I would highly recommend her as occupational therapist for your kid.",
+    name: "Shital Deore",
     location: "Nashik",
   },
   {
-    text: "What impressed me the most about Dr. Shrruti Patil was her customized approach to therapy. Each session felt tailored specifically to my child’s needs. Truly exceeded our expectations!",
-    name: "Sneha M.",
+    text: "Dr Shruti Patil is one the best Occupational Therapist I have seen. She is very knowledgeable, professional and is excellent at her work. She throughly assessed my child and develop the plan to help him areas needed. My son developed lot of skills during the timeframe she was consulting him in nasik. I highly recommend her and hoping we see her soon. Thanks a ton for your help.",
+    name: "Sonam Kukreja",
     location: "Mumbai",
   },
   {
-    text: "Dr. Shrruti Patil is excellent and very hardworking. She patiently listens to all our concerns and guides us with compassion. My child with autism has developed attention and communication after therapy with her.",
-    name: "Amit S.",
+    text: "Dr Shruti patil ma'am is excellent and experienced occupational therapist in Nashik. She has very good experience in sensory skills fine motor life skills and gross motor skills as well. She has solutions for every queries. She behaves very strict as well as very kind with kids. Thank you so much ma'am with Gratitude.",
+    name: "Sayali Bagde",
     location: "Aurangabad",
   },
   {
-    text: "8 Senses has been a game-changer for our son! The therapists are so patient and understanding. His fine motor skills have improved tremendously, and he's more confident than ever!",
-    name: "Ananya S.",
+    text: "Her expertise as a Pediatric Occupational Therapist is truly remarkable. My daughter has been under her care, and I've seen tremendous progress in her development. Dr. Patil's personalized approach, attention to detail, and genuine concern for her patients make her stand out. She goes above and beyond to understand each child's unique needs and tailors the therapy accordingly.",
+    name: "Param Panchal",
     location: "Nashik",
   },
   {
-    text: "I cannot thank 8 Senses enough. My child now looks forward to therapy sessions and shows consistent improvement. The team truly understands children.",
-    name: "Meera T.",
+    text: "Dr. Shruti patil is awesome,excellent and very hardworking. she always listen my queries and guide me in better way.We are really grateful to have u as therapist for our daughter.Thank you so much ma'am for motivating and giving us hope. 8 sense clinic staff is also very helpful and friendly.I would highly recommend her as occupational therapist for your kid.",
+    name: "Ekta Khare",
     location: "Nagpur",
   },
   {
-    text: "The therapists at 8 Senses treat each child as their own. Their warmth and expertise helped our child blossom socially and emotionally.",
-    name: "Ritika V.",
+    text: "8 Senses Occupational therapy center is an excellent therapy center for the kids with special needs. Our child has experienced significant growth in writing and many other day to day activities since beginning the therapy. We truly appreciate the dedication and support provided by Shruti mam and the team which is working for all the kids. The therapists are patient, kind, responsive, dedicated and supportive.We are really very happy to join 8 Senses Occupational therapy center.Thank you everyone for working so hard!!",
+    name: "Gurukripa Mathematics",
+    location: "Satara",
+  },
+  {
+    text: "Dr. Shruti Patil is an excellent therapist with loving, caring, hard working and friendly nature. She is professional and dedicated. She helped me to facing reality with positive approach. She conscious future about her kids and heartily try to trat them. Dr. Patil is blessing for us. Like God. Love u and thank u mam.",
+    name: "Dhruvi Shah",
+    location: "Satara",
+  },
+  {
+    text: "Dr. Shruti is always on her toes to make my child focussed and attentive. She is very assertive and optimistic in nature that gives us Hope.I have faith in her way of treatment, and I would recommend to the other parents too for the treatment of their kids.",
+    name: "Aditi Bagul",
+    location: "Satara",
+  },
+  {
+    text: "I wanted to take a moment to express my gratitude for the excellent care my daughter Myra has received at your clinic. After attending just 11 sessions, we've noticed significant progress in her development. The improvements are truly remarkable, and we are thrilled with the results. Thank you for your dedication and support.",
+    name: "Mukesh Nandwani",
+    location: "Satara",
+  },
+  {
+    text: "Very empowering and explains things very practically and to the point. She designs children's development treatment very precisely. Very cheerful and updated with her professional knowledge and treatment skills for children. Would definitely recommend to the parents with any doubts about their children to consult Dr Shruti mam.",
+    name: "Pooja Choudhary",
     location: "Satara",
   },
 ];
@@ -205,9 +220,9 @@ const Testimonials = () => {
                     <h4 className="text-[#1E437A] text-lg font-semibold">
                       {testimonial.name}
                     </h4>
-                    <p className="text-[#456696] text-sm">
+                    {/* <p className="text-[#456696] text-sm">
                       {testimonial.location}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               </div>

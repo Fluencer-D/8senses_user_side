@@ -7,6 +7,7 @@ import Consultation from "./components/consultation/page";
 import Footer from "./components/footer/page";
 import WhyChoose8Senses from "./components/ChooseSection/page";
 import AuthModal from "./components/auth/AuthModal";
+import MeetOurTeam from "./components/meetOurTeam/page";
 
 export default function Home() {
 
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
+      <MeetOurTeam />
       <Services />
       <Testimonials />
       <WhyChoose8Senses/> 
