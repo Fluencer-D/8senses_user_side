@@ -12,11 +12,14 @@ import Aboutlink2 from "../../public/Aboutlink2.png"; // Replace with your image
 import DottedPattern from "../components/dottedPattern/page"; // Ensure this component exists
 import { motion } from "framer-motion";
 import AbtTeam1 from "../../public/AbtTeam1.png";
+import Shrruti from "../../public/Shrruti.png";
+import Parul from "../../public/Parul.png";
 import AbtTeam2 from "../../public/AbtTeam2.png";
 import AbtOurJouney1 from "../../public/AbtOurJouney1.png";
 import AbtOurJouney2 from "../../public/AbtOurJouney2.png";
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
+import MeetOurTeam from "../components/meetOurTeam/page";
 
 const faqs = [
   {
@@ -266,7 +269,7 @@ const About = () => {
             <div className="text-center max-w-2xl">
               <div className="relative inline-block">
                 <Image
-                  src={AbtTeam1}
+                  src={Shrruti}
                   alt="Dr. Shrruti Paatil"
                   width={200}
                   height={200}
@@ -317,7 +320,7 @@ const About = () => {
             <div className="text-center max-w-2xl">
               <div className="relative inline-block">
                 <Image
-                  src={AbtTeam2}
+                  src={Parul}
                   alt="Dr. Parul Diwan"
                   width={200}
                   height={200}
@@ -372,6 +375,9 @@ const About = () => {
             </div>
           </div>
         </section>
+
+        {/*MeetOurTeam*/}
+        <MeetOurTeam></MeetOurTeam>
 
         {/* Our Journey section - Desktop remains EXACTLY as is */}
         <section className="relative bg-white py-16 px-4 sm:px-8 lg:px-32 flex flex-col lg:flex-row items-center gap-12 mb-10">

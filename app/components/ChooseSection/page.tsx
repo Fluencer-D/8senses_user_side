@@ -237,9 +237,9 @@ const WhyChoose8Senses = () => {
         ))}
       </div>
 
-      <div className="mt-30">
+      {/* <div className="mt-30"> */}
         {/* Video Section */}
-        <div className="w-full px-4 py-8 max-w-6xl mx-auto 2xl:-mb-30">
+        {/* <div className="w-full px-4 py-8 max-w-6xl mx-auto 2xl:-mb-30">
           <div className="relative w-full h-[400px] max-[1280px]:h-[200px] rounded-xl overflow-hidden ">
             {featuredVideo && (
               <Image
@@ -267,10 +267,10 @@ const WhyChoose8Senses = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Equipment Gallery - No changes to this section */}
-        <div className="p-30 -mt-[50px] -mb-50 -mx-[110px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
+        {/* <div className="p-30 -mt-[50px] -mb-50 -mx-[110px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
           {error && (
             <div className="text-center text-red-500 mb-4">{error}</div>
           )}
@@ -299,8 +299,8 @@ const WhyChoose8Senses = () => {
               </div>
             ))}
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </div>
   );
 };

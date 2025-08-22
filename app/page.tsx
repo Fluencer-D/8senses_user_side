@@ -17,7 +17,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
-      <MeetOurTeam />
+      {/* <MeetOurTeam /> */}
       <Services />
       <Testimonials />
       <WhyChoose8Senses/> 
