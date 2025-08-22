@@ -110,7 +110,7 @@ const convertFeaturesToArray = (plan: SubscriptionPlan): string[] => {
     );
     featuresArray.push("Detox diet recipes");
     featuresArray.push(
-      "1 Private Consultation (30 mins) with Dr.Shrruti Paatil, Pediatric Occupational Therapist"
+      "1 Private Consultation (30 mins) with Dr.Shrruti Paatil and Dr. Parul Diwan, Pediatric Occupational Therapists"
     );
     if (plan.features.customerDiscounts) {
       featuresArray.push("15% on Workshops");
