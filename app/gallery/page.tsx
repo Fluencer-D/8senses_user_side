@@ -43,7 +43,7 @@ const Gallery = () => {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log(data,"gallery");
 
         // Handle different response structures with proper typing
         const items: GalleryItem[] = Array.isArray(data)
@@ -103,36 +103,7 @@ const Gallery = () => {
       />
 
       {/* Video Section */}
-      <div className="w-full px-4 py-8 max-w-7xl mx-auto">
-        <div className="relative w-full h-[400px] max-[1280px]:h-[200px] rounded-xl overflow-hidden shadow-lg">
-          {featuredVideo && (
-            <Image
-              src={featuredVideo.imageUrl || Gallery1}
-              alt={featuredVideo.title || "Featured Video"}
-              fill
-              className="object-cover"
-              unoptimized={featuredVideo.imageUrl?.startsWith("http")}
-            />
-          )}
-          <div className="absolute inset-0 bg-opacity-40 flex items-center justify-center">
-            <div className="bg-opacity-20 rounded-full p-4 hover:bg-opacity-30 transition-all duration-300 cursor-pointer">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-16 w-16 text-black"
-                viewBox="0 0 20 20"
-                fill="white"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      
       {/* Equipment Gallery - No changes to this section */}
       <div className="p-30 -mt-[50px] -mb-50 mx-[10px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
         {error && <div className="text-center text-red-500 mb-4">{error}</div>}
