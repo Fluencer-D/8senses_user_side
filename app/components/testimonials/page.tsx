@@ -237,9 +237,9 @@ const Testimonials = () => {
       </div>
 
       {/* Dotted Background */}
-      <div className="absolute w-3xl bottom-15 right-9 hidden sm:block">
+      {/* <div className="absolute w-3xl bottom-15 right-9 hidden sm:block">
         <DottedPattern />
-      </div>
+      </div> */}
     </section>
   );
 };

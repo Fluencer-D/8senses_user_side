@@ -57,9 +57,9 @@ export default function AboutUs() {
             </div>
 
             {/* Dotted pattern */}
-            <div className="absolute right-0 top-15 z-0">
+            {/* <div className="absolute right-0 top-15 z-0">
               <DottedPattern />
-            </div>
+            </div> */}
           </div>
 
           {/* Text Content - Centered below images */}

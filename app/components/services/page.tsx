@@ -35,6 +35,10 @@ const Services = () => {
   return (
     <section className="py-16 text-white relative w-full md:w-[80%] h-auto md:h-[70%] mx-auto px-4 md:px-0">
       <div className="container mx-auto px-2 md:px-6">
+        {/* Background Pattern */}
+        {/* <div className="relative right-0 top-15 z-0">
+          <DottedPattern />
+        </div> */}
         {/* Heading & Button Section */}
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="text-left max-w-lg">
@@ -79,10 +83,7 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Background Pattern */}
-      <div className="absolute top-[-730px] right-[1075px] h-full z-10 hidden md:block">
-        <DottedPattern />
-      </div>
+      
     </section>
   );
 };

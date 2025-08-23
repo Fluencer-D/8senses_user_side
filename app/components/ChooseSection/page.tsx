@@ -130,18 +130,19 @@ const WhyChoose8Senses = () => {
   return (
     <div className="w-full -mt-3 bg-white py-16 px-4 sm:px-8 md:px-20 lg:px-32">
       {/* Heading Section */}
-      <div className="text-left mb-12">
-        {/* Dotted Pattern */}
-        <div className="hidden 2xl:block absolute justify-center mb-4 ml-30">
+      <div className="relative text-left mb-16">
+        {/* <div className="relative right-0 top-15 z-0">
           <DottedPattern />
-        </div>
-        <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-4">
+        </div> */}
+
+        <h2 className="font-nav_link_font text-5xl text-[#1E437A] mb-6">
           Why Choose 8 Senses?
         </h2>
-        <p className="text-[#456696] text-3xl max-w-5xl font-medium">
+
+        <p className="text-[#456696] text-2xl max-w-5xl font-medium leading-relaxed">
           At 8Senses Pediatric Occupational Therapy and Speech Therapy Clinic,
           Nashik, we're more than just a therapy clinic, we're your partner in
-          helping your child grow,learn and thrive! Here's why parents trust us:
+          helping your child grow, learn and thrive! Here's why parents trust us:
         </p>
       </div>
 
