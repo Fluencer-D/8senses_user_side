@@ -154,7 +154,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="relative bg-transparent py-8 sm:py-12 md:py-16">
+    <section className="relative bg-transparent py-6 sm:py-10 md:py-14">
       <style jsx>{`
         .testimonial-scroll-container::-webkit-scrollbar {
           display: none;
@@ -200,13 +200,13 @@ const Testimonials = () => {
             {testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] bg-white rounded-lg shadow-lg p-6 relative"
+                                 className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-5 relative"
               >
                 <FaQuoteLeft className="quote-icon absolute text-[#C83C92] w-8 h-8 top-4 left-4" />
-                <p className="testimonial-text text-[#1E437A] font-urbanist text-[18px] sm:text-[20px] md:text-[22px] leading-relaxed mt-8 mb-4">
+                                 <p className="testimonial-text text-[#1E437A] font-urbanist text-[18px] sm:text-[20px] md:text-[22px] leading-relaxed mt-6 sm:mt-7 md:mt-8 mb-3 sm:mb-4">
                   {testimonial.text}
                 </p>
-                <div className="flex items-center mt-4">
+                                 <div className="flex items-center mt-3 sm:mt-4">
                   <div className="avatar-image w-14 h-14 mr-3">
                     <Image
                       src={avatar}
