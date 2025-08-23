@@ -121,14 +121,7 @@ const Gallery = () => {
                 className="object-cover w-full h-[286px] max-[1280px]:h-[200px]"
                 unoptimized={item.imageUrl?.startsWith("http")}
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-white p-3 w-[55%] h-[20%] max-[1280px]:w-[65%] max-[1280px]:p-2">
-                <h3 className="font-semibold max-[1280px]:text-sm">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm max-[1280px]:text-xs">
-                  {item.description}
-                </p>
-              </div>
+
             </div>
           ))}
         </div>
