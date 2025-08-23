@@ -7,10 +7,7 @@ import Consultation from "../components/consultation/page";
 import Footer from "../components/footer/page";
 import Image from "next/image";
 import Gallery1 from "@/public/Gallery1.png";
-import DottedPattern from "../components/dottedPattern/page";
-import { FaQuoteLeft } from "react-icons/fa";
-import avatar from "@/public/testimonial.png";
-import Testimonials from "../components/testimonials/page";
+
 
 interface GalleryItem {
   _id: string;
@@ -190,38 +187,7 @@ const Gallery = () => {
         </div>
       </section> */}
 
-      {/* Testimonials Section */}
-      <section className="relative mt-25 bg-transparent py-6 sm:py-8 md:py-10">
-        <style jsx>{`
-          @media (min-width: 768px) and (max-width: 1024px) {
-            .quote-container {
-              padding-left: 50px !important;
-              padding-right: 20px !important;
-            }
-            .quote-icon {
-              margin-left: 0 !important;
-              left: 10px !important;
-              top: -5px !important;
-              width: 40px !important;
-              height: 40px !important;
-            }
-          }
-        `}</style>
 
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="quote-container relative max-w-full md:max-w-[1200px] h-auto text-left md:text-center">
-            <FaQuoteLeft className="quote-icon absolute text-[#C83C92] w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] md:w-[55px] md:h-[55px] -mt-9 ml-[-10px] sm:ml-[-60px] md:ml-[-80px]" />
-          </div>
-
-          {/* Your reusable testimonial carousel component */}
-          <Testimonials />
-        </div>
-
-        {/* Dotted background on right */}
-        {/* <div className="absolute w-3xl bottom-15 right-9 hidden sm:block">
-          <DottedPattern />
-        </div> */}
-      </section>
 
       <Consultation />
       <Footer />
