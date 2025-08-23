@@ -33,19 +33,17 @@ const MeetOurTeam = () => (
             <TeamMember {...teamImages[0]} large />
         </div>
 
-        {/* Remaining images in rows of two */}
+        {/* Remaining images */}
         <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
             {chunkArray(teamImages.slice(1), 2).map((row: any, index: any) => (
                 <div
                     key={index}
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "80px", // Increased gap for bigger images
-                    }}
+                    className="flex justify-center gap-8 sm:gap-20 flex-col sm:flex-row"
                 >
                     {row.map((member: any, idx: any) => (
-                        <TeamMember key={idx} {...member} />
+                        <div key={idx} className="flex justify-center">
+                            <TeamMember {...member} />
+                        </div>
                     ))}
                 </div>
             ))}
@@ -64,10 +62,10 @@ const TeamMember = ({ src, name, large }: TeamMemberProps) => (
         <Image
             src={src}
             alt={name}
-            width={large ? 560 : 280}  // ⬅️ First image = 560px, others = 280px
-            height={large ? 360 : 220} // ⬅️ Proportional height
+            width={large ? 560 : 280}
+            height={large ? 360 : 220}
             style={{
-                borderRadius: "12px", // Slightly rounded
+                borderRadius: "12px",
                 objectFit: "cover",
                 boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
             }}
@@ -80,7 +78,7 @@ const TeamMember = ({ src, name, large }: TeamMemberProps) => (
                 color: "#1E437A",
             }}
         >
-            
+            {/* {name} */}
         </div>
     </div>
 );
