@@ -7,7 +7,10 @@ import Consultation from "../components/consultation/page";
 import Footer from "../components/footer/page";
 import Image from "next/image";
 import Gallery1 from "@/public/Gallery1.png";
-
+// import Dummy1 from "@/public/Gallery1.png";
+// import Dummy2 from "@/public/Gallery2.png";
+// import Dummy3 from "@/public/Gallery3.png";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 interface GalleryItem {
   _id: string;
@@ -24,8 +27,11 @@ const Gallery = () => {
   const [featuredVideo, setFeaturedVideo] = useState<GalleryItem | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
+    // ----------------- BACKEND FETCH (COMMENTED FOR NOW) -----------------
+
     const fetchGalleryData = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -40,23 +46,21 @@ const Gallery = () => {
         }
 
         const data = await response.json();
-        console.log(data,"gallery");
+        console.log(data, "gallery");
 
-        // Handle different response structures with proper typing
         const items: GalleryItem[] = Array.isArray(data)
           ? data
           : Array.isArray(data?.data)
-          ? data.data
-          : Array.isArray(data?.gallery)
-          ? data.gallery
-          : [];
+            ? data.data
+            : Array.isArray(data?.gallery)
+              ? data.gallery
+              : [];
 
         if (items.length > 0) {
           setGalleryItems(items);
           const featured =
             items.find((item: GalleryItem) => item.featured) || items[0];
           setFeaturedVideo(featured);
-        } else {
         }
       } catch (err: unknown) {
         console.error("Failed to fetch gallery:", err);
@@ -71,7 +75,75 @@ const Gallery = () => {
     };
 
     fetchGalleryData();
+    // ----------------------------------------------------------------------
+
+    // Using Dummy Images for Local Testing
+    // const dummyData: GalleryItem[] = [
+    //   {
+    //     _id: "1",
+    //     title: "Dummy Image 1",
+    //     description: "Testing image 1",
+    //     imageUrl: Dummy1.src,
+    //     category: "test",
+    //     featured: true,
+    //     order: 1,
+    //   },
+    //   {
+    //     _id: "2",
+    //     title: "Dummy Image 2",
+    //     description: "Testing image 2",
+    //     imageUrl: Dummy2.src,
+    //     category: "test",
+    //     featured: false,
+    //     order: 2,
+    //   },
+    //   {
+    //     _id: "3",
+    //     title: "Dummy Image 3",
+    //     description: "Testing image 3",
+    //     imageUrl: Dummy3.src,
+    //     category: "test",
+    //     featured: false,
+    //     order: 3,
+    //   },
+    // ];
+
+    // setGalleryItems(dummyData);
+    // setFeaturedVideo(dummyData[0]);
+    // setLoading(false);
   }, []);
+
+  // Handle ESC and Arrow Keys
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedIndex(null);
+      } else if (e.key === "ArrowRight") {
+        handleNext();
+      } else if (e.key === "ArrowLeft") {
+        handlePrev();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  });
+
+  // Next Image
+  const handleNext = () => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((prev) => (prev! + 1) % galleryItems.length);
+    }
+  };
+
+  // Previous Image
+  const handlePrev = () => {
+    if (selectedIndex !== null) {
+      setSelectedIndex((prev) =>
+        prev! === 0 ? galleryItems.length - 1 : prev! - 1
+      );
+    }
+  };
 
   if (loading) {
     return (
@@ -99,98 +171,95 @@ const Gallery = () => {
         imageSrc={ContactBanner}
       />
 
-      {/* Video Section */}
-      
-      {/* Equipment Gallery - No changes to this section */}
       <div className="p-30 -mt-[50px] -mb-50 mx-[10px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
         {error && <div className="text-center text-red-500 mb-4">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-[1280px]:gap-4">
-          {galleryItems.map((item: GalleryItem) => (
+          {galleryItems.map((item: GalleryItem, index) => (
             <div
               key={item._id}
-              className="relative rounded-xl overflow-hidden shadow-md mt-[40px] w-[400px] max-[1280px]:w-full max-[1280px]:mt-[20px]"
+              className="relative rounded-xl overflow-hidden shadow-md mt-[40px] w-[400px] max-[1280px]:w-full max-[1280px]:mt-[20px] cursor-pointer"
+              onClick={() => setSelectedIndex(index)}
             >
               <Image
                 src={item.imageUrl || Gallery1}
                 alt={item.title}
                 width={400}
                 height={300}
-                className="object-cover w-full h-[286px] max-[1280px]:h-[200px]"
+                className="object-cover w-full h-[286px] max-[1280px]:h-[200px] transition-transform duration-300 hover:scale-105"
                 unoptimized={item.imageUrl?.startsWith("http")}
               />
-
             </div>
           ))}
         </div>
       </div>
-      {/* <section className="relative mt-50 bg-transparent py-8 sm:py-12 md:py-16">
-        <style jsx>{`
-          @media (min-width: 768px) and (max-width: 1024px) {
-            .quote-container {
-              padding-left: 50px !important;
-              padding-right: 20px !important;
-            }
-            .quote-icon {
-              margin-left: 0 !important;
-              left: 10px !important;
-              top: -5px !important;
-              width: 40px !important;
-              height: 40px !important;
-            }
-            .testimonial-text {
-              font-size: 26px !important;
-              line-height: 36px !important;
-            }
-            .profile-section {
-              margin-right: 150px !important;
-            }
-            .avatar-image {
-              width: 70px !important;
-              height: 70px !important;
-            }
-          }
-        `}</style>
 
-        <div className="container mx-auto px-4 sm:px-6 flex flex-col items-start md:items-center">
-          <div className="quote-container relative max-w-full md:max-w-[1200px] h-auto md:h-[132px] text-left md:text-center">
-            <FaQuoteLeft className="quote-icon absolute text-[#C83C92] w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] md:w-[55px] md:h-[55px] mb-[-20px] sm:mb-[-25px] md:mb-[-2px] -mt-9 ml-[-10px] sm:ml-[-60px] md:ml-[-80px] xl:-ml-7 2xl:-ml-12" />
-            <p className="testimonial-text text-[#1E437A] font-urbanist text-[20px] sm:text-[24px] md:text-[30px] font-normal text-left md:text-center leading-[32px] sm:leading-[38px] md:leading-[44px] tracking-[0.4px] sm:tracking-[0.5px] md:tracking-[0.64px]">
-              8 Senses has been a game-changer for our son! The therapists are
-              so patient and understanding. His fine motor skills have improved
-              tremendously, and he's more confident than ever!
-            </p>
-          </div>
+      {/* Image Preview Modal */}
+      {selectedIndex !== null && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-md flex justify-center items-center z-50 transition-opacity duration-300"
+          onClick={() => setSelectedIndex(null)}
+        >
+          <div
+            className="relative max-w-[90%] max-h-[85%] rounded-xl shadow-xl animate-zoom"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={galleryItems[selectedIndex].imageUrl || Gallery1}
+              alt="Preview"
+              width={800}
+              height={600}
+              className="rounded-xl object-contain max-h-[80vh] transition-transform duration-300"
+              unoptimized={galleryItems[selectedIndex].imageUrl?.startsWith(
+                "http"
+              )}
+            />
 
-          <div className="profile-section flex items-start mt-[40px] sm:mt-[60px] md:mt-[80px] mr-[10px] sm:mr-[300px] md:mr-[1000px]">
-            <div className="avatar-image w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 mr-3 sm:mr-3 md:mr-4">
-              <Image
-                src={avatar}
-                alt="Ananya S."
-                width={80}
-                height={80}
-                className="object-cover rounded-full border w-full h-full"
-              />
-            </div>
-            <div>
-              <h4 className="text-[#1E437A] text-xl sm:text-xl md:text-2xl font-semibold">
-                Ananya S.
-              </h4>
-              <p className="text-[#456696] text-base sm:text-lg md:text-xl">
-                Nashik
-              </p>
-            </div>
+            {/* Close Button */}
+            <button
+              className="absolute top-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2"
+              onClick={() => setSelectedIndex(null)}
+            >
+              <X size={24} />
+            </button>
+
+            {/* Left Arrow */}
+            <button
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2"
+              onClick={handlePrev}
+            >
+              <ChevronLeft size={28} />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full p-2"
+              onClick={handleNext}
+            >
+              <ChevronRight size={28} />
+            </button>
           </div>
         </div>
-
-        <div className="absolute w-3xl bottom-15 right-9 hidden sm:block">
-          <DottedPattern />
-        </div>
-      </section> */}
-
-
+      )}
 
       <Consultation />
       <Footer />
+
+      {/* Zoom Animation */}
+      <style jsx>{`
+        @keyframes zoom {
+          0% {
+            transform: scale(0.8);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .animate-zoom {
+          animation: zoom 0.3s ease-in-out;
+        }
+      `}</style>
     </>
   );
 };

@@ -271,7 +271,7 @@ const WhyChoose8Senses = () => {
         </div> */}
 
         {/* Equipment Gallery - No changes to this section */}
-        {/* <div className="p-30 -mt-[50px] -mb-50 -mx-[110px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
+        <div className="p-30 -mt-[50px] -mb-50 -mx-[110px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
           {error && (
             <div className="text-center text-red-500 mb-4">{error}</div>
           )}
@@ -300,7 +300,7 @@ const WhyChoose8Senses = () => {
               </div>
             ))}
           </div>
-        </div> */}
+        </div>
       {/* </div> */}
     </div>
   );
