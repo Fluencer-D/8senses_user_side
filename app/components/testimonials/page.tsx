@@ -138,6 +138,22 @@ const testimonials = [
     name: "Pooja Choudhary",
     location: "Satara",
   },
+  {
+  "text": "Thanks for Dr. Shruti Patil and Dr. Parul Diwan for doing exceptional and dedicated work. The way they handle the situation and help us to come out of it is very remarkable. Within just a couple of weeks, we started noticing significant progress, and the improvement continues. I've observed that their focus isn't limited to just one child; every child visiting the clinic experiences noticeable positive changes. This demonstrates that both doctors give equal attention and care to all children.\n\nI strongly recommend following all the instructions and protocols provided by the doctors, as this will greatly contribute to the child's growth and development.\n\nA special note of appreciation goes to the supporting staff, who also play a vital role in taking excellent care of all the children.",
+  "name": "Akshay Chavan",
+  "location": "Local Guide"
+},
+{
+  text: "Dr. Shruti Patil and Dr. Parul Diwan are extremely professional, dedicated, and supportive. Their approach towards each child is truly commendable, and they ensure every child gets the attention and care they deserve. We have seen positive improvements in our child’s development, thanks to their guidance and efforts. The supporting staff is also very kind and plays a big role in making the children feel comfortable. We are very grateful to the entire team.",
+  name: "Reviewer 2",
+  location: "Pune"
+},
+{
+  text: "Both Dr. Shruti Patil and Dr. Parul Diwan show great dedication and compassion in their work. Their ability to handle situations with positivity and care has made a huge difference in our child’s progress. We are very happy with the continuous improvement we’ve seen. Their equal attention to all kids and the warm support from the staff makes the clinic a truly wonderful place. Highly recommend them to all parents looking for the best care for their children.",
+  name: "Reviewer 3",
+  location: "Satara"
+},
+
 ];
 
 const Testimonials = () => {
