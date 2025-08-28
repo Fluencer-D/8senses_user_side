@@ -89,72 +89,88 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
   {
-    text: "Dr. Shruti patil mam is best occupational therapist in nashik.She is professional and very dedicated to her work.she make sure all your questions are answered.within 3-4 months I began to notice positive difference in my daughter.Thank you Shruti mam for helping us and guiding us in right direction.We are really glad to have u as therapist for our kid.I would highly recommend her as occupational therapist for your kid.",
+    text: "Thanks to Dr. Shruti Patil and Dr. Parul Diwan for doing exceptional and dedicated work. The way they handle situations and help us come out of them is very remarkable. Within just a couple of weeks, we started noticing significant progress, and the improvement continues. I've observed that their focus isn't limited to just one child; every child visiting the clinic experiences noticeable positive changes. This demonstrates that both doctors give equal attention and care to all children.\n\nI strongly recommend following all the instructions and protocols provided by the doctors, as this will greatly contribute to the child's growth and development.\n\nA special note of appreciation goes to the supporting staff, who also play a vital role in taking excellent care of all the children.",
+    name: "Akshay Chavan",
+    location: "Local Guide"
+  },
+  {
+    text: "Dr. Shruti Patil ma'am is the best occupational therapist in Nashik. She is professional and very dedicated to her work. She makes sure all your questions are answered. Within 3-4 months I began to notice a positive difference in my daughter. Thank you Shruti ma'am for helping us and guiding us in the right direction. We are really glad to have you as a therapist for our kid. I would highly recommend her as an occupational therapist for your child.",
     name: "Shital Deore",
-    location: "Nashik",
+    location: "Nashik"
   },
   {
-    text: "Dr Shruti Patil is one the best Occupational Therapist I have seen. She is very knowledgeable, professional and is excellent at her work. She throughly assessed my child and develop the plan to help him areas needed. My son developed lot of skills during the timeframe she was consulting him in nasik. I highly recommend her and hoping we see her soon. Thanks a ton for your help.",
+    text: "Dr. Shruti Patil and Dr. Parul Diwan are extremely professional, dedicated, and supportive. Their approach towards each child is truly commendable, and they ensure every child gets the attention and care they deserve. We have seen positive improvements in our child’s development, thanks to their guidance and efforts. The supporting staff is also very kind and plays a big role in making the children feel comfortable. We are very grateful to the entire team.",
+    name: "Jyoti Yadav",
+    location: "Pune"
+  },
+  {
+    text: "Dr. Shruti Patil is one of the best occupational therapists I have seen. She is very knowledgeable, professional, and excellent at her work. She thoroughly assessed my child and developed a plan to help in areas needed. My son developed many skills during the timeframe she was consulting him in Nashik. I highly recommend her and hope we see her soon. Thanks a ton for your help.",
     name: "Sonam Kukreja",
-    location: "Mumbai",
+    location: "Mumbai"
   },
   {
-    text: "Dr Shruti patil ma'am is excellent and experienced occupational therapist in Nashik. She has very good experience in sensory skills fine motor life skills and gross motor skills as well. She has solutions for every queries. She behaves very strict as well as very kind with kids. Thank you so much ma'am with Gratitude.",
+    text: "Both Dr. Shruti Patil and Dr. Parul Diwan show great dedication and compassion in their work. Their ability to handle situations with positivity and care has made a huge difference in our child’s progress. We are very happy with the continuous improvement we’ve seen. Their equal attention to all kids and the warm support from the staff makes the clinic a truly wonderful place. Highly recommend them to all parents looking for the best care for their children.",
+    name: "Chaitanya",
+    location: "Satara"
+  },
+  {
+    text: "Dr. Shruti Patil ma'am is an excellent and experienced occupational therapist in Nashik. She has expertise in sensory skills, fine motor skills, life skills, and gross motor skills as well. She has solutions for every query. She is both strict and kind with kids. Thank you so much ma'am with gratitude.",
     name: "Sayali Bagde",
-    location: "Aurangabad",
+    location: "Aurangabad"
   },
   {
-    text: "Her expertise as a Pediatric Occupational Therapist is truly remarkable. My daughter has been under her care, and I've seen tremendous progress in her development. Dr. Patil's personalized approach, attention to detail, and genuine concern for her patients make her stand out. She goes above and beyond to understand each child's unique needs and tailors the therapy accordingly.",
+    text: "Dr. Parul is extremely warm and welcoming. She has a knack for treating children with utmost care. Have seen and experienced great results!",
+    name: "Revati Nalawade",
+    location: "Local Guide"
+  },
+  {
+    text: "Her expertise as a pediatric occupational therapist is truly remarkable. My daughter has been under her care, and I've seen tremendous progress in her development. Dr. Patil's personalized approach, attention to detail, and genuine concern for her patients make her stand out. She goes above and beyond to understand each child's unique needs and tailors the therapy accordingly.",
     name: "Param Panchal",
-    location: "Nashik",
+    location: "Nashik"
   },
   {
-    text: "Dr. Shruti patil is awesome,excellent and very hardworking. she always listen my queries and guide me in better way.We are really grateful to have u as therapist for our daughter.Thank you so much ma'am for motivating and giving us hope. 8 sense clinic staff is also very helpful and friendly.I would highly recommend her as occupational therapist for your kid.",
+    text: "Dr. Shruti Patil is awesome, excellent, and very hardworking. She always listens to my queries and guides me in a better way. We are really grateful to have you as a therapist for our daughter. Thank you so much ma'am for motivating us and giving us hope. 8 Senses clinic staff is also very helpful and friendly. I would highly recommend her as an occupational therapist for your child.",
     name: "Ekta Khare",
-    location: "Nagpur",
+    location: "Nagpur"
   },
   {
-    text: "8 Senses Occupational therapy center is an excellent therapy center for the kids with special needs. Our child has experienced significant growth in writing and many other day to day activities since beginning the therapy. We truly appreciate the dedication and support provided by Shruti mam and the team which is working for all the kids. The therapists are patient, kind, responsive, dedicated and supportive.We are really very happy to join 8 Senses Occupational therapy center.Thank you everyone for working so hard!!",
+    text: "8 Senses Occupational Therapy Center is excellent for kids with special needs. Our child has experienced significant growth in writing and many other day-to-day activities since beginning therapy. We truly appreciate the dedication and support provided by Shruti ma'am and the team. The therapists are patient, kind, responsive, dedicated, and supportive. We are very happy to have joined 8 Senses Occupational Therapy Center. Thank you everyone for working so hard!",
     name: "Gurukripa Mathematics",
-    location: "Satara",
+    location: "Satara"
   },
   {
-    text: "Dr. Shruti Patil is an excellent therapist with loving, caring, hard working and friendly nature. She is professional and dedicated. She helped me to facing reality with positive approach. She conscious future about her kids and heartily try to trat them. Dr. Patil is blessing for us. Like God. Love u and thank u mam.",
+    text: "Dr. Shruti Patil is an excellent therapist with a loving, caring, hardworking, and friendly nature. She is professional and dedicated. She helped me face reality with a positive approach. She is conscious about the future of her kids and wholeheartedly tries to treat them. Dr. Patil is a blessing for us, like God. Love you and thank you ma'am.",
     name: "Dhruvi Shah",
-    location: "Satara",
+    location: "Satara"
   },
   {
-    text: "Dr. Shruti is always on her toes to make my child focussed and attentive. She is very assertive and optimistic in nature that gives us Hope.I have faith in her way of treatment, and I would recommend to the other parents too for the treatment of their kids.",
+    text: "Dr. Shruti is always on her toes to make my child focused and attentive. She is very assertive and optimistic, which gives us hope. I have faith in her way of treatment, and I would recommend her to other parents for their kids.",
     name: "Aditi Bagul",
-    location: "Satara",
+    location: "Satara"
   },
   {
     text: "I wanted to take a moment to express my gratitude for the excellent care my daughter Myra has received at your clinic. After attending just 11 sessions, we've noticed significant progress in her development. The improvements are truly remarkable, and we are thrilled with the results. Thank you for your dedication and support.",
     name: "Mukesh Nandwani",
-    location: "Satara",
+    location: "Satara"
   },
   {
-    text: "Very empowering and explains things very practically and to the point. She designs children's development treatment very precisely. Very cheerful and updated with her professional knowledge and treatment skills for children. Would definitely recommend to the parents with any doubts about their children to consult Dr Shruti mam.",
+    text: "Very empowering and explains things very practically and to the point. She designs children's development treatment very precisely. Very cheerful and updated with her professional knowledge and treatment skills for children. Would definitely recommend to parents with any doubts about their children to consult Dr. Shruti ma'am.",
     name: "Pooja Choudhary",
-    location: "Satara",
+    location: "Satara"
   },
   {
-  "text": "Thanks for Dr. Shruti Patil and Dr. Parul Diwan for doing exceptional and dedicated work. The way they handle the situation and help us to come out of it is very remarkable. Within just a couple of weeks, we started noticing significant progress, and the improvement continues. I've observed that their focus isn't limited to just one child; every child visiting the clinic experiences noticeable positive changes. This demonstrates that both doctors give equal attention and care to all children.\n\nI strongly recommend following all the instructions and protocols provided by the doctors, as this will greatly contribute to the child's growth and development.\n\nA special note of appreciation goes to the supporting staff, who also play a vital role in taking excellent care of all the children.",
-  "name": "Akshay Chavan",
-  "location": "Local Guide"
-},
-{
-  text: "Dr. Shruti Patil and Dr. Parul Diwan are extremely professional, dedicated, and supportive. Their approach towards each child is truly commendable, and they ensure every child gets the attention and care they deserve. We have seen positive improvements in our child’s development, thanks to their guidance and efforts. The supporting staff is also very kind and plays a big role in making the children feel comfortable. We are very grateful to the entire team.",
-  name: "Reviewer 2",
-  location: "Pune"
-},
-{
-  text: "Both Dr. Shruti Patil and Dr. Parul Diwan show great dedication and compassion in their work. Their ability to handle situations with positivity and care has made a huge difference in our child’s progress. We are very happy with the continuous improvement we’ve seen. Their equal attention to all kids and the warm support from the staff makes the clinic a truly wonderful place. Highly recommend them to all parents looking for the best care for their children.",
-  name: "Reviewer 3",
-  location: "Satara"
-},
-
+    text: "Parul ma'am takes sessions in a friendly way with children. She is a great speech therapist. I have seen a very big positive difference in my daughter's overall speech after her sessions.",
+    name: "Kunal Patil",
+    location: "Nashik"
+  },
+  {
+    text: "Parul ma'am is a wonderful human being and a great speech therapist. She is soft-spoken and speaks so sweetly with kids that they just pick it up from her. She has a lot of patience in handling kids. Ma'am is very motivating, caring, and creative. Thank you ma'am.",
+    name: "Priyanka Kumbure",
+    location: "Nashik"
+  }
 ];
+
+
 
 const Testimonials = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
