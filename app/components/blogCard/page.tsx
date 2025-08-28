@@ -24,6 +24,8 @@ const BlogCard: React.FC<BlogCardProps> = ({
   description,
   link,
 }) => {
+
+  console
   return (
     <div className="bg-white rounded-xl overflow-hidden border-2 border-[#456696] w-full max-w-[780px] flex flex-col">
       <div className="relative w-full h-[200px] md:h-[280px] lg:h-[345px]">
