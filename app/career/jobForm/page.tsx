@@ -1,9 +1,9 @@
 "use client"
-import { useState, useRef, type ChangeEvent, type FormEvent } from "react"
-import type React from "react"
+import { useState, useRef, type ChangeEvent, type FormEvent, Suspense } from "react"
+import React from "react"
 
 import Link from "next/link"
-import { useParams, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 
 interface MembershipFormData {
   fullName: string
@@ -17,17 +17,25 @@ interface MembershipFormData {
   college: string
 }
 
-const ApplicationForm: React.FC = () => {
-  const searchParams = useSearchParams();
+const SearchParamsHandler: React.FC<{ onParamsReceived: (jobId: string | null, jobTitle: string | null) => void }> = ({
+  onParamsReceived,
+}) => {
+  const searchParams = useSearchParams()
+  const jobId = searchParams.get("jobId")
+  const jobTitle = searchParams.get("title")
 
-  const jobId = searchParams.get("jobId");
-  const jobTitle = searchParams.get("title");
+  React.useEffect(() => {
+    onParamsReceived(jobId, jobTitle)
+  }, [jobId, jobTitle, onParamsReceived])
 
+  return null
+}
 
+const ApplicationFormContent: React.FC<{ jobId: string | null; jobTitle: string | null }> = ({ jobId, jobTitle }) => {
   console.log(jobTitle, jobId)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [fileName, setFileName] = useState<string>("")
-  const [submitting,setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
   const [formData, setFormData] = useState<MembershipFormData>({
     fullName: "",
     phone: "",
@@ -59,7 +67,7 @@ const ApplicationForm: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setSubmitting(true);
+    setSubmitting(true)
     try {
       const formDataToSend = new FormData()
 
@@ -68,8 +76,8 @@ const ApplicationForm: React.FC = () => {
         formDataToSend.append(key, value)
       })
 
-      formDataToSend.append("jobId", jobId);
-      formDataToSend.append("jobTitle", jobTitle);
+      formDataToSend.append("jobId", jobId || "")
+      formDataToSend.append("jobTitle", jobTitle || "")
 
       // Add resume file if selected
       if (fileInputRef.current?.files?.[0]) {
@@ -83,17 +91,17 @@ const ApplicationForm: React.FC = () => {
 
       if (response.ok) {
         // Get existing applied jobs from localStorage
-        const appliedJobs = JSON.parse(localStorage.getItem("appliedJobs") || "[]");
+        const appliedJobs = JSON.parse(localStorage.getItem("appliedJobs") || "[]")
 
         // Add the new jobId if not already there
         if (!appliedJobs.includes(jobId)) {
-          appliedJobs.push(jobId);
-          localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
+          appliedJobs.push(jobId)
+          localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs))
         }
 
-        alert("Application submitted successfully! We will contact you soon.");
+        alert("Application submitted successfully! We will contact you soon.")
 
-        setSubmitting(false);
+        setSubmitting(false)
         setFormData({
           fullName: "",
           phone: "",
@@ -104,16 +112,15 @@ const ApplicationForm: React.FC = () => {
           skills: "",
           graduation: "",
           college: "",
-        });
+        })
 
-        setFileName("");
+        setFileName("")
         if (fileInputRef.current) {
-          fileInputRef.current.value = "";
+          fileInputRef.current.value = ""
         }
 
-        window.location.href = "/career"; // safer than assigning directly
+        window.location.href = "/career" // safer than assigning directly
       }
-
     } catch (error) {
       console.error("Error submitting application:", error)
       alert("Failed to submit application. Please try again.")
@@ -145,7 +152,6 @@ const ApplicationForm: React.FC = () => {
         <h1 className="text-3xl md:text-4xl text-blue-800 font-medium mb-2">Apply here to join our team!</h1>
         <p className="text-blue-600">Join our team and be part of something extraordinary!</p>
         <p className="text-blue-600">Applying for {jobTitle}!</p>
-
       </div>
 
       {/* Application Form */}
@@ -330,13 +336,7 @@ const ApplicationForm: React.FC = () => {
             type="submit"
             className="w-full bg-pink-500 text-white py-4 rounded-full flex justify-center items-center"
           >
-            {
-              submitting 
-              ?
-              "Please wait.."
-              :
-              "Submit the form"
-            }
+            {submitting ? "Please wait.." : "Submit the form"}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -356,6 +356,25 @@ const ApplicationForm: React.FC = () => {
         </div>
       </form>
     </div>
+  )
+}
+
+const ApplicationForm: React.FC = () => {
+  const [jobId, setJobId] = useState<string | null>(null)
+  const [jobTitle, setJobTitle] = useState<string | null>(null)
+
+  const handleParamsReceived = React.useCallback((receivedJobId: string | null, receivedJobTitle: string | null) => {
+    setJobId(receivedJobId)
+    setJobTitle(receivedJobTitle)
+  }, [])
+
+  return (
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchParamsHandler onParamsReceived={handleParamsReceived} />
+      </Suspense>
+      <ApplicationFormContent jobId={jobId} jobTitle={jobTitle} />
+    </>
   )
 }
 
