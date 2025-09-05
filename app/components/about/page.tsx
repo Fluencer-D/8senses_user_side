@@ -15,7 +15,7 @@ export default function AboutUs() {
             <div className="relative rounded-xl overflow-hidden shadow-md mt-[40px] w-[400px] max-[1280px]:w-full max-[1280px]:mt-[20px]">
               <Image
                 src={AboutImg1}
-                alt="Dr. Shruti Patil"
+                alt="Dr. Shruti paatil"
                 width={400}
                 height={300}
                 className="object-cover w-full h-auto rounded-lg transition-transform duration-300 hover:scale-105"

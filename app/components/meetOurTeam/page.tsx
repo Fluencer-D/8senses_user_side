@@ -19,7 +19,6 @@ const teamImages = [
     { src: image3, name: "Member 6" },
     { src: image7, name: "Member 7" },
     { src: image8, name: "Member 8" },
-    { src: image9, name: "Member 9" },
 ];
 
 const MeetOurTeam = () => (

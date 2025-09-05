@@ -33,7 +33,7 @@ const WhyChoose8Senses = () => {
         "Every child is unique and we tailor our treatment programmers to meet their individual needs",
     },
     {
-      title: "Creating a Unique Therapy Enviorment",
+      title: "Creating a Unique Therapy Environment",
       description:
         "8 Senses Clinic was envisioned as a place where innovative therapy methods, such as sensory gyms and play-based learning, could be utilized effectively to make therapy a more enjoyable and engaging experience for children.",
     },

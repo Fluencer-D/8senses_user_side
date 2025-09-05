@@ -11,6 +11,7 @@ import Gallery1 from "@/public/Gallery1.png";
 // import Dummy2 from "@/public/Gallery2.png";
 // import Dummy3 from "@/public/Gallery3.png";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import MeetOurTeam from "../components/meetOurTeam/page";
 
 interface GalleryItem {
   _id: string;
@@ -171,7 +172,7 @@ const Gallery = () => {
         imageSrc={ContactBanner}
       />
 
-      <div className="p-30 -mt-[50px] -mb-50 mx-[10px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
+      <div className="p-30 -mt-[50px]  mx-[10px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
         {error && <div className="text-center text-red-500 mb-4">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-[1280px]:gap-4">
           {galleryItems.map((item: GalleryItem, index) => (
@@ -240,6 +241,13 @@ const Gallery = () => {
           </div>
         </div>
       )}
+
+
+      <div className="mt-12">
+        {/*MeetOurTeam*/}
+        <MeetOurTeam></MeetOurTeam>
+      </div>
+      
 
       <Consultation />
       <Footer />

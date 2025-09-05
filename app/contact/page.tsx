@@ -112,7 +112,7 @@ const Contact = () => {
             <div className="flex flex-col lg:flex-row items-start justify-center gap-10 p-4 md:p-6 mt-10 md:mt-[80px] max-w-7xl mx-auto">
                 <div className="relative w-full max-w-lg lg:mr-40 mb-8 lg:mb-0">
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7497.835541424234!2d73.7570925514019!3d20.01196559765945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb030c8a3821%3A0xdc4fa0f39f358212!2sDr%20Shruti%20Patil!5e0!3m2!1sen!2sus!4v1743593745276!5m2!1sen!2sus" 
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7497.835541424234!2d73.7570925514019!3d20.01196559765945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddeb030c8a3821%3A0xdc4fa0f39f358212!2sDr%20Shruti%20paatil!5e0!3m2!1sen!2sus!4v1743593745276!5m2!1sen!2sus" 
                         width="100%" 
                         height="450" 
                         style={{border: 0}} 
