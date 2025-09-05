@@ -84,7 +84,7 @@ const ApplicationFormContent: React.FC<{ jobId: string | null; jobTitle: string 
         formDataToSend.append("resume", fileInputRef.current.files[0])
       }
 
-      const response = await fetch("http://localhost:5000/api/applications", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/applications`, {
         method: "POST",
         body: formDataToSend,
       })
