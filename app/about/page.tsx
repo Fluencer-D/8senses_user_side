@@ -6,6 +6,7 @@ import Consultation from "../components/consultation/page";
 import Banner from "../components/CommonBanner/Banner";
 import AboutBanner from "../../public/AboutBanner.png";
 import AboutContainer2 from "../../public/AboutContainer2.png";
+import AboutContainer3 from "../../public/diss.jpg";
 import AboutContainer from "../../public/AboutContainer.png";
 import Aboutlink from "../../public/Aboutlink.png"; // Replace with your image path
 import Aboutlink2 from "../../public/Aboutlink2.png"; // Replace with your image path
@@ -159,7 +160,7 @@ const About = () => {
 
                 <div className="relative w-[320px] h-[250px] md:w-[400px] md:h-[280px] lg:w-[450px] lg:h-[300px] z-10">
                   <Image
-                    src={Aboutlink}
+                    src={AboutContainer3}
                     alt="Medical professional with child"
                     fill
                     className="rounded-lg object-cover"
@@ -181,7 +182,7 @@ const About = () => {
               <div className="relative mt-6 md:mt-30">
                 <div className="relative w-[320px] h-[250px] md:w-[400px] md:h-[280px] lg:w-[450px] lg:h-[300px] z-10">
                   <Image
-                    src={Aboutlink2}
+                    src={"https://res.cloudinary.com/dxbdamfae/image/upload/v1757333102/image5-new_i6mo33.jpg"}
                     alt="Medical professional examining baby"
                     fill
                     className="rounded-lg object-cover"
@@ -422,7 +423,7 @@ const About = () => {
               </div>
               <div className="relative flex justify-center items-center w-full h-full z-20">
                 <Image
-                  src={AbtOurJouney1}
+                  src={"https://res.cloudinary.com/dxbdamfae/image/upload/v1755865935/G9_r3vclz.jpg"}
                   alt="Smiling Baby"
                   width={310}
                   height={410}
@@ -441,7 +442,7 @@ const About = () => {
               </div>
               <div className="relative z-10">
                 <Image
-                  src={AbtOurJouney2}
+                  src={"https://res.cloudinary.com/dxbdamfae/image/upload/v1757333102/image8-new_z99qpe.jpg"}
                   alt="Doctor Smiling"
                   width={310}
                   height={410}

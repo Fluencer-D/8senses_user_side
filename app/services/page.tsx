@@ -76,17 +76,12 @@ const Services = () => {
       <section className="relative mt-16 py-16 px-4 sm:px-8 md:px-20 lg:px-32 flex flex-col lg:flex-row items-center gap-12 max-w-[1300px] mx-auto">
         {/* Left Images */}
         <div className="hidden lg:flex relative w-[300px] xl:w-[400px]">
-          <div className="absolute left-[-100px] top-[-150px] w-full">
+          <div className="absolute left-[-100px] top-[-150px] w-full z-10">
             <Image
-              src={ServicesBaby1}
+              src={"https://res.cloudinary.com/dxbdamfae/image/upload/v1757333101/image6-new_osnjmu.jpg"}
               alt="Smiling Baby"
-              width={350}
-              height={410}
-              className="w-full h-auto object-contain"
+              width={200} height={250}
             />
-          </div>
-          <div className="absolute left-[200px] top-[50px] hidden 2xl:block z-10">
-            <Image src={AboutContainer} alt="Shape" width={78} height={58} />
           </div>
         </div>
 
