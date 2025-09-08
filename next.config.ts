@@ -3,8 +3,8 @@ const nextConfig = {
   output: "standalone",
   trailingSlash: true,
   experimental: {
-    serverActions: true,
-    outputFileTracingRoot: undefined,
+    serverActions: {}, // ✅ empty object instead of boolean
+    // outputFileTracingRoot removed
   },
   eslint: {
     ignoreDuringBuilds: true,
