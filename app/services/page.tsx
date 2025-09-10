@@ -42,10 +42,10 @@ const Services = () => {
         const servicesData: Service[] = Array.isArray(data)
           ? data
           : Array.isArray(data?.data)
-          ? data.data
-          : Array.isArray(data?.services)
-          ? data.services
-          : [];
+            ? data.data
+            : Array.isArray(data?.services)
+              ? data.services
+              : [];
 
         const activeServices = servicesData.filter(
           (service) => service.isActive
@@ -159,6 +159,8 @@ const Services = () => {
             </div>
           </>
         )}
+       
+
       </section>
 
       {/* Consultation + Footer */}

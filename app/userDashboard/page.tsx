@@ -371,166 +371,15 @@ const SelectItem = ({
   </div>
 )
 // Video Player Component
-const VideoPlayer = ({
-  src,
-  thumbnail,
-  title,
-}: {
-  src: string
-  thumbnail?: string
-  title?: string
-}) => {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [showControls, setShowControls] = useState(true)
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-    const handleLoadedData = () => {
-      setIsLoading(false)
-      setDuration(video.duration)
-    }
-    const handleTimeUpdate = () => {
-      setCurrentTime(video.currentTime)
-    }
-    const handleError = () => {
-      setIsLoading(false)
-      setHasError(true)
-    }
-    const handlePlay = () => setIsPlaying(true)
-    const handlePause = () => setIsPlaying(false)
-    video.addEventListener("loadeddata", handleLoadedData)
-    video.addEventListener("timeupdate", handleTimeUpdate)
-    video.addEventListener("error", handleError)
-    video.addEventListener("play", handlePlay)
-    video.addEventListener("pause", handlePause)
-    return () => {
-      video.removeEventListener("loadeddata", handleLoadedData)
-      video.removeEventListener("timeupdate", handleTimeUpdate)
-      video.removeEventListener("error", handleError)
-      video.removeEventListener("play", handlePlay)
-      video.removeEventListener("pause", handlePause)
-    }
-  }, [src])
-  const togglePlay = () => {
-    const video = videoRef.current
-    if (!video) return
-    if (isPlaying) {
-      video.pause()
-    } else {
-      video.play()
-    }
-  }
-  const toggleMute = () => {
-    const video = videoRef.current
-    if (!video) return
-    video.muted = !video.muted
-    setIsMuted(video.muted)
-  }
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const video = videoRef.current
-    if (!video) return
-    const rect = e.currentTarget.getBoundingClientRect()
-    const clickX = e.clientX - rect.left
-    const newTime = (clickX / rect.width) * duration
-    video.currentTime = newTime
-  }
-  const toggleFullscreen = () => {
-    const video = videoRef.current
-    if (!video) return
-    if (document.fullscreenElement) {
-      document.exitFullscreen()
-    } else {
-      video.requestFullscreen()
-    }
-  }
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }
-  if (hasError) {
-    return (
-      <div className="aspect-video w-full bg-gray-900 flex items-center justify-center text-white">
-        <div className="text-center">
-          <Video className="h-12 w-12 mx-auto mb-4 opacity-50" />
-          <p className="text-sm">Failed to load video</p>
-          <p className="text-xs opacity-75 mt-1">Please check the video URL</p>
-        </div>
-      </div>
-    )
-  }
-  return (
-    <div
-      className="relative aspect-video w-full bg-black group"
-      onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
-    >
-      <video
-        ref={videoRef}
-        className="w-full h-full object-contain"
-        poster={thumbnail}
-        preload="metadata"
-        crossOrigin="anonymous"
-      >
-        <source src={src} type="video/mp4" />
-        <source src={src} type="video/webm" />
-        Your browser does not support the video tag.
-      </video>
-      {/* Loading Overlay */}
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <div className="text-center text-white">
-            <Loader2 className="h-8 w-8 mx-auto mb-2 animate-spin" />
-            <p className="text-sm">Loading video...</p>
-          </div>
-        </div>
-      )}
-      {/* Play Button Overlay */}
-      {!isPlaying && !isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <button onClick={togglePlay} className="bg-black/50 hover:bg-black/70 rounded-full p-4 transition-colors">
-            <Play className="h-12 w-12 text-white fill-white" />
-          </button>
-        </div>
-      )}
-      {/* Controls */}
-      {showControls && !isLoading && (
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-          {/* Progress Bar */}
-          <div className="w-full h-1 bg-white/30 rounded-full mb-4 cursor-pointer" onClick={handleSeek}>
-            <div
-              className="h-full bg-blue-500 rounded-full transition-all"
-              style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-            />
-          </div>
-          {/* Control Buttons */}
-          <div className="flex items-center justify-between text-white">
-            <div className="flex items-center gap-3">
-              <button onClick={togglePlay} className="hover:bg-white/20 rounded-full p-2 transition-colors">
-                {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 fill-white" />}
-              </button>
-              <button onClick={toggleMute} className="hover:bg-white/20 rounded-full p-2 transition-colors">
-                {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
-              </button>
-              <span className="text-sm">
-                {formatTime(currentTime)} / {formatTime(duration)}
-              </span>
-            </div>
-            <button onClick={toggleFullscreen} className="hover:bg-white/20 rounded-full p-2 transition-colors">
-              <Maximize className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+// Replace the VideoPlayer component with this YouTube iframe/redirect functionality
+const getYouTubeEmbedUrl = (url: string) => {
+  const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+  return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null;
+};
+
+
+
+
 export default function UserDashboard() {
   // State for API data
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
@@ -638,10 +487,19 @@ export default function UserDashboard() {
       .join("")
       .toUpperCase()
   }
-  const calculateMembershipProgress = () => {
-    // This could be based on actual membership data from your API
-    return isPremium ? 90 : 45
-  }
+  const calculateMembershipProgress = (startDate: string, endDate: string): number => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const now = new Date();
+
+    if (now < start) return 0;
+    if (now > end) return 100;
+
+    const totalDuration = end.getTime() - start.getTime();
+    const elapsed = now.getTime() - start.getTime();
+
+    return Math.round((elapsed / totalDuration) * 100);
+  };
   // New: Get meeting status
   const getMeetingStatus = (meeting: Meeting) => {
     const now = new Date()
@@ -741,6 +599,16 @@ export default function UserDashboard() {
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
   }
+
+
+
+  const extractYouTubeID = (url: string) => {
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]{11})/);
+    return match ? match[1] : "";
+  };
+
+
+
   // Loading state
   if (loading) {
     return (
@@ -895,7 +763,7 @@ export default function UserDashboard() {
                   >
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium">{recipe.title}</p>
-                     
+
                     </div>
                   </div>
                 ))}
@@ -1108,46 +976,82 @@ export default function UserDashboard() {
         </div>
         {/* Video Player Dialog */}
         <Dialog open={!!selectedVideo} onOpenChange={(open) => !open && setSelectedVideo(null)}>
-          <DialogContent className="sm:max-w-[900px] p-0 overflow-hidden">
+          <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
             <DialogHeader className="p-6 pb-0">
               <div className="flex items-center justify-between">
-                <DialogTitle>{selectedVideo?.title}</DialogTitle>
+                {/* <DialogTitle>{selectedVideo?.title}</DialogTitle>
                 <DialogClose
                   className="h-8 w-8 rounded-full hover:bg-gray-100 flex items-center justify-center"
                   onClick={() => setSelectedVideo(null)}
                 >
                   <X className="h-4 w-4" />
                   <span className="sr-only">Close</span>
-                </DialogClose>
+                </DialogClose> */}
               </div>
               <DialogDescription>
                 {selectedVideo?.duration} min • Speaker: {selectedVideo?.speaker}
               </DialogDescription>
             </DialogHeader>
-            {/* Video Player */}
+
             {selectedVideo && (
-              <VideoPlayer src={selectedVideo.url} thumbnail={selectedVideo.thumbnail} title={selectedVideo.title} />
-            )}
-            <div className="p-6">
-              <div className="mb-6">
-                <h3 className="font-medium mb-3">Description</h3>
-                <p className="text-sm text-gray-600">{selectedVideo?.description}</p>
-              </div>
-              {selectedVideo?.tags && selectedVideo.tags.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="font-medium mb-3">Tags</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedVideo.tags.map((tag, index) => (
-                      <Badge key={index} variant="secondary">
-                        {tag}
-                      </Badge>
-                    ))}
+              <div className="p-6">
+                <div className="text-center py-8 bg-gray-50 rounded-lg mb-6">
+                  <div className="mb-4">
+                    <img
+                      src={selectedVideo.thumbnail || "/placeholder.svg"}
+                      alt={selectedVideo.title}
+                      className="w-32 h-20 object-cover rounded-lg mx-auto mb-4"
+                    />
+                  </div>
+                  <h3 className="font-medium mb-2">Watch this webinar</h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    You can watch it here or on YouTube.
+                  </p>
+                  <Button
+                    onClick={() => openYouTubeLink(selectedVideo.url)}
+                    className="bg-red-600 hover:bg-red-700 text-white mb-4"
+                  >
+                    <Link className="h-4 w-4 mr-2" />
+                    Watch on YouTube
+                  </Button>
+
+                  {/* Embedded Video Player */}
+                  <div className="w-full aspect-video rounded-lg overflow-hidden">
+                    <iframe
+                      width="100%"
+                      height="315"
+                      src={`https://www.youtube.com/embed/${extractYouTubeID(selectedVideo.url)}`}
+                      title={selectedVideo.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
                   </div>
                 </div>
-              )}
-            </div>
+
+                <div className="mb-6">
+                  <h3 className="font-medium mb-3">Description</h3>
+                  <p className="text-sm text-gray-600">{selectedVideo?.description}</p>
+                </div>
+
+                {selectedVideo?.tags && selectedVideo.tags.length > 0 && (
+                  <div className="mb-6">
+                    <h3 className="font-medium mb-3">Tags</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedVideo.tags.map((tag, index) => (
+                        <Badge key={index} variant="secondary">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </DialogContent>
         </Dialog>
+
+
         {/* Detox Plans Dialog */}
         <Dialog open={showAllDetoxPlans} onOpenChange={setShowAllDetoxPlans}>
           <DialogContent className="sm:max-w-[800px] max-h-[80vh] overflow-y-auto p-6">
