@@ -420,6 +420,7 @@ export default function UserDashboard() {
       const result = await response.json()
       if (result.success) {
         setDashboardData(result.data)
+        console.log(result?.data)
       } else {
         throw new Error("Failed to fetch dashboard data")
       }
@@ -433,6 +434,8 @@ export default function UserDashboard() {
   useEffect(() => {
     fetchDashboardData()
   }, [])
+
+
   // Filter recipes based on search query and category
   const filteredRecipes =
     dashboardData?.recipes?.filter((recipe) => {
@@ -1178,7 +1181,7 @@ export default function UserDashboard() {
                       alt={recipe.title}
                       className="object-cover w-full h-full"
                     />
-                    {recipe.isGlutenFree && <Badge className="absolute top-2 right-2 bg-green-600">Gluten-Free</Badge>}
+                    {/* {recipe.isGlutenFree && <Badge className="absolute top-2 right-2 bg-green-600">Gluten-Free</Badge>} */}
                   </div>
                   <CardHeader className="p-4 pb-2">
                     <CardTitle className="text-lg">{recipe.title}</CardTitle>
@@ -1342,7 +1345,7 @@ export default function UserDashboard() {
                       {tag}
                     </Badge>
                   ))}
-                  {selectedRecipe?.isGlutenFree && <Badge className="bg-green-600">Gluten-Free</Badge>}
+                  {/* {selectedRecipe?.isGlutenFree && <Badge className="bg-green-600">Gluten-Free</Badge>} */}
                 </div>
               </div>
             </div>

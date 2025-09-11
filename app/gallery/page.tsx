@@ -7,9 +7,9 @@ import Consultation from "../components/consultation/page";
 import Footer from "../components/footer/page";
 import Image from "next/image";
 import Gallery1 from "@/public/Gallery1.png";
-// import Dummy1 from "@/public/Gallery1.png";
-// import Dummy2 from "@/public/Gallery2.png";
-// import Dummy3 from "@/public/Gallery3.png";
+import Dummy1 from "@/public/topu1.jpg";
+import Dummy2 from "@/public/topu2.jpg";
+import Dummy3 from "@/public/topu3.jpg";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import MeetOurTeam from "../components/meetOurTeam/page";
 
@@ -173,6 +173,17 @@ const Gallery = () => {
       />
 
       <div className="p-30 -mt-[50px]  mx-[10px] max-[1280px]:p-2 max-[1280px]:-mt-[20px] max-[1280px]:-mb-[30px] max-[1280px]:mx-2">
+         <div className="w-full max-w-2xl mx-auto">
+        <iframe
+          width="100%"
+          height="315"
+          src="https://www.youtube.com/embed/FaS64bNMwSo"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </div>
         {error && <div className="text-center text-red-500 mb-4">{error}</div>}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-[1280px]:gap-4">
           {galleryItems.map((item: GalleryItem, index) => (
@@ -191,6 +202,51 @@ const Gallery = () => {
               />
             </div>
           ))}
+          <div
+              key={654}
+              className="relative rounded-xl overflow-hidden shadow-md mt-[40px] w-[400px] max-[1280px]:w-full max-[1280px]:mt-[20px] cursor-pointer"
+              
+            >
+          <Image
+              src={Dummy1}
+                alt={"notfound"}
+                width={400}
+                height={300}
+                className="object-cover w-full h-[286px] max-[1280px]:h-[200px] transition-transform duration-300 hover:scale-105"
+                
+          />
+          </div>
+
+
+          <div
+              key={456}
+              className="relative rounded-xl overflow-hidden shadow-md mt-[40px] w-[400px] max-[1280px]:w-full max-[1280px]:mt-[20px] cursor-pointer"
+              
+            >
+          <Image
+              src={Dummy2}
+                alt={"notfound"}
+                width={400}
+                height={300}
+                className="object-cover w-full h-[286px] max-[1280px]:h-[200px] transition-transform duration-300 hover:scale-105"
+                
+          />
+        </div>
+
+          <div
+              key={678}
+              className="relative rounded-xl overflow-hidden shadow-md mt-[40px] w-[400px] max-[1280px]:w-full max-[1280px]:mt-[20px] cursor-pointer"
+              
+            >
+          <Image
+              src={Dummy3}
+                alt={"notfound"}
+                width={400}
+                height={300}
+                className="object-cover w-full h-[286px] max-[1280px]:h-[200px] transition-transform duration-300 hover:scale-105"
+                
+          />
+          </div>
         </div>
       </div>
 
@@ -247,18 +303,8 @@ const Gallery = () => {
         {/*MeetOurTeam*/}
         <MeetOurTeam></MeetOurTeam>
       </div>
-       <div className="w-full max-w-2xl mx-auto">
-    <iframe
-      width="100%"
-      height="315"
-      src="https://www.youtube.com/embed/FaS64bNMwSo"
-      title="YouTube video player"
-      frameBorder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-    ></iframe>
-  </div>
-      
+     
+
 
       <Consultation />
       <Footer />
