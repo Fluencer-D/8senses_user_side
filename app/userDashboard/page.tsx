@@ -1159,7 +1159,7 @@ export default function UserDashboard() {
                   onChange={(e) => setRecipeSearchQuery(e.target.value)}
                 />
               </div>
-              <Select value={recipeCategory} onValueChange={setRecipeCategory}>
+              {/* <Select value={recipeCategory} onValueChange={setRecipeCategory}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -1170,7 +1170,7 @@ export default function UserDashboard() {
                   <SelectItem value="dinner">Dinner</SelectItem>
                   <SelectItem value="dessert">Dessert</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredRecipes.map((recipe) => (
