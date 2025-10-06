@@ -91,14 +91,14 @@ const Consultation = () => {
       {/* Custom Modal/Dialog - Enhanced Styling with Transparent Foggy Background */}
       {isAppointmentDialogOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent p-4 backdrop-blur-xl">
-          <div className="modal-scroll relative w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl animate-fade-in-up max-h-[90vh] overflow-y-auto overflow-x-hidden">
+            <div className="modal-scroll relative w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl animate-fade-in-up max-h-[90vh] overflow-y-auto overflow-x-hidden">
             {/* Close button */}
             <button
               onClick={() => setIsAppointmentDialogOpen(false)}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-500 hover:text-gray-800 transition-colors"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors z-10"
               aria-label="Close dialog"
             >
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
+              <X className="h-6 w-6" />
             </button>
 
             <div className="flex flex-col space-y-4 text-center">

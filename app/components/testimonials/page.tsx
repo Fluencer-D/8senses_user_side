@@ -174,7 +174,7 @@ const testimonials = [
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const cardsPerView = 2; // Show 2 cards at once
+  const cardsPerView = 1; // Show 1 card at once
   const maxIndex = Math.max(0, testimonials.length - cardsPerView);
 
   const nextSlide = () => {
@@ -188,47 +188,47 @@ const Testimonials = () => {
   return (
     <section className="relative bg-transparent py-6 sm:py-10 md:py-14">
       <div className="container mx-auto px-4 sm:px-6 relative">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
           {/* Left Arrow */}
           <button 
             onClick={prevSlide} 
-            className="p-2 z-10 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-1 sm:p-2 z-10 hover:bg-gray-100 rounded-full transition-colors"
             disabled={currentIndex === 0}
           >
-            <ChevronLeft className="w-8 h-8 text-[#1E437A]" />
+            <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 text-[#1E437A]" />
           </button>
 
           {/* Testimonials Container */}
           <div className="flex-1 overflow-hidden">
             <div 
-              className="flex transition-transform duration-500 ease-in-out gap-4 h-auto"
-              style={{ transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 16}px))` }}
+              className="flex transition-transform duration-500 ease-in-out h-auto"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {testimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="w-full flex-shrink-0 bg-white rounded-lg shadow-lg p-4 md:p-6 relative flex flex-col"
-                  style={{ width: `calc(50% - 8px)` }}
+                  className="w-full flex-shrink-0 bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8 relative flex flex-col"
+                  style={{ minWidth: '100%' }}
                 >
-                  <FaQuoteLeft className="absolute text-[#C83C92] w-6 h-6 md:w-8 md:h-8 top-4 left-4" />
-                  <p className="text-[#1E437A] font-urbanist text-sm md:text-base lg:text-lg leading-relaxed mt-8 md:mt-10 mb-4 flex-grow">
+                  <FaQuoteLeft className="absolute text-[#C83C92] w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 top-4 left-4" />
+                  <p className="text-[#1E437A] font-urbanist text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mt-8 sm:mt-10 md:mt-12 mb-4 sm:mb-6 flex-grow">
                     {testimonial.text}
                   </p>
                   <div className="flex items-center mt-auto">
-                    <div className="w-12 h-12 md:w-14 md:h-14 mr-3">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 mr-3 sm:mr-4">
                       <Image
                         src={avatar}
                         alt={testimonial.name}
-                        width={56}
-                        height={56}
+                        width={64}
+                        height={64}
                         className="rounded-full object-cover border w-full h-full"
                       />
                     </div>
                     <div>
-                      <h4 className="text-[#1E437A] text-base md:text-lg font-semibold">
+                      <h4 className="text-[#1E437A] text-sm sm:text-base md:text-lg lg:text-xl font-semibold">
                         {testimonial.name}
                       </h4>
-                      <p className="text-[#456696] text-sm">
+                      <p className="text-[#456696] text-xs sm:text-sm md:text-base">
                         {testimonial.location}
                       </p>
                     </div>
@@ -241,20 +241,20 @@ const Testimonials = () => {
           {/* Right Arrow */}
           <button 
             onClick={nextSlide} 
-            className="p-2 z-10 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-1 sm:p-2 z-10 hover:bg-gray-100 rounded-full transition-colors"
             disabled={currentIndex >= maxIndex}
           >
-            <ChevronRight className="w-8 h-8 text-[#1E437A]" />
+            <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-[#1E437A]" />
           </button>
         </div>
 
         {/* Navigation Dots */}
-        <div className="flex justify-center mt-6 space-x-2">
+        <div className="flex justify-center mt-4 sm:mt-6 space-x-1 sm:space-x-2">
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors ${
                 currentIndex === index ? 'bg-[#1E437A]' : 'bg-gray-300'
               }`}
               aria-label={`Go to slide ${index + 1}`}
