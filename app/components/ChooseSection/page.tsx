@@ -20,7 +20,7 @@ const WhyChoose8Senses = () => {
     {
       title: "Passion for Child Development",
       description:
-        "The founders and occupational therapists and speech therapists of 8 Senses Clinic, experienced occupational therapists herself, had a strong passion for supporting the holistic development of children – not just in physical and motor skills, but also in cognitive, emotional, and social growth.",
+        "The founders , experienced occupational therapists and speech therapists of 8 Senses Clinic, had a strong passion for supporting the holistic development of children  not just in physical and motor skills, but also in cognitive, emotional, and social growth.",
     },
     {
       title: "Expert Team",

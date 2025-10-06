@@ -80,7 +80,7 @@
 
 "use client";
 
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FaQuoteLeft } from "react-icons/fa";
 import DottedPattern from "../dottedPattern/page";
@@ -173,105 +173,95 @@ const testimonials = [
 
 
 const Testimonials = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const cardsPerView = 2; // Show 2 cards at once
+  const maxIndex = Math.max(0, testimonials.length - cardsPerView);
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 500;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
   return (
     <section className="relative bg-transparent py-6 sm:py-10 md:py-14">
-      <style jsx>{`
-        .testimonial-scroll-container::-webkit-scrollbar {
-          display: none;
-        }
-        .testimonial-scroll-container {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        @media (min-width: 768px) and (max-width: 1024px) {
-          .quote-container {
-            padding-left: 50px !important;
-            padding-right: 20px !important;
-          }
-          .quote-icon {
-            left: 10px !important;
-            top: -5px !important;
-            width: 40px !important;
-            height: 40px !important;
-          }
-          .testimonial-text {
-            font-size: 26px !important;
-            line-height: 36px !important;
-          }
-          .avatar-image {
-            width: 70px !important;
-            height: 70px !important;
-          }
-        }
-      `}</style>
-
       <div className="container mx-auto px-4 sm:px-6 relative">
         <div className="flex items-center gap-4">
           {/* Left Arrow */}
-          <button onClick={() => scroll("left")} className="p-2 z-10">
+          <button 
+            onClick={prevSlide} 
+            className="p-2 z-10 hover:bg-gray-100 rounded-full transition-colors"
+            disabled={currentIndex === 0}
+          >
             <ChevronLeft className="w-8 h-8 text-[#1E437A]" />
           </button>
 
-          {/* Scrollable Testimonials */}
-          <div
-            ref={scrollRef}
-            className="testimonial-scroll-container flex gap-8 overflow-x-auto w-full scroll-smooth"
-          >
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                                 className="min-w-[90%] sm:min-w-[70%] md:min-w-[50%] bg-white rounded-lg shadow-lg p-3 sm:p-4 md:p-5 relative"
-              >
-                <FaQuoteLeft className="quote-icon absolute text-[#C83C92] w-8 h-8 top-4 left-4" />
-                                 <p className="testimonial-text text-[#1E437A] font-urbanist text-[18px] sm:text-[20px] md:text-[22px] leading-relaxed mt-6 sm:mt-7 md:mt-8 mb-3 sm:mb-4">
-                  {testimonial.text}
-                </p>
-                                 <div className="flex items-center mt-3 sm:mt-4">
-                  <div className="avatar-image w-14 h-14 mr-3">
-                    <Image
-                      src={avatar}
-                      alt={testimonial.name}
-                      width={56}
-                      height={56}
-                      className="rounded-full object-cover border w-full h-full"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-[#1E437A] text-lg font-semibold">
-                      {testimonial.name}
-                    </h4>
-                    {/* <p className="text-[#456696] text-sm">
-                      {testimonial.location}
-                    </p> */}
+          {/* Testimonials Container */}
+          <div className="flex-1 overflow-hidden">
+            <div 
+              className="flex transition-transform duration-500 ease-in-out gap-4 h-auto"
+              style={{ transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 16}px))` }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <div
+                  key={index}
+                  className="w-full flex-shrink-0 bg-white rounded-lg shadow-lg p-4 md:p-6 relative flex flex-col"
+                  style={{ width: `calc(50% - 8px)` }}
+                >
+                  <FaQuoteLeft className="absolute text-[#C83C92] w-6 h-6 md:w-8 md:h-8 top-4 left-4" />
+                  <p className="text-[#1E437A] font-urbanist text-sm md:text-base lg:text-lg leading-relaxed mt-8 md:mt-10 mb-4 flex-grow">
+                    {testimonial.text}
+                  </p>
+                  <div className="flex items-center mt-auto">
+                    <div className="w-12 h-12 md:w-14 md:h-14 mr-3">
+                      <Image
+                        src={avatar}
+                        alt={testimonial.name}
+                        width={56}
+                        height={56}
+                        className="rounded-full object-cover border w-full h-full"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-[#1E437A] text-base md:text-lg font-semibold">
+                        {testimonial.name}
+                      </h4>
+                      <p className="text-[#456696] text-sm">
+                        {testimonial.location}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Right Arrow */}
-          <button onClick={() => scroll("right")} className="p-2 z-10">
+          <button 
+            onClick={nextSlide} 
+            className="p-2 z-10 hover:bg-gray-100 rounded-full transition-colors"
+            disabled={currentIndex >= maxIndex}
+          >
             <ChevronRight className="w-8 h-8 text-[#1E437A]" />
           </button>
         </div>
-      </div>
 
-      {/* Dotted Background */}
-      {/* <div className="absolute w-3xl bottom-15 right-9 hidden sm:block">
-        <DottedPattern />
-      </div> */}
+        {/* Navigation Dots */}
+        <div className="flex justify-center mt-6 space-x-2">
+          {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-3 h-3 rounded-full transition-colors ${
+                currentIndex === index ? 'bg-[#1E437A]' : 'bg-gray-300'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

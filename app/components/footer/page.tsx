@@ -12,7 +12,6 @@ const Footer = () => {
     { name: "Privacy Policy", path: "/privacy-policy" },
     { name: "Shipping Policy", path: "/shipping-policy" },
     { name: "Refund & Cancellation Policy", path: "/refund-cancellation-policy" },
-    { name: "Cancellation & Refund Policy", path: "/cancellation-refund-policy" },
   ];
 
   return (
